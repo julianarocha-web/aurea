@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. SETEA TU FECHA AQUÍ (Formato: Año, Mes-1, Día, Hora, Minuto)
-    // Nota: Los meses en JS empiezan en 0 (Enero es 0, Diciembre es 11)
     const targetDate = new Date(2026, 4, 31, 23, 59, 59).getTime();
 
     const updateTimer = () => {
@@ -42,8 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Seleccionamos los elementos del DOM
         const displayNumbers = document.querySelectorAll('.time-block .number');
 
         if (distance < 0) {
@@ -52,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Actualizamos cada bloque (asumiendo el orden: Días, Horas, Minutos, Segundos)
         displayNumbers[0].innerHTML = days < 10 ? '0' + days : days;
         displayNumbers[1].innerHTML = hours < 10 ? '0' + hours : hours;
         displayNumbers[2].innerHTML = minutes < 10 ? '0' + minutes : minutes;

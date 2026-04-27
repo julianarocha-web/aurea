@@ -265,27 +265,27 @@ html, body {
 .countdown-wrapper {
     display: flex;
     width: 100%;
-    height: 100vh; /* Ocupa toda la pantalla */
+    height: 100vh; 
 }
 
 /* Bloque de Imagen (Derecha) */
 .countdown-image {
     flex: 1;
-    height: 100vh; /* Forzamos el alto de la pantalla también aquí */
-    overflow: hidden; /* Evita que cualquier desbordamiento cree scroll */
+    height: 100vh; 
+    overflow: hidden; 
 }
 
 .countdown-image img {
     width: 100%;
-    height: 100%; /* Ahora sí toma el 100% de los 100vh del padre */
+    height: 100%; 
     object-fit: cover; 
     object-position: left center; 
-    display: block; /* Elimina espacios residuales de línea de base */
+    display: block; 
 }
 
 /* Bloque de contenido (Izquierda) */
 .countdown-content {
-    flex: 1; /* Toma el 50% aprox */
+    flex: 1; 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -316,13 +316,12 @@ html, body {
     padding-left: 0;
 }
 
-/* Opcional: Asegurate de que el contenedor de texto no tenga alineación centrada */
 .countdown-content {
-    align-items: flex-start; /* Fuerza a que todo empiece a la izquierda */
+    align-items: flex-start; 
 }
 
 .timer {
-    justify-content: flex-start; /* Asegura que el flex no esté centrado */
+    justify-content: flex-start; 
 }
 
 .timer {
@@ -336,11 +335,10 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 35px; /* Espaciado interno para dar aire */
+    padding: 0 35px; 
     position: relative;
 }
 
-/* Línea divisoria con efecto de desvanecimiento (fading) */
 .time-block:not(:last-child)::after {
     content: '';
     position: absolute;
@@ -348,7 +346,6 @@ html, body {
     top: 10%;
     height: 80%;
     width: 1px;
-    /* Degradado para que la línea se pierda en los extremos como en la foto */
     background: linear-gradient(
         to bottom, 
         transparent, 
@@ -369,16 +366,15 @@ html, body {
     padding-bottom: 20px;
 }
 
-/* El subrayado curvo naranja (más orgánico) */
-/* El subrayado con efecto de desvanecimiento (igual a las laterales) */
+
 .time-block .number::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 100%; /* Ocupa el ancho del número */
-    height: 1px; /* Mismo grosor que la línea lateral */
+    width: 100%; 
+    height: 1px; 
     
     background: linear-gradient(
         to right, 
@@ -388,7 +384,7 @@ html, body {
         transparent
     );
     
-    border-radius: 0; /* Quitamos la curvatura para que sea una línea recta técnica */
+    border-radius: 0; 
 }
 
 .time-block .label {
@@ -402,15 +398,10 @@ html, body {
 }
 
 .time-block .number {
-    /* ... tus estilos actuales ... */
     transition: opacity 0.4s ease-in-out, transform 0.4s ease-out;
 }
 
-/* Esta clase la pondremos y quitaremos con JS */
-.number-changing {
-    opacity: 0;
-    transform: translateY(-5px); /* Un pequeño movimiento hacia arriba */
-}
+
 
 /* --- AJUSTE PARA PANTALLAS CHICAS --- */
 @media (max-width: 1023px) {
@@ -441,7 +432,7 @@ html, body {
     .countdown-content {
         width: 100%;
         padding: 60px 20px 20px 20px;
-        align-items: center; /* Centrado para mobile */
+        align-items: center; 
         text-align: center;
         flex: 1; 
         display: flex;
@@ -483,7 +474,7 @@ html, body {
 
     .time-block {
         flex: 1; 
-        padding: 0; /* Eliminamos padding lateral para que el número toque la línea */
+        padding: 0; 
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -495,8 +486,8 @@ html, body {
         content: '';
         position: absolute;
         right: 0;
-        top: 10%; /* Igual que en desktop */
-        height: 80%; /* Igual que en desktop */
+        top: 10%; 
+        height: 80%; 
         width: 1px;
         background: linear-gradient(
             to bottom, 
@@ -509,20 +500,19 @@ html, body {
 
     .time-block .number {
         font-size: clamp(2.2rem, 9vw, 3rem); 
-        padding-bottom: 15px; /* Espacio para el subrayado */
-        line-height: 0.9; /* Pegamos el número al subrayado como en desktop */
+        padding-bottom: 15px; 
+        line-height: 0.9; 
         position: relative;
         display: inline-block;
     }
 
-    /* Subrayado idéntico a Desktop */
     .time-block .number::after {
         content: '';
         position: absolute;
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
-        width: 100%; /* Cubre el ancho del número */
+        width: 100%; 
         height: 1px;
         background: linear-gradient(
             to right, 
@@ -534,7 +524,7 @@ html, body {
     }
 
     .time-block .label {
-        font-size: 8px; /* Proporcionalmente más chico */
+        font-size: 8px; 
         letter-spacing: 2px;
         margin-top: 12px;
         white-space: nowrap;
