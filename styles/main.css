@@ -40,6 +40,19 @@ html, body {
     text-align: center;
 }
 
+
+/* MOBILE */
+@media (max-width: 1023px) {
+    .snap-section {
+        min-height: 100vh;
+        padding: 80px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
+/* DESKTOP */
 @media (min-width: 1024px) {
     body {
         height: 100vh;
@@ -86,9 +99,8 @@ html, body {
     backdrop-filter: blur(5px);
 }
 
-/* Reutilización de contenedor para el header */
 .main-header .container {
-    flex-direction: row; /* Sobreescribe el column del container base */
+    flex-direction: row; 
     justify-content: center;
 }
 
@@ -116,6 +128,61 @@ html, body {
     border-bottom: 2px solid #FF6300;
 }
 
+/* --- BOTÓN HAMBURGUESA --- */
+.menu-toggle {
+    display: none; 
+    flex-direction: column;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1100;
+    padding: 10px;
+}
+
+.menu-toggle .bar {
+    width: 30px;
+    height: 3px;
+    background-color: #FFF4CC;
+    transition: all 0.3s ease;
+}
+.menu-toggle.is-active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+.menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+.menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+/* --- RESPONSIVE MOBILE (max-width: 1023px) --- */
+@media (max-width: 1023px) {
+    .menu-toggle {
+        display: flex;
+        position: absolute;
+        right: 20px;
+    }
+    .nav-desktop {
+        position: fixed;
+        top: 0;
+        right: -100%; 
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(16, 16, 16, 0.95);
+        backdrop-filter: blur(10px);
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .nav-desktop.is-active {
+        right: 0; 
+    }
+    .nav-desktop ul {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    .nav-desktop a {
+        font-size: 1.5rem;
+    }
+}
+
 /* --- 5. SECCIÓN HERO Y TIPOGRAFÍA --- */
 #hero {
     background-image: url('../assets/img/fotos/hero.webp');
@@ -124,7 +191,6 @@ html, body {
     background-repeat: no-repeat;
 }
 
-/* Estilos de texto del Hero con tus ajustes de fidelidad */
 .container h1, 
 .font-anton {
     font-family: 'Anton', sans-serif;
@@ -142,7 +208,6 @@ html, body {
     font-stretch: condensed;
 }
 
-/* Versión escalable del título */
 .font-anton {
     font-size: clamp(5rem, 18vw, 12rem);
 }
@@ -158,7 +223,7 @@ html, body {
     font-size: 55px;
     color: #FFF4CC;
     line-height: 0.7;
-    margin-top: -13px; /* Tu margen clave para la superposición */
+    margin-top: -13px; 
     position: relative;
     z-index: 2;
 }
@@ -170,17 +235,22 @@ html, body {
     line-height: 1.1;
 }
 
-/* --- 6. MOBILE --- */
-@media (max-width: 1023px) {
-    .snap-section {
-        min-height: 100vh;
-        padding: 80px 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+@media (max-width: 768px) {
+    .container h1 {
+        font-size: 80px; 
+        text-align: center;
     }
 
-    .font-anton {
-        font-size: 6rem;
+    .container p {
+        font-size: 32px; 
+        text-align: center;
+        margin-top: -5px;
+        line-height: 0.7;
+    }
+
+    #hero {
+        background-attachment: scroll; 
+        background-position: 70% center; 
     }
 }
+
