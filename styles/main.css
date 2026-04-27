@@ -1,0 +1,186 @@
+/* 1. FUENTES LOCALES */
+@font-face {
+    font-family: 'Helvetica-Thin';
+    src: url('../assets/fonts/Helvetica/HelveticaNowDisplay-Thin.woff2') format('woff2');
+    font-weight: 100;
+}
+@font-face {
+    font-family: 'Helvetica-Medium';
+    src: url('../assets/fonts/Helvetica/HelveticaNowDisplay-Medium.woff2') format('woff2');
+    font-weight: 500;
+}
+@font-face {
+    font-family: 'P22-Freely';
+    src: url('../assets/fonts/P22FreelyRegular.ttf') format('truetype');
+}
+/* 2. IMPORTACIONES EXTERNAS */
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap&subset=latin-ext');
+
+/* 4. RESETEO */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    background-color: #101010;
+}
+
+/* --- 3. ESTRUCTURA GLOBAL Y SNAP --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+@media (min-width: 1024px) {
+    body {
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .snap-container {
+        height: 100vh;
+        overflow-y: scroll;
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+        /* Para Chrome, Safari y Edge */
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        /* Para Firefox */
+        scrollbar-width: none;
+        /* Para Internet Explorer y Edge antiguo */
+        -ms-overflow-style: none;
+    }
+
+    .snap-section {
+        height: 100vh;
+        width: 100%;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+/* --- 4. HEADER Y NAVEGACIÓN --- */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 40px 0;
+    z-index: 1000;
+    background: transparent;
+    backdrop-filter: blur(5px);
+}
+
+/* Reutilización de contenedor para el header */
+.main-header .container {
+    flex-direction: row; /* Sobreescribe el column del container base */
+    justify-content: center;
+}
+
+.nav-desktop ul {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+}
+
+.nav-desktop a {
+    display: inline-block;
+    font-family: 'Helvetica-Medium', sans-serif;
+    color: #FFF4CC;
+    text-decoration: none;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    padding-bottom: 8px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.4s ease;
+}
+
+.nav-desktop a:hover, 
+.nav-desktop a.active {
+    color: #FF6300;
+    border-bottom: 2px solid #FF6300;
+}
+
+/* --- 5. SECCIÓN HERO Y TIPOGRAFÍA --- */
+#hero {
+    background-image: url('../assets/img/fotos/hero.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Estilos de texto del Hero con tus ajustes de fidelidad */
+.container h1, 
+.font-anton {
+    font-family: 'Anton', sans-serif;
+    color: #FF6300;
+    line-height: 0.8;
+    margin: 0;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+.container h1 {
+    font-size: 150px;
+    letter-spacing: -2px;
+    font-stretch: condensed;
+}
+
+/* Versión escalable del título */
+.font-anton {
+    font-size: clamp(5rem, 18vw, 12rem);
+}
+
+.container p, 
+.font-accent {
+    font-family: 'P22-Freely', cursive;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+.container p {
+    font-size: 55px;
+    color: #FFF4CC;
+    line-height: 0.7;
+    margin-top: -13px; /* Tu margen clave para la superposición */
+    position: relative;
+    z-index: 2;
+}
+
+.font-accent {
+    font-size: clamp(1.5rem, 4vw, 3.5rem);
+    color: #ffffff;
+    margin-top: -20px;
+    line-height: 1.1;
+}
+
+/* --- 6. MOBILE --- */
+@media (max-width: 1023px) {
+    .snap-section {
+        min-height: 100vh;
+        padding: 80px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .font-anton {
+        font-size: 6rem;
+    }
+}
