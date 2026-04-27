@@ -254,3 +254,290 @@ html, body {
     }
 }
 
+/* ------- SECCION COUNTDOWN ------- */
+
+/* --- SECCIÓN COUNTDOWN --- */
+#countdown {
+    background-color: #101010;
+    overflow: hidden;
+}
+
+.countdown-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100vh; /* Ocupa toda la pantalla */
+}
+
+/* Bloque de Imagen (Derecha) */
+.countdown-image {
+    flex: 1;
+    height: 100vh; /* Forzamos el alto de la pantalla también aquí */
+    overflow: hidden; /* Evita que cualquier desbordamiento cree scroll */
+}
+
+.countdown-image img {
+    width: 100%;
+    height: 100%; /* Ahora sí toma el 100% de los 100vh del padre */
+    object-fit: cover; 
+    object-position: left center; 
+    display: block; /* Elimina espacios residuales de línea de base */
+}
+
+/* Bloque de contenido (Izquierda) */
+.countdown-content {
+    flex: 1; /* Toma el 50% aprox */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 5%;
+    background-color: #101010;
+}
+
+.countdown-content h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 55px);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-stretch: condensed;
+    font-weight: 400;
+    color: #FFF4CC;
+    line-height: 1.1;
+    margin-bottom: 40px;
+    max-width: 500px;
+}
+
+.countdown-content h2 .accent-color {
+    color: #FF6300;
+}
+
+/* --- TIMER REFINADO --- */
+/* Alineación exacta con el título */
+.time-block:first-child {
+    padding-left: 0;
+}
+
+/* Opcional: Asegurate de que el contenedor de texto no tenga alineación centrada */
+.countdown-content {
+    align-items: flex-start; /* Fuerza a que todo empiece a la izquierda */
+}
+
+.timer {
+    justify-content: flex-start; /* Asegura que el flex no esté centrado */
+}
+
+.timer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0;
+}
+
+.time-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 35px; /* Espaciado interno para dar aire */
+    position: relative;
+}
+
+/* Línea divisoria con efecto de desvanecimiento (fading) */
+.time-block:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    /* Degradado para que la línea se pierda en los extremos como en la foto */
+    background: linear-gradient(
+        to bottom, 
+        transparent, 
+        #FF6300 20%, 
+        #FF6300 80%, 
+        transparent
+    );
+}
+
+.time-block .number {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(4rem, 8vw, 6rem);
+    color: #FFF4CC;
+    line-height: 0.9;
+    letter-spacing: 2px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 20px;
+}
+
+/* El subrayado curvo naranja (más orgánico) */
+/* El subrayado con efecto de desvanecimiento (igual a las laterales) */
+.time-block .number::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%; /* Ocupa el ancho del número */
+    height: 1px; /* Mismo grosor que la línea lateral */
+    
+    background: linear-gradient(
+        to right, 
+        transparent, 
+        #FF6300 20%, 
+        #FF6300 80%, 
+        transparent
+    );
+    
+    border-radius: 0; /* Quitamos la curvatura para que sea una línea recta técnica */
+}
+
+.time-block .label {
+    font-family: 'Helvetica-Medium', sans-serif;
+    font-size: 11px;
+    color: #FFF4CC;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+.time-block .number {
+    /* ... tus estilos actuales ... */
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-out;
+}
+
+/* Esta clase la pondremos y quitaremos con JS */
+.number-changing {
+    opacity: 0;
+    transform: translateY(-5px); /* Un pequeño movimiento hacia arriba */
+}
+
+/* --- AJUSTE PARA PANTALLAS CHICAS --- */
+@media (max-width: 1023px) {
+    .time-block {
+        padding: 0 15px;
+    }
+    
+    .time-block .number {
+        font-size: 3.5rem;
+    }
+}
+
+@media (max-width: 1023px) {
+    /* --- ESTRUCTURA GENERAL MOBILE --- */
+    #countdown.snap-section {
+        padding: 0; 
+        display: block; 
+        height: 100vh;
+    }
+
+    .countdown-wrapper {
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        display: flex;
+    }
+
+    .countdown-content {
+        width: 100%;
+        padding: 60px 20px 20px 20px;
+        align-items: center; /* Centrado para mobile */
+        text-align: center;
+        flex: 1; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .countdown-content h2 {
+        font-size: 2.3rem; 
+        text-align: center;
+        line-height: 1.1; 
+        margin-bottom: 30px;
+    }
+
+    .countdown-image {
+        width: 100%;
+        height: 50vh; 
+        flex: none;
+        margin: 0; 
+    }
+
+    .countdown-image img {
+        content: url('../assets/img/contador-mobile.webp'); 
+        width: 100vw; 
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+    }
+
+    /* --- TIMER: IGUAL A DESKTOP PERO MINI --- */
+    .timer {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+        gap: 0; 
+        padding: 0;
+    }
+
+    .time-block {
+        flex: 1; 
+        padding: 0; /* Eliminamos padding lateral para que el número toque la línea */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    /* Línea lateral idéntica a Desktop */
+    .time-block:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 10%; /* Igual que en desktop */
+        height: 80%; /* Igual que en desktop */
+        width: 1px;
+        background: linear-gradient(
+            to bottom, 
+            transparent, 
+            #FF6300 20%, 
+            #FF6300 80%, 
+            transparent
+        );
+    }
+
+    .time-block .number {
+        font-size: clamp(2.2rem, 9vw, 3rem); 
+        padding-bottom: 15px; /* Espacio para el subrayado */
+        line-height: 0.9; /* Pegamos el número al subrayado como en desktop */
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Subrayado idéntico a Desktop */
+    .time-block .number::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%; /* Cubre el ancho del número */
+        height: 1px;
+        background: linear-gradient(
+            to right, 
+            transparent, 
+            #FF6300 20%, 
+            #FF6300 80%, 
+            transparent
+        );
+    }
+
+    .time-block .label {
+        font-size: 8px; /* Proporcionalmente más chico */
+        letter-spacing: 2px;
+        margin-top: 12px;
+        white-space: nowrap;
+        opacity: 0.9;
+    }
+}
