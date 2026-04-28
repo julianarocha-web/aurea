@@ -1,4 +1,25 @@
 
+const navLinksActive = document.querySelectorAll('.nav-desktop a');
+
+const activeLinkObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            navLinksActive.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${id}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    });
+}, { threshold: 0.6 });
+
+document.querySelectorAll('section[id]').forEach(section => {
+    activeLinkObserver.observe(section);
+});
+
+
 // ----MENÚ HAMBURGUESA----- //
 document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.querySelector('.menu-toggle');
@@ -9,11 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleMenu = () => {
         menuToggle.classList.toggle('is-active');
         navMenu.classList.toggle('is-active');
-        
-        // Bloquear scroll del body cuando el menú está abierto
+
         document.body.style.overflow = navMenu.classList.contains('is-active') ? 'hidden' : '';
     };
-
     menuToggle.addEventListener('click', toggleMenu);
 
     // Cerrar el menú al hacer clic en un enlace
@@ -25,6 +44,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+//--- BOTON HOME ---//
+const backToTopBtn = document.getElementById('backToTop');
+const snapContainer = document.querySelector('.snap-container');
+
+const handleScroll = () => {
+    let scrollPos;
+    if (window.innerWidth >= 1024 && snapContainer) {
+        scrollPos = snapContainer.scrollTop;
+    } else {
+        scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+    }
+
+    if (scrollPos > 300) {
+        backToTopBtn.classList.add('show');
+    } else {
+        backToTopBtn.classList.remove('show');
+    }
+};
+
+if (snapContainer) {
+    snapContainer.addEventListener('scroll', handleScroll);
+}
+window.addEventListener('scroll', handleScroll);
 
 //------- CONTADOR --------//
 
