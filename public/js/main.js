@@ -223,10 +223,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- Link del Drive dinámico ---
+    async function cargarConfiguracion() {
+    try {
+        const response = await fetch('/api/config');
+        const config = await response.json();
+
+        // 1. Configurar el link del Drive
+        const btnDrive = document.querySelector('.btn-gallery');
+        if (btnDrive && config.driveLink) {
+            btnDrive.href = config.driveLink;
+        }
+
+        // 2. Configurar el Contador (Tu lógica existente)
+        iniciarLogicaContador(config.eventDate);
+
+    } catch (err) {
+        console.error("Error cargando la configuración:", err);
+    }
+}
+
     // Lanzamos las funciones dinámicas
     initContador();
     initGaleria();
-
+    cargarConfiguracion();
     // --- MAPA (Google Maps API) ---
     function initMap() {
     const ubicacion = { lat: -34.582, lng: -58.433 }; // Coordenadas de Juan B. Justo 62
@@ -241,6 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
         map: map,
         title: "ÁUREA",
     });
+
 }
 
 });
