@@ -2,28 +2,26 @@
 gsap.registerPlugin(ScrollToPlugin, Observer);
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- VARIABLES GLOBALES DE NAVEGACIÓN ---
+    // --- 1. LÓGICA DE NAVEGACIÓN Y GSAP (Se mantiene igual) --- //
+
+    // VARIABLES GLOBALES DE NAVEGACIÓN
     const container = document.querySelector('.snap-container');
     const sections = gsap.utils.toArray(".snap-section");
     const navLinks = document.querySelectorAll('.nav-desktop a');
     let currentIndex = 0;
     let isAnimating = false;
 
-    // --- FUNCIÓN PARA IR A UNA SECCIÓN (GSAP) ---
+    // --- FUNCIÓN PARA IR A UNA SECCIÓN (GSAP)
     function goToSection(index) {
         // Bloqueo si está animando o si el índice se sale de los límites
         if (index < 0 || index >= sections.length || isAnimating) return;
-
         isAnimating = true;
         currentIndex = index;
-
         gsap.to(container, {
             scrollTo: { y: sections[index].offsetTop, autoKill: false },
             duration: 0.8,
             ease: "power2.inOut",
-            onComplete: () => {
-                isAnimating = false;
-            }
+            onComplete: () => { isAnimating = false; }
         });
     }
 
@@ -120,94 +118,114 @@ document.addEventListener('DOMContentLoaded', () => {
     if (container) container.addEventListener('scroll', handleScroll);
     window.addEventListener('scroll', handleScroll);
 
-    // --- CONTADOR ---
-    const targetDate = new Date(2026, 4, 31, 23, 59, 59).getTime();
+    // --- CONTADOR DINÁMICO ---
+    async function initContador() {
+        try {
+            const response = await fetch('/api/config');
+            const config = await response.json();
+            const targetDate = new Date(config.eventDate).getTime();
 
-    const updateTimer = () => {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-        const displayNumbers = document.querySelectorAll('.time-block .number');
+            const updateTimer = () => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+                const displayNumbers = document.querySelectorAll('.time-block .number');
 
-        if (distance < 0 || displayNumbers.length === 0) {
-            displayNumbers.forEach(num => num.innerHTML = "00");
-            return;
+                if (distance < 0 || displayNumbers.length === 0) {
+                    displayNumbers.forEach(num => num.innerHTML = "00");
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                const timeValues = [days, hours, minutes, seconds];
+                displayNumbers.forEach((num, i) => {
+                    num.innerHTML = timeValues[i].toString().padStart(2, '0');
+                });
+            };
+
+            setInterval(updateTimer, 1000);
+            updateTimer();
+        } catch (err) {
+            console.error("Error cargando contador:", err);
         }
+    }
 
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        displayNumbers[0].innerHTML = days.toString().padStart(2, '0');
-        displayNumbers[1].innerHTML = hours.toString().padStart(2, '0');
-        displayNumbers[2].innerHTML = minutes.toString().padStart(2, '0');
-        displayNumbers[3].innerHTML = seconds.toString().padStart(2, '0');
-    };
+    // --- GALERÍA DINÁMICA con SWIPER & LIGHTBOX---
+    async function initGaleria() {
+        try {
+            const response = await fetch('/api/imagenes');
+            const imagenes = await response.json();
+            const swiperWrapper = document.querySelector('.swiper-wrapper');
 
-    setInterval(updateTimer, 1000);
-    updateTimer();
+            // Limpiamos y generamos slides
+            swiperWrapper.innerHTML = imagenes.map(foto => `
+                <div class="swiper-slide">
+                    <a href="assets/img/fotos/${foto}" class="slide-link">
+                        <img src="assets/img/fotos/${foto}" alt="Galería Áurea" loading="lazy">
+                    </a>
+                </div>
+            `).join('');
 
-    // ------------------------- //
-    // --- SWIPER & LIGHTBOX --- //
-    // ------------------------- //
-    const misFotos = ['1.jpeg', '2.jpeg', '3.jpeg', '4.jpeg', '5.jpeg', '6.jpeg']; 
-    const swiperWrapper = document.querySelector('.swiper-wrapper');
-
-    misFotos.forEach(foto => {
-        const slide = `
-            <div class="swiper-slide">
-                <a href="assets/img/fotos/${foto}" class="slide-link">
-                    <img src="assets/img/fotos/${foto}" alt="Galería Áurea" loading="lazy">
-                </a>
-            </div>`;
-        swiperWrapper.innerHTML += slide;
-    });
-    
-    const gallerySwiper = new Swiper('.gallery', {
-        slidesPerView: 1.5, // Al usar un número decimal, los de los costados se ven "cortados", dando aire
-        centeredSlides: true,
-        loop: true,
-        speed: 500,
-        grabCursor: true,
-        
-        effect: 'coverflow',
-        coverflowEffect: {
-            rotate: 0,
-            stretch: 0,
-            depth: 150, // Bajamos la profundidad para que los de atrás no se alejen tanto
-            modifier: 2.5, // Aumentamos el modifier para que el espacio entre slides sea mayor
-            slideShadows: false, // Desactivar sombras internas ayuda a que se vea más limpio
-        },
-
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-
-        freeMode: {
-            enabled: false, // Mantenerlo en false para que siempre encaje en una foto
-            sticky: true,
-        },  
-
-        breakpoints: {
-            320: {
-                slidesPerView: 1.1,
+            // Inicializamos Swiper
+            const gallerySwiper = new Swiper('.gallery', {
+                slidesPerView: 1.5,
+                centeredSlides: true,
+                loop: true,
+                speed: 500,
+                grabCursor: true,
+                
+                effect: 'coverflow',
                 coverflowEffect: {
-                    modifier: 1,
-                }
-            },
-            1024: {
-                slidesPerView: 2.5, // Se verá la del centro completa y dos pedazos a los lados
-                coverflowEffect: {
-                    modifier: 2, 
-                }
-            }
-        },
-    });
+                    rotate: 0,
+                    stretch: 0,
+                    depth: 150, 
+                    modifier: 2.5,
+                    slideShadows: false,
+                },
 
-    const lightbox = new SimpleLightbox('.gallery .swiper-slide:not(.swiper-slide-duplicate) a', {
-        uniqueImages: false,
-        loop: true
-    });
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+
+                freeMode: {
+                    enabled: false,
+                    sticky: true,
+                },  
+
+                breakpoints: {
+                    320: {
+                        slidesPerView: 1.1,
+                        coverflowEffect: {
+                            modifier: 1,
+                        }
+                    },
+                    1024: {
+                        slidesPerView: 2.5,
+                        coverflowEffect: {
+                            modifier: 2, 
+                        }
+                    }
+                },
+            });
+
+            const lightbox = new SimpleLightbox('.gallery .swiper-slide:not(.swiper-slide-duplicate) a', {
+                uniqueImages: false,
+                loop: true
+            });
+
+        } catch (err) {
+            console.error("Error cargando galería:", err);
+        }
+    }
+
+    // Lanzamos las funciones dinámicas
+    initContador();
+    initGaleria();
+
 });
 
