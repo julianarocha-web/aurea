@@ -29,33 +29,22 @@ html, body {
     overflow-x: hidden;
 }
 
-/* ---side nav---*/
 /* --- CUSTOM SCROLLBAR --- */
-
-/* --- CUSTOM SCROLLBAR (MEDIUM) --- */
-
-/* 1. Aumentamos el ancho a 12px para el efecto 'medium' */
 .snap-container::-webkit-scrollbar {
     width: 12px; 
 }
 
-/* 2. El fondo de la barra (Track) */
 .snap-container::-webkit-scrollbar-track {
     background: #1A1A1A; 
     border-radius: 10px;
 }
 
-/* 3. La barra que se desplaza (Thumb) */
 .snap-container::-webkit-scrollbar-thumb {
     background: #FF6300; 
     border-radius: 10px;
-    /* Aumentamos el borde para que el naranja se vea como una línea central estética */
     border: 3px solid #1A1A1A; 
 }
 
-
-
-/* Firefox: Cambiamos 'thin' por 'auto' (que es el estándar medium) */
 .snap-container {
     scrollbar-width: auto; 
     scrollbar-color: #FF6300 #1A1A1A;
@@ -73,22 +62,6 @@ html, body {
     text-align: center;
 }
 
-@media (max-width: 1023px) {
-    .main-header {
-        width: 100% !important; /* Que vuelva a ocupar todo el ancho */
-        left: 0 !important;
-        transform: none !important;
-        padding: 20px 0; /* Un poco menos de padding en mobile */
-    }
-
-    /* Asegurate de que el container no tenga márgenes raros */
-    .main-header .container {
-        width: 100%;
-        max-width: 100%;
-        padding: 0 20px;
-    }
-}
-
 
 /* MOBILE */
 @media (max-width: 1023px) {
@@ -98,6 +71,19 @@ html, body {
         display: flex;
         flex-direction: column;
         justify-content: center;
+    }
+
+    .main-header {
+        width: 100% !important; 
+        left: 0 !important;
+        transform: none !important;
+        padding: 20px 0; 
+    }
+
+    .main-header .container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 20px;
     }
 }
 
@@ -110,9 +96,9 @@ html, body {
 
     .snap-container {
             height: 100vh;
-            overflow-y: auto; /* Esto es clave para que el Observer mande */
+            overflow-y: auto; 
             scroll-snap-type: none; 
-            scroll-behavior: auto !important; /* IMPORTANTE: El scroll-behavior: smooth rompe GSAP */
+            scroll-behavior: auto !important; 
             
     }
 
@@ -126,9 +112,7 @@ html, body {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    }
-
-    
+    }   
 }
 
 /* botón home */
@@ -497,13 +481,9 @@ html, body {
     transition: opacity 0.4s ease-in-out, transform 0.4s ease-out;
 }
 
-
-
 /* --- AJUSTE PARA PANTALLAS CHICAS --- */
 
-
 @media (max-width: 1023px) {
-    /* --- ESTRUCTURA GENERAL MOBILE --- */
     #countdown.snap-section {
         padding: 0; 
         display: block; 
@@ -571,7 +551,6 @@ html, body {
         position: relative;
     }
 
-    /* Línea lateral idéntica a Desktop */
     .time-block:not(:last-child)::after {
         content: '';
         position: absolute;
@@ -620,5 +599,278 @@ html, body {
         white-space: nowrap;
         opacity: 0.9;
     }
+}
+
+/* --- 7. SECCIÓN ENTRADAS Y UBICACIÓN --- */
+
+#ticket-location.snap-section {
+    padding: 0; 
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================
+   BLOQUE 1: ENTRADAS (TICKETS)
+   ========================================= */
+#ticket-location.snap-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+}
+
+.ticket-wrapper {
+    width: 100vw;
+    height: 50vh; 
+    padding-left: 0;
+    background-image: url('../assets/img/entradas-opcion-desktop.png');
+    background-size:cover;
+    background-position:center;
+    background-repeat: no-repeat;
+    
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+.ticket-wrapper .container {
+    flex-direction: column; 
+    align-items: flex-start; 
+    text-align: left;        
+    width: 100%;
+    max-width: 1200px;       
+    padding: 0;
+}
+
+.ticket-content {
+    max-width: 500px; 
+}
+
+.ticket-content h3 {
+    font-family: 'Anton', sans-serif;
+    color: #101010;
+    font-size: clamp(2.5rem, 6vw, 50px);
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+
+/* Botón de Entradas */
+.btn-tickets {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 30px;
+    border: 1px solid #101010;
+    border-radius: 50px;
+    text-decoration: none;
+    
+    font-family: 'Helvetica-Medium', sans-serif;
+    color: #101010;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.btn-tickets:hover {
+    background-color: #101010;
+    color: #FFF4CC;
+}
+
+.arrow-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* =========================================
+   BLOQUE 2: UBICACIÓN (LOCATION)
+   ========================================= */
+.location-wrapper {
+    width: 100%;
+    height: 50vh;
+    background-color: #101010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.location-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+    text-align: left;
+}
+
+/* --- Columna Izquierda: Textos --- */
+.info-text {
+    flex: 1;
+    align-content: center;
+}
+
+.info-text h3 {
+    margin-bottom: 5px;
+    margin-top: 10px;
+    font-size: 55px;
+    color: #FFF4CC;
+}
+
+.info-text .font-accent {
+    color: #FF6300;
+    margin-top: 0;
+    margin-bottom: 20px;
+    line-height: 0.5;
+}
+
+.info-text .description {
+    font-family: 'Helvetica-Thin', sans-serif;
+    color: #FFF4CC;
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 450px;
+    margin-top: 40px;
+}
+
+/* --- AJUSTES EN LA TARJETA (INFO-CARD) --- */
+.info-card {
+    flex: 1;
+    border: 1px solid rgba(255, 244, 204, 0.3);
+    padding: 30px;
+    display: grid; 
+    grid-template-columns: 1fr 1.2fr; 
+    gap: 20px;
+    height: 250px; 
+    width: 800px; 
+    align-items: center;
+}
+
+/* Contenedor de datos (Izquierda) */
+.card-left {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.btn-map-standalone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 25px;
+    border: 1px solid #FF6300;
+    border-radius: 50px;
+    text-decoration: none;
+    color: #FF6300;
+    font-family: 'Helvetica-Medium', sans-serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    width: fit-content;
+    transition: all 0.3s ease;
+}
+
+.btn-map-standalone:hover {
+    background-color: #FF6300;
+    color: #101010;
+}
+
+/* Contenedor del Mapa (Derecha) */
+.map-placeholder {
+    width: 100%;
+    height: 100%; 
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.map-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- ESTILOS DE DATOS DENTRO DE LA TARJETA --- */
+
+.data-block {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+}
+
+/* Títulos de los datos (Dirección / Estaciones) */
+.data-block strong {
+    display: block;
+    font-family: 'Helvetica-Medium', sans-serif;
+    color: #FFF4CC; 
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+/* Valores de los datos (Juan B. Justo / Belgrano) */
+.data-block span {
+    font-family: 'Helvetica-Thin', sans-serif;
+    color: #ffffff; 
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* --- ESTILOS PARA LOS ICONOS (CIRCULOS BEIGE) --- */
+.icon-map, .icon-train {
+    width: 45px;
+    height: 45px;
+    background-color: #FFF4CC;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; 
+    position: relative;
+}
+
+.icon-map::after, .icon-train::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: invert(1); 
+}
+
+/* Responsive: En mobile se ponen uno arriba del otro */
+@media (max-width: 768px) {
+    .info-card {
+        grid-template-columns: 1fr;
+        height: auto;
+        padding: 20px;
+    }
+    
+    .map-placeholder {
+        height: 200px;
+    }
+}
+
+/* =========================================
+   MEDIA QUERIES PARA ESCRITORIO
+   ========================================= */
+@media (min-width: 1024px) {
+    #ticket-location.snap-section {
+        flex-direction: column; 
+    }
+
+    /* Cada bloque ocupa la mitad de la altura de la sección */
+    .ticket-wrapper,
+    .location-wrapper {
+        height: 50vh; 
+    }
+
+    .location-grid {
+        flex-direction: row; 
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 60px;
+    }
+
 }
 

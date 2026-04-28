@@ -63,13 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.innerWidth >= 1024) {
         Observer.create({
             target: container,
-            type: "wheel,touch,pointer", // Cubre mouse, trackpad y gestos táctiles
+            type: "wheel,touch,pointer", 
             wheelSpeed: -1, 
-            tolerance: 15,       // Aumentado para ignorar pequeños movimientos inerciales del trackpad
+            tolerance: 15,       
             preventDefault: true,
             onUp: () => !isAnimating && goToSection(currentIndex + 1), 
             onDown: () => !isAnimating && goToSection(currentIndex - 1),
-            // Esto ayuda con la inercia de los trackpads de Mac/Notebooks
             ignore: ".no-scroll" 
         });
     }
