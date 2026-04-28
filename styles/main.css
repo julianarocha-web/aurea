@@ -60,19 +60,10 @@ html, body {
     }
 
     .snap-container {
-        height: 100vh;
-        overflow-y: hidden;
-        scroll-snap-type: none;
-        scroll-behavior: auto !important; 
-        /* Para Chrome, Safari y Edge */
-        &::-webkit-scrollbar {
-            display: none;
-        }
-        /* Para Firefox */
-        scrollbar-width: none;
-        /* Para Internet Explorer y Edge antiguo */
-        -ms-overflow-style: none;
-        -webkit-overflow-scrolling: touch;
+            height: 100vh;
+            overflow-y: hidden; /* Esto es clave para que el Observer mande */
+            scroll-snap-type: none; 
+            scroll-behavior: auto !important; /* IMPORTANTE: El scroll-behavior: smooth rompe GSAP */
     }
 
     .snap-section {
