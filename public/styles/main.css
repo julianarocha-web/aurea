@@ -25,6 +25,7 @@
 
 html, body {
     width: 100%;
+    max-width: 100%;
     background-color: #101010;
     overflow-x: hidden;
 }
@@ -610,32 +611,34 @@ html, body {
     flex-direction: row;
     align-items: center;
     width: 100%;
-    max-width: 100vw;
-    overflow: hidden;
-    /* Añadimos un padding para que no toque los bordes de la pantalla */
+    overflow: hidden; 
     padding: 0 5%; 
+    box-sizing: border-box;
 }
 
 /* Contenedor del título y descripción (izquierda) */
 .gallery-description-wrapper {
     flex: 0 0 40%; 
-    padding-right: 40px; /* Espacio entre texto y fotos */
+    padding-right: 40px;
     box-sizing: border-box;
 }
 
 /* Contenedor de la galería (derecha) */
 .gallery-swiper-wrapper {
     flex: 0 0 60%;
-    min-width: 0; /* Vital para que Swiper no desborde el flex */
+    min-width: 0; 
     position: relative;
-    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .swiper {
-    width: 100% !important;
+    width: 100%;
     max-width: 100%; 
-    margin: 0 auto;
-    overflow: visible !important; /* Para que las fotos laterales se vean */
+    margin: 0;
+    overflow: visible !important; 
+}
+
+.swiper-wrapper {
 }
 
 /* Estilos para los slides */
@@ -664,9 +667,8 @@ html, body {
     width: 100%;
     height: 100%;
     cursor: inherit;
-    border: .5px solid #fff4cc4b;
+    border: 1px solid #fff4cc4b;
     border-radius: 0;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -692,7 +694,7 @@ html, body {
     
     /* Transiciones suaves para todos los cambios */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Una sombra suave para dar profundidad */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* --- Tamaño del icono --- */
@@ -702,21 +704,12 @@ html, body {
     font-weight: bold;
 }
 
-/* --- Posicionamiento --- */
-.swiper-button-prev {
-    left: -20px;
-}
-.swiper-button-next {
-    right: -20px;
-}
-
 /* --- ESTADO HOVER (Al pasar el mouse) --- */
 .swiper-button-prev:hover,
 .swiper-button-next:hover {
     color: #FFFFFF !important;
     background: #5a2707;
     border-color: #a1460d;
-    box-shadow: 0 6px 20px rgba(255, 99, 0, 0.5);
     transform: translateY(-2px) scale(1.03);
 }
 
