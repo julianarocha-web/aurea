@@ -26,6 +26,39 @@
 html, body {
     width: 100%;
     background-color: #101010;
+    overflow-x: hidden;
+}
+
+/* ---side nav---*/
+/* --- CUSTOM SCROLLBAR --- */
+
+/* --- CUSTOM SCROLLBAR (MEDIUM) --- */
+
+/* 1. Aumentamos el ancho a 12px para el efecto 'medium' */
+.snap-container::-webkit-scrollbar {
+    width: 12px; 
+}
+
+/* 2. El fondo de la barra (Track) */
+.snap-container::-webkit-scrollbar-track {
+    background: #1A1A1A; 
+    border-radius: 10px;
+}
+
+/* 3. La barra que se desplaza (Thumb) */
+.snap-container::-webkit-scrollbar-thumb {
+    background: #FF6300; 
+    border-radius: 10px;
+    /* Aumentamos el borde para que el naranja se vea como una línea central estética */
+    border: 3px solid #1A1A1A; 
+}
+
+
+
+/* Firefox: Cambiamos 'thin' por 'auto' (que es el estándar medium) */
+.snap-container {
+    scrollbar-width: auto; 
+    scrollbar-color: #FF6300 #1A1A1A;
 }
 
 /* --- 3. ESTRUCTURA GLOBAL Y SNAP --- */
@@ -38,6 +71,22 @@ html, body {
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+
+@media (max-width: 1023px) {
+    .main-header {
+        width: 100% !important; /* Que vuelva a ocupar todo el ancho */
+        left: 0 !important;
+        transform: none !important;
+        padding: 20px 0; /* Un poco menos de padding en mobile */
+    }
+
+    /* Asegurate de que el container no tenga márgenes raros */
+    .main-header .container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 20px;
+    }
 }
 
 
@@ -61,9 +110,10 @@ html, body {
 
     .snap-container {
             height: 100vh;
-            overflow-y: hidden; /* Esto es clave para que el Observer mande */
+            overflow-y: auto; /* Esto es clave para que el Observer mande */
             scroll-snap-type: none; 
             scroll-behavior: auto !important; /* IMPORTANTE: El scroll-behavior: smooth rompe GSAP */
+            
     }
 
     .snap-section {
@@ -132,17 +182,20 @@ html, body {
 .main-header {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px); 
     padding: 40px 0;
     z-index: 1000;
     background: transparent;
     backdrop-filter: blur(5px);
+    pointer-events: none;
 }
 
 .main-header .container {
     flex-direction: row; 
     justify-content: center;
+    pointer-events: auto;
 }
 
 .nav-desktop ul {
