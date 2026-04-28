@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ÁUREA</title>
+    <!-- Fuentes -->
     <style>@import url('https://fonts.googleapis.com/css2?family=Anton&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');</style>
-    <link rel="stylesheet" href="styles/main.css">
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- SimpleLightbox -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplelightbox@2.14.3/dist/simple-lightbox.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/simplelightbox@2.14.3/dist/simple-lightbox.min.js"></script>
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles/main.css"> 
 </head>
 <body>
     <header class="main-header">
@@ -63,9 +71,30 @@
             </div>
         </section>
         <section id="gallery" class="snap-section">
-            <div class="container">
-                <h2>CONOCÉ LO QUE SE VIVE</h2>
+            <div class="gallery-section">   
+                <div class="gallery-description-wrapper"> 
+                    <h2>CONOCÉ LO QUE SE VIVE</h2>
+                    <p class="gallery-description">
+                        Sumergite en la experiencia a través de nuestra galería de fotos. Reviví los momentos más emocionantes, las sonrisas compartidas y la energía única que se vive en cada encuentro. Cada imagen cuenta una historia, cada foto captura la esencia de lo que somos. ¡Explorá nuestra galería y sentí la magia de ÁUREA!
+                    </p>
+                    <button class="btn-gallery">DRIVE 
+                        <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    </button>
+                </div>   
+                <div class="gallery-swiper-wrapper">
+                    <div class="swiper gallery">
+                        <div class="swiper-wrapper">
+                            
+                            
+
+                        </div>
+
+                        <!-- Flechas -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
                 </div>
+            </div>
         </section>
         <section id="ticket-location" class="snap-section">           
             
@@ -142,6 +171,7 @@
         <a href="#ticket-location" class="dot" data-index="3"><span class="dot-label">Entradas</span></a>
     </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.3/simple-lightbox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Observer.min.js"></script>

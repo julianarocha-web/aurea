@@ -63,13 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.innerWidth >= 1024) {
         Observer.create({
             target: container,
-            type: "wheel,touch,pointer", 
+            type: "wheel,touch", 
             wheelSpeed: -1, 
             tolerance: 15,       
             preventDefault: true,
             onUp: () => !isAnimating && goToSection(currentIndex + 1), 
             onDown: () => !isAnimating && goToSection(currentIndex - 1),
-            ignore: ".no-scroll" 
+            ignore: ".no-scroll, .swiper, .simple-lightbox" 
         });
     }
 
@@ -146,4 +146,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setInterval(updateTimer, 1000);
     updateTimer();
+
+    // ------------------------- //
+    // --- SWIPER & LIGHTBOX --- //
+    // ------------------------- //
+    const misFotos = ['1.jpeg', '2.jpeg', '3.jpeg', '4.jpeg', '5.jpeg', '6.jpeg']; 
+    const swiperWrapper = document.querySelector('.swiper-wrapper');
+
+    misFotos.forEach(foto => {
+        const slide = `
+            <div class="swiper-slide">
+                <a href="assets/img/fotos/${foto}" class="slide-link">
+                    <img src="assets/img/fotos/${foto}" alt="Galería Áurea" loading="lazy">
+                </a>
+            </div>`;
+        swiperWrapper.innerHTML += slide;
+    });
+    
+    const gallerySwiper = new Swiper('.gallery', {
+        slidesPerView: 1.5, // Al usar un número decimal, los de los costados se ven "cortados", dando aire
+        centeredSlides: true,
+        loop: true,
+        speed: 500,
+        grabCursor: true,
+        
+        effect: 'coverflow',
+        coverflowEffect: {
+            rotate: 0,
+            stretch: 0,
+            depth: 150, // Bajamos la profundidad para que los de atrás no se alejen tanto
+            modifier: 2.5, // Aumentamos el modifier para que el espacio entre slides sea mayor
+            slideShadows: false, // Desactivar sombras internas ayuda a que se vea más limpio
+        },
+
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+
+        freeMode: {
+            enabled: false, // Mantenerlo en false para que siempre encaje en una foto
+            sticky: true,
+        },  
+
+        breakpoints: {
+            320: {
+                slidesPerView: 1.1,
+                coverflowEffect: {
+                    modifier: 1,
+                }
+            },
+            1024: {
+                slidesPerView: 2.5, // Se verá la del centro completa y dos pedazos a los lados
+                coverflowEffect: {
+                    modifier: 2, 
+                }
+            }
+        },
+    });
+
+    const lightbox = new SimpleLightbox('.gallery .swiper-slide:not(.swiper-slide-duplicate) a', {
+        uniqueImages: false,
+        loop: true
+    });
 });
+

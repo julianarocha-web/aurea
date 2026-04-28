@@ -601,6 +601,215 @@ html, body {
     }
 }
 
+
+/* --- 6. SUPER GALERIA --- */
+
+/* Contenedor general de la sección */
+.gallery-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+    /* Añadimos un padding para que no toque los bordes de la pantalla */
+    padding: 0 5%; 
+}
+
+/* Contenedor del título y descripción (izquierda) */
+.gallery-description-wrapper {
+    flex: 0 0 40%; 
+    padding-right: 40px; /* Espacio entre texto y fotos */
+    box-sizing: border-box;
+}
+
+/* Contenedor de la galería (derecha) */
+.gallery-swiper-wrapper {
+    flex: 0 0 60%;
+    min-width: 0; /* Vital para que Swiper no desborde el flex */
+    position: relative;
+    box-sizing: border-box;
+}
+
+.swiper {
+    width: 100% !important;
+    max-width: 100%; 
+    margin: 0 auto;
+    overflow: visible !important; /* Para que las fotos laterales se vean */
+}
+
+/* Estilos para los slides */
+.swiper-slide {
+    width: 280px;
+    height: 550px;
+    opacity: 0 !important; /* Por defecto todos invisibles */
+    transition: opacity 0.4s ease;
+    transform: scale(0.8);
+    cursor: default;
+}
+
+.swiper-slide-active,
+.swiper-slide-prev,
+.swiper-slide-next {
+    opacity: 1 !important; /* Solo mostramos estos 3 */
+}
+
+.swiper-slide-prev,
+.swiper-slide-next {
+    opacity: 0.5 !important;
+}
+
+.slide-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: inherit;
+    border: .5px solid #fff4cc4b;
+    border-radius: 0;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+
+.slide-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+/* Estilos para los botones de navegación */
+
+/* --- Estilos generales de flechas --- */
+.swiper-button-prev,
+.swiper-button-next {
+    color: #FFFFFF !important;
+    width: 60px;
+    height: 60px;
+    border: 2px solid rgba(255, 99, 0, 0.4);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    
+    /* Transiciones suaves para todos los cambios */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Una sombra suave para dar profundidad */
+}
+
+/* --- Tamaño del icono --- */
+.swiper-button-prev:after,
+.swiper-button-next:after {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* --- Posicionamiento --- */
+.swiper-button-prev {
+    left: -20px;
+}
+.swiper-button-next {
+    right: -20px;
+}
+
+/* --- ESTADO HOVER (Al pasar el mouse) --- */
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    color: #FFFFFF !important;
+    background: #5a2707;
+    border-color: #a1460d;
+    box-shadow: 0 6px 20px rgba(255, 99, 0, 0.5);
+    transform: translateY(-2px) scale(1.03);
+}
+
+/* --- ESTADO DESACTIVADO (Inicio/Fin si no hay loop) --- */
+.swiper-button-disabled {
+    opacity: 0.2 !important;
+    pointer-events: none;
+}
+
+/* --- Asegurar la visibilidad si las sacamos del contenedor --- */
+.swiper {
+    overflow: visible !important;
+}
+.swiper-grabbing {
+    cursor: grabbing !important;
+}
+.swiper-grabbing .swiper-slide-active {
+    cursor: grabbing !important;
+}
+
+/* Estilos para el SimpleLightbox */
+
+/* Fondo */
+.sl-overlay {
+    background: radial-gradient(circle, rgba(20, 20, 20, 0.95) 0%, rgba(0, 0, 0, 1) 100%) !important;
+}
+
+/* Botones de cerrar, siguiente y anterior */
+.sl-wrapper .sl-close, 
+.sl-wrapper .sl-navigation button {
+    color: #FF6300 !important; /* Tu color naranja */
+    font-weight: 300;
+}
+
+/* Cambiar el tamaño del icono de cerrar */
+.sl-wrapper .sl-close {
+    font-size: 3rem;
+    right: 30px;
+    top: 20px;
+}
+
+/* El contador (ej: "1 de 5") */
+.sl-wrapper .sl-counter {
+    font-family: 'Montserrat', sans-serif; /* Tu fuente principal */
+    color: #ffffff;
+    font-size: 1rem;
+    bottom: 20px;
+}
+
+/* --- BOTONES DE NAVEGACIÓN DEL LIGHTBOX (Abierto) --- */
+
+/* Contenedor general del botón de navegación */
+.sl-wrapper .sl-navigation button {
+    width: 60px !important; 
+    height: 60px !important;
+    border-radius: 50% !important;
+    backdrop-filter: blur(8px) !important;
+    color: #FFFFFF !important;
+    
+    /* Transiciones */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+    
+    /* Centrado del icono */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    /* Centrado vertical en pantalla */
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
+/* Ajuste del icono interior (SimpleLightbox usa texto por defecto) */
+.sl-wrapper .sl-navigation button:after {
+    font-size: 48px !important; /* Mismo tamaño de flecha */
+    font-weight: bold !important;
+}
+
+/* Flecha Izquierda (Anterior) */
+.sl-wrapper .sl-navigation button.sl-prev {
+    left: 30px !important; 
+    color: #FF6300 !important;
+}
+
+
+/* Flecha Derecha (Siguiente) */
+.sl-wrapper .sl-navigation button.sl-next {
+    right: 30px !important;
+    color: #FF6300 !important;
+}
+
+
 /* --- 7. SECCIÓN ENTRADAS Y UBICACIÓN --- */
 
 #ticket-location.snap-section {
