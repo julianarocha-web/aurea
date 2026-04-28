@@ -227,5 +227,21 @@ document.addEventListener('DOMContentLoaded', () => {
     initContador();
     initGaleria();
 
+    // --- MAPA (Google Maps API) ---
+    function initMap() {
+    const ubicacion = { lat: -34.582, lng: -58.433 }; // Coordenadas de Juan B. Justo 62
+    const map = new google.maps.Map(document.getElementById("mapDiv"), {
+        zoom: 15,
+        center: ubicacion,
+        styles: []
+    });
+
+    const marker = new google.maps.Marker({
+        position: ubicacion,
+        map: map,
+        title: "ÁUREA",
+    });
+}
+
 });
 
