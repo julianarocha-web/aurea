@@ -104,3 +104,47 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ejecutar una vez al cargar para evitar el "00" inicial
     updateTimer();
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Registramos los plugins
+    gsap.registerPlugin(ScrollToPlugin, Observer);
+
+    const container = document.querySelector('.snap-container');
+    const sections = gsap.utils.toArray(".snap-section");
+    let currentIndex = 0;
+    let isAnimating = false;
+
+    // Función para ir a una sección específica
+    function goToSection(index) {
+        if (index < 0 || index >= sections.length || isAnimating) return;
+
+        isAnimating = true;
+        currentIndex = index;
+
+        gsap.to(container, {
+            scrollTo: { y: sections[index].offsetTop, autoKill: false },
+            duration: 0.8,
+            ease: "power2.inOut",
+            onComplete: () => {
+                isAnimating = false;
+            }
+        });
+    }
+
+    // Observador para detectar el scroll
+    Observer.create({
+        target: container,
+        type: "wheel,touch,pointer",
+
+        // --- AJUSTES DE SENSIBILIDAD ---
+        wheelSpeed: -0.5, // Probá valores entre -0.1 y -1. Un número más cercano a 0 suele ser más sensible en algunos mouses.
+        tolerance: 1,     // Bajalo al mínimo para que reaccione al instante.
+        // -------------------------------
+    
+        onUp: () => !isAnimating && goToSection(currentIndex + 1), 
+        onDown: () => !isAnimating && goToSection(currentIndex - 1),
+        preventDefault: true
+    });
+
+});

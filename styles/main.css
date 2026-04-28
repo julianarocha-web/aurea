@@ -61,9 +61,9 @@ html, body {
 
     .snap-container {
         height: 100vh;
-        overflow-y: scroll;
-        scroll-snap-type: y mandatory;
-        scroll-behavior: smooth;
+        overflow-y: hidden;
+        scroll-snap-type: none;
+        scroll-behavior: auto !important; 
         /* Para Chrome, Safari y Edge */
         &::-webkit-scrollbar {
             display: none;
@@ -72,13 +72,14 @@ html, body {
         scrollbar-width: none;
         /* Para Internet Explorer y Edge antiguo */
         -ms-overflow-style: none;
+        -webkit-overflow-scrolling: touch;
     }
 
     .snap-section {
         height: 100vh;
         width: 100%;
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
+        scroll-snap-align: none;
+        scroll-snap-stop: normal;
         position: relative;
         display: flex;
         flex-direction: column;
@@ -86,6 +87,7 @@ html, body {
         align-items: center;
     }
 
+    
 }
 
 /* botón home */
@@ -575,3 +577,4 @@ html, body {
         opacity: 0.9;
     }
 }
+
