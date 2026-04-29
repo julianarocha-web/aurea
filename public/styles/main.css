@@ -611,8 +611,8 @@ html, body {
     flex-direction: row;
     align-items: center;
     width: 100%;
+    height: 100vh;
     overflow: hidden; 
-    padding: 0 5%; 
     box-sizing: border-box;
 }
 
@@ -621,7 +621,9 @@ html, body {
     flex: 0 0 40%; 
     padding-right: 40px;
     box-sizing: border-box;
+    padding: 0 5%;
 }
+
 
 /* Contenedor de la galería (derecha) */
 .gallery-swiper-wrapper {
