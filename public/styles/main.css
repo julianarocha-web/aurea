@@ -618,10 +618,10 @@ html, body {
 
 /* Contenedor del título y descripción (izquierda) */
 .gallery-description-wrapper {
-    flex: 0 0 40%; 
-    padding-right: 40px;
+    flex: 0 0 30%; 
     box-sizing: border-box;
-    padding: 0 5%;
+    padding-left: 5%;
+    padding-right: 8%;
 }
 
 
@@ -669,7 +669,7 @@ html, body {
     height: 100%;
     cursor: inherit;
     border: 1px solid #fff4cc4b;
-    border-radius: 0;
+    border-radius: 15px;
 }
 
 
@@ -678,6 +678,7 @@ html, body {
     height: 100%;
     object-fit: cover;
     pointer-events: none;
+    border-radius:15px;
 }
 
 /* Estilos para los botones de navegación */
@@ -688,7 +689,7 @@ html, body {
     color: #FFFFFF !important;
     width: 60px;
     height: 60px;
-    border: 2px solid rgba(255, 99, 0, 0.4);
+    border: 1px solid #FFF4CC;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(8px);
@@ -709,9 +710,9 @@ html, body {
 .swiper-button-prev:hover,
 .swiper-button-next:hover {
     color: #FFFFFF !important;
-    background: #5a2707;
-    border-color: #a1460d;
-    transform: translateY(-2px) scale(1.03);
+    background: #101010;
+    border-color: #FF6300;
+    transform: translateY(-1px) scale(1);
 }
 
 /* --- ESTADO DESACTIVADO (Inicio/Fin si no hay loop) --- */
@@ -735,7 +736,7 @@ html, body {
 
 /* Fondo */
 .sl-overlay {
-    background: radial-gradient(circle, rgba(20, 20, 20, 0.95) 0%, rgba(0, 0, 0, 1) 100%) !important;
+    background: radial-gradient(circle, rgb(20, 20, 20) 0%, rgba(0, 0, 0, 1) 100%) !important;
 }
 
 /* Botones de cerrar, siguiente y anterior */
@@ -803,89 +804,220 @@ html, body {
     color: #FF6300 !important;
 }
 
-
-/* --- 7. SECCIÓN ENTRADAS Y UBICACIÓN --- */
-
-#ticket-location.snap-section {
-    padding: 0; 
-    display: flex;
-    flex-direction: column;
-}
-
-/* =========================================
-   BLOQUE 1: ENTRADAS (TICKETS)
-   ========================================= */
-#ticket-location.snap-section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; 
-}
-
-.ticket-wrapper {
-    width: 100vw;
-    height: 50vh; 
-    padding-left: 0;
-    background-image: url('../assets/img/entradas-opcion-desktop.png');
-    background-size:cover;
-    background-position:center;
-    background-repeat: no-repeat;
-    
-    display: flex;
-    align-items: center; 
-    justify-content: center;
-}
-
-.ticket-wrapper .container {
-    flex-direction: column; 
-    align-items: flex-start; 
-    text-align: left;        
-    width: 100%;
-    max-width: 1200px;       
-    padding: 0;
-}
-
-.ticket-content {
-    max-width: 500px; 
-}
-
-.ticket-content h3 {
-    font-family: 'Anton', sans-serif;
-    color: #101010;
-    font-size: clamp(2.5rem, 6vw, 50px);
-    line-height: 1.1;
-    text-transform: uppercase;
-    margin-bottom: 30px;
-}
-
-/* Botón de Entradas */
-.btn-tickets {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 30px;
-    border: 1px solid #101010;
-    border-radius: 50px;
-    text-decoration: none;
-    
-    font-family: 'Helvetica-Medium', sans-serif;
-    color: #101010;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-}
-
-.btn-tickets:hover {
-    background-color: #101010;
+/*textos izquierda*/
+.gallery-description-wrapper h3 {
+    font-size: 55px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    font-size: 55px;
     color: #FFF4CC;
 }
 
-.arrow-icon {
-    width: 18px;
-    height: 18px;
+.font-accent {
+    color: #FF6300;
+    margin-top: 0;
+    margin-bottom: 20px;
+    line-height: 0.5;
 }
 
+.gallery-description {
+    font-family: 'Helvetica-Thin', sans-serif;
+    color: #FFF4CC !important;
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 450px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.gallery-description-wrapper a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 25px;
+    border: 1px solid #FF6300;
+    border-radius: 50px;
+    text-decoration: none;
+    color: #FF6300;
+    font-family: 'Helvetica-Medium', sans-serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    width: fit-content;
+    transition: all 0.3s ease;
+}
+
+.gallery-description-wrapper a {
+    background-color: transparent;
+    color: #FF6300;
+}
+
+
+/* --- 7. SECCIÓN ENTRADAS Y UBICACIÓN --- */
+
+/* --- CONFIGURACIÓN DE LA SECCIÓN TICKETS --- */
+#tickets.snap-section {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.ticket-bg-container {
+    width: 100%;
+    height: 100%;
+    /* Reemplaza con el nombre exacto de tu archivo de imagen que incluye el rasgado */
+    background-image: url('../assets/img/prueba-papel.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center; /* Mantiene el centrado vertical */
+    justify-content: flex-start; /* Alinea el contenido a la izquierda */
+}
+
+/* Sobreescribimos el comportamiento del container solo para esta sección */
+#tickets .container {
+    max-width: 100%; /* Permite que ocupe todo el ancho */
+    margin: 0; /* Quita el centrado automático */
+    padding-left: 80px; /* Aplica el padding de 80px a la izquierda */
+    align-items: flex-start; /* Alinea los elementos internos a la izquierda */
+    text-align: left; /* Asegura que el texto no esté centrado */
+}
+
+.ticket-content-overlay {
+    width: 100%;
+    max-width: 500px; /* Mantiene el límite para no tapar al muchacho de la foto */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ticket-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 55px;
+    color: #101010;
+    line-height: 1;
+    margin: 0;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    margin-bottom: 35px
+}
+
+.ticket-title .accent {
+    color: #FF6300;
+}
+
+.ticket-description {
+    font-family: 'Helvetica-Medium', sans-serif !important;
+    color: #333 !important;
+    font-size: 1.1rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 35px !important;
+}
+
+/* Botón estilo píldora negra */
+.btn-tickets-black {
+    background-color: #101010;
+    color: #FFF4CC;
+    padding: 14px 35px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Helvetica-Medium', sans-serif;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    transition: all 0.3s ease;
+}
+
+.btn-tickets-black:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+}
+
+/* Caja de Beneficios (Contenedor con borde) */
+.benefits-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid rgba(16, 16, 16, 0.5);
+    background-color: #fff4cc56;
+    border-radius: 15px;
+    padding: 25px;
+    width: 100%;
+    max-width: 550px;
+}
+
+/* --- CONFIGURACIÓN DE ICONOS GOOGLE --- */
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined' !important;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+}
+
+.benefit-icon {
+    color: #FF6300 !important;
+    font-size: 40px !important;
+    margin-bottom: 12px;
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400, 
+        'GRAD' 0,
+        'opsz' 48;
+}
+
+.benefit-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.benefit-col strong {
+    font-family: 'Helvetica-Medium', sans-serif;
+    font-size: 14px;
+    color: #101010;
+    line-height: 1.1;
+    margin-bottom: 6px;
+}
+
+.benefit-col span {
+    font-family: 'Helvetica-Medium', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    line-height: 1.1;
+}
+
+.benefit-sep {
+    width: 1px;
+    height: 110px;
+    background-color: rgba(16, 16, 16, 0.2);
+    margin: 0 10px;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 1023px) {
+    #tickets .container {
+        padding-left: 20px; /* Reduce el padding en mobile para que no se corte el texto */
+    }
+    .ticket-bg-container {
+        background-position: 25% center; 
+    }
+}
 /* =========================================
    BLOQUE 2: UBICACIÓN (LOCATION)
    ========================================= */
