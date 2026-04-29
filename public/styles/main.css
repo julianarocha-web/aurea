@@ -164,23 +164,43 @@ html, body {
 }
 
 /* --- 4. HEADER Y NAVEGACIÓN --- */
+/* --- 4. HEADER Y NAVEGACIÓN --- */
 .main-header {
     position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: calc(100% - 40px); 
+    width: 100%; /* Fondo completo para el blur */
     padding: 40px 0;
     z-index: 1000;
     background: transparent;
-    backdrop-filter: blur(5px);
-    pointer-events: none;
+    transition: all 0.4s ease; /* Transición suave para padding y background */
+    pointer-events: none; /* Deja pasar clicks al contenido de fondo */
 }
 
 .main-header .container {
     flex-direction: row; 
-    justify-content: center;
-    pointer-events: auto;
+    justify-content: center; /* Centra los links al inicio */
+    pointer-events: auto; /* Reactiva clicks para los elementos del menú */
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    align-items: center;    /* ESTO centra verticalmente todo el contenido */
+    height: 100%;
+}
+
+/* Estado del Header con Scroll (activado por JS) */
+.main-header.scrolled {
+    padding: 20px 0; /* Header más compacto */
+    background: rgba(16, 16, 16, 0.4); /* Fondo oscuro semitransparente */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+/* Navegación Desktop (Lista de links) */
+.nav-desktop {
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
 .nav-desktop ul {
@@ -203,14 +223,13 @@ html, body {
 
 .nav-desktop a:hover, 
 .nav-desktop a.active {
-    font-family: 'Helvetica-Medium', sans-serif;
     color: #FF6300;
     border-bottom: 2px solid #FF6300;
 }
 
-/* --- BOTÓN HAMBURGUESA --- */
+/* --- BOTÓN HAMBURGUESA (Configuración base) --- */
 .menu-toggle {
-    display: none; 
+    display: none; /* Oculto por defecto en la primera sección */
     flex-direction: column;
     gap: 6px;
     background: none;
@@ -218,6 +237,8 @@ html, body {
     cursor: pointer;
     z-index: 1100;
     padding: 10px;
+    position: absolute;
+    /* transition: all 0.3s ease; No transicionamos posición aquí */
 }
 
 .menu-toggle .bar {
@@ -226,38 +247,100 @@ html, body {
     background-color: #FFF4CC;
     transition: all 0.3s ease;
 }
+
+/* Animación de Hamburguesa a X */
 .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
 .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
 .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
+/* --- COMPORTAMIENTO DESKTOP CON SCROLL (min-width: 1024px) --- */
+@media (min-width: 1024px) {
+    
+    /* 1. Al hacer scroll, ocultamos la lista centrada */
+    .main-header.scrolled .nav-desktop:not(.is-active) {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px); /* Ligero efecto de subida */
+    }
+
+    /* 2. Mostramos la hamburguesa a la DERECHA, alineada con el botón Home */
+    .main-header.scrolled .menu-toggle {
+        display: flex;
+        right: 30px; /* Misma distancia al borde que el botón .back-to-top */
+        /* Eliminamos left: 20px si existía */
+        
+    }
+
+    /* 3. Estilos del menú desplegado (is-active) en Desktop con scroll */
+    .main-header.scrolled .nav-desktop.is-active {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(16, 16, 16, 0.98); /* Casi opaco para el menú abierto */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .main-header.scrolled .nav-desktop.is-active ul {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .main-header.scrolled .nav-desktop.is-active a {
+        font-size: 2rem; /* Links grandes en menú abierto */
+    }
+}
+
 /* --- RESPONSIVE MOBILE (max-width: 1023px) --- */
 @media (max-width: 1023px) {
-    .menu-toggle {
-        display: flex;
-        position: absolute;
-        right: 20px;
+    .main-header {
+        
+        padding: 20px 0;
+        width: 100% !important;
+        height: 60px;
+        left: 0 !important;
+        transform: none !important;
+            background: rgba(16, 16, 16, 0.4); /* Fondo oscuro semitransparente */
+    backdrop-filter: blur(15px);
     }
+
+    .menu-toggle {
+        display: flex; /* Siempre visible en mobile */
+        right: 20px; /* Posición estándar mobile */
+    }
+
     .nav-desktop {
         position: fixed;
         top: 0;
-        right: -100%; 
+        right: -100%; /* Oculto a la derecha */
         width: 100%;
         height: 100vh;
         background-color: rgba(16, 16, 16, 0.95);
         backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
         align-items: center;
         justify-content: center;
     }
+
     .nav-desktop.is-active {
-        right: 0; 
+        right: 0; /* Desliza hacia adentro */
     }
+
     .nav-desktop ul {
         flex-direction: column;
         text-align: center;
         gap: 30px;
     }
+
     .nav-desktop a {
         font-size: 1.5rem;
     }

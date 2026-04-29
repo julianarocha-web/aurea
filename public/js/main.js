@@ -88,6 +88,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sections.forEach(section => activeLinkObserver.observe(section));
 
+
+    const header = document.querySelector('.main-header');
+const snapContainer = document.querySelector('.snap-container');
+
+snapContainer.addEventListener('scroll', () => {
+    // Si el scroll baja más de 50px (o la altura de tu hero), activa el modo compacto
+    if (snapContainer.scrollTop > 100) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+
     // --- MENÚ HAMBURGUESA ---
     const menuToggle = document.querySelector('.menu-toggle');
     const navMenu = document.querySelector('.nav-desktop');
