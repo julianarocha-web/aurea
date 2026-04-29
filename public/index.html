@@ -148,59 +148,84 @@
             </div>
         </section>
 
-        <section id="location" class="snap-section">           
-            <div class="location-wrapper">
-                <div class="container">
-                    
-                    <div class="location-grid">
-                        <!-- Columna de Textos -->
-                        <div class="info-text">
-                            <h3 class="font-anton">ACÁ SUCEDE</h3>
-                            <p class="font-accent">El encuentro</p>
-                            
-                            <p class="description">
-                                Lorem ipsum dolor sit amet consectetur adipiscing elit nunc torquent per nam. 
-                                Explorá el espacio donde la magia de ÁUREA cobra vida.
-                            </p>
+<section id="location" class="snap-section">
+    <div class="location-wrapper">
+        <div class="container">
+            <div class="location-split-content">
+                
+                <!-- Lado Izquierdo: Textos y Mini-Beneficios -->
+                <div class="location-text-side">
+                    <h3 class="location-title">ACÁ SUCEDE</h3>
+                    <p class="location-accent">El encuentro</p>
+                    <p class="description">
+                        Lorem ipsum dolor sit amet consectetur<br>
+                        adipiscing elit nunc torquent per nam<br>
+                        Lorem ipsum dolor sit amet consectetur
+                    </p>
+
+                    <!-- Fila de iconos inferiores -->
+                    <div class="benefits-card">
+                        <div class="benefit-col">
+                            <span class="material-symbols-outlined benefit-icon">music_note</span>
+                            <strong>MÚSICA</strong>
+                            <span>Lo mejor,<br>toda la noche.</span>
                         </div>
-
-                        <!-- Tarjeta de Información y Mapa -->
-                        <div class="info-card">
-                            <div class="card-left">
-                                <div class="data-block">
-                                    <div class="icon-map"></div> 
-                                    <div class="text">
-                                        <strong>Dirección:</strong>
-                                        <span>Juan B. Justo 62</span>
-                                    </div>
-                                </div>
-
-                                <div class="data-block">
-                                    <div class="icon-train"></div> 
-                                    <div class="text">
-                                        <strong>Estaciones cercanas:</strong>
-                                        <span>Belgrano</span>
-                                    </div>
-                                </div>
-
-                                <a href="https://maps.app.goo.gl/VpnPPxKHhMMuiDXF8" target="_blank" class="btn-map-standalone">
-                                    VER EN MAPS
-                                    <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M5 12h14"></path>
-                                        <path d="m12 5 7 7-7 7"></path>
-                                    </svg>
-                                </a>
-                            </div>
-
-                            <div class="map-placeholder">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7967.955902774236!2d-58.22548795184733!3d-34.81354275725677!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a32856eb415f8d%3A0x4ef3f19cebab7a0d!2sYPF!5e0!3m2!1ses-419!2sar!4v1777417482344!5m2!1ses-419!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                            </div>
+                        <div class="benefit-sep"></div>
+                        <div class="benefit-col">
+                            <span class="material-symbols-outlined benefit-icon">local_bar</span>
+                            <strong>BEBIDAS</strong>
+                            <span>Barra completa<br>para disfrutar.</span>
+                        </div>
+                        <div class="benefit-sep"></div>
+                        <div class="benefit-col">
+                            <span class="material-symbols-outlined benefit-icon">groups</span>
+                            <strong>BUENA GENTE</strong>
+                            <span>Ambiente único<br>y comunidad.</span>
                         </div>
                     </div>
+                </div> <!-- FIN Lado Izquierdo -->
 
-                </div>
-            </div>           
-        </section>
+                <!-- Lado Derecho: Mapa e Info Card -->
+                <div class="location-map-side">
+                    <div class="map-info-card">
+                        <!-- Mapa a la izquierda de la tarjeta -->
+                        <div class="map-box">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7967.955902774236!2d-58.22548795184733!3d-34.81354275725677!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a32856eb415f8d%3A0x4ef3f19cebab7a0d!2sYPF!5e0!3m2!1ses-419!2sar!4v1777417482344!5m2!1ses-419!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                        
+                        <!-- Datos a la derecha de la tarjeta -->
+                        <div class="map-details">
+                            <div class="detail-block">
+                                <span class="material-symbols-outlined icon-circle">location_on</span>
+                                <div class="text">
+                                    <strong>Dirección:</strong>
+                                    <span>Juan B. Justo 62</span>
+                                </div>
+                            </div>
+                            <hr class="card-hr">
+                            <div class="detail-block">
+                                <span class="material-symbols-outlined icon-circle">train</span>
+                                <div class="text">
+                                    <strong>Estaciones cercanas:</strong>
+                                    <span>Belgrano</span>
+                                </div>
+                            </div>
+                            <hr class="card-hr">
+                            <a href="https://maps.app.goo.gl/VpnPPxKHhMMuiDXF8" target="_blank" class="btn-maps-cta">
+                                VER EN MAPS 
+                                <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 12h14"></path>
+                                    <path d="m12 5 7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div> <!-- FIN Lado Derecho -->
+
+            </div>
+        </div>
+    </div>
+</section>
     </main>
     <a href="#hero" class="back-to-top" id="backToTop" aria-label="Volver al inicio">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="home-svg">

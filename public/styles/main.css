@@ -369,7 +369,7 @@ html, body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0 5%;
+    padding: 0 150px;
     background-color: #101010;
 }
 
@@ -618,9 +618,9 @@ html, body {
 
 /* Contenedor del título y descripción (izquierda) */
 .gallery-description-wrapper {
-    flex: 0 0 30%; 
+    flex: 0 0 35%; 
     box-sizing: border-box;
-    padding-left: 5%;
+    padding-left: 150px;
     padding-right: 8%;
 }
 
@@ -681,39 +681,64 @@ html, body {
 
 /* Estilos para los botones de navegación */
 
-/* --- Estilos generales de flechas --- */
+/* Estilos para los botones de navegación de la galería minimizada */
+
+/* --- Estilos generales de flechas (Círculo) --- */
 .swiper-button-prev,
 .swiper-button-next {
-    color: #FFFFFF !important;
-    width: 60px;
-    height: 60px;
-    border: 1px solid #FFF4CC;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(8px);
+    width: 60px !important;
+    height: 60px !important;
+    border: 1px solid #FFF4CC !important;
+    border-radius: 50% !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(8px) !important;
     
-    /* Transiciones suaves para todos los cambios */
+    /* ELIMINAMOS EL TEXTO ORIGINAL */
+    font-size: 0 !important;
+    color: transparent !important;
+    
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* --- Tamaño del icono --- */
+/* DIBUJAMOS LA FLECHA BLANCA CON BORDES */
 .swiper-button-prev:after,
 .swiper-button-next:after {
-    font-size: 24px;
-    font-weight: bold;
+    content: '' !important;
+    display: block !important;
+    width: 12px !important;
+    height: 12px !important;
+    border-top: 2.5px solid #FFFFFF !important;
+    border-right: 2.5px solid #FFFFFF !important;
+    position: absolute !important;
+    font-size: 0 !important; /* Asegura que no haya texto */
 }
 
-/* --- ESTADO HOVER (Al pasar el mouse) --- */
+/* Orientación IZQUIERDA */
+.swiper-button-prev:after {
+    transform: rotate(-135deg) !important;
+    margin-left: 4px; /* Ajuste óptico del pico */
+}
+
+/* Orientación DERECHA */
+.swiper-button-next:after {
+    transform: rotate(45deg) !important;
+    margin-right: 4px; /* Ajuste óptico del pico */
+}
+
+/* --- ESTADO HOVER --- */
 .swiper-button-prev:hover,
 .swiper-button-next:hover {
-    color: #FFFFFF !important;
-    background: #101010;
-    border-color: #FF6300;
-    transform: translateY(-1px) scale(1);
+    background: #101010 !important;
+    border-color: #FF6300 !important;
+    transform: scale(1.05) !important;
 }
 
-/* --- ESTADO DESACTIVADO (Inicio/Fin si no hay loop) --- */
+/* --- ESTADO DESACTIVADO --- */
 .swiper-button-disabled {
     opacity: 0.2 !important;
     pointer-events: none;
@@ -734,7 +759,8 @@ html, body {
 
 /* Fondo */
 .sl-overlay {
-    background: radial-gradient(circle, rgb(20, 20, 20) 0%, rgba(0, 0, 0, 1) 100%) !important;
+    background: #0a0a0a !important; 
+    opacity: 1 !important;
 }
 
 /* Botones de cerrar, siguiente y anterior */
@@ -759,47 +785,78 @@ html, body {
     bottom: 20px;
 }
 
-/* --- BOTONES DE NAVEGACIÓN DEL LIGHTBOX (Abierto) --- */
+/* --- BOTONES DE NAVEGACIÓN (Centrado Matemático y Limpieza) --- */
 
-/* Contenedor general del botón de navegación */
 .sl-wrapper .sl-navigation button {
     width: 60px !important; 
     height: 60px !important;
     border-radius: 50% !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid #FFF4CC !important;
     backdrop-filter: blur(8px) !important;
-    color: #FFFFFF !important;
     
-    /* Transiciones */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
-    
-    /* Centrado del icono */
+    /* Centrado absoluto del contenido */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     
-    /* Centrado vertical en pantalla */
+    /* ELIMINAMOS EL TEXTO NARANJA RESIDUAL */
+    font-size: 0 !important; /* Esto hace que el ">" o "<" de texto desaparezca por completo */
+    color: transparent !important;
+    
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
 }
 
-/* Ajuste del icono interior (SimpleLightbox usa texto por defecto) */
+/* DIBUJAMOS ÚNICAMENTE EL ICONO BLANCO NUEVO */
 .sl-wrapper .sl-navigation button:after {
-    font-size: 48px !important; /* Mismo tamaño de flecha */
-    font-weight: bold !important;
+    content: '' !important; 
+    display: block !important;
+    width: 12px !important; 
+    height: 12px !important; 
+    border-top: 2.5px solid #FFFFFF !important; /* Grosor de la flecha blanca */
+    border-right: 2.5px solid #FFFFFF !important;
+    position: absolute !important;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
-/* Flecha Izquierda (Anterior) */
+/* Dibujamos la flecha IZQUIERDA */
 .sl-wrapper .sl-navigation button.sl-prev {
-    left: 30px !important; 
-    color: #FF6300 !important;
+    left: 30px !important;
+}
+.sl-wrapper .sl-navigation button.sl-prev:after {
+    transform: rotate(-135deg) !important; 
+    margin-left: 4px; /* Ajuste para el pico de la flecha */
 }
 
-
-/* Flecha Derecha (Siguiente) */
+/* Dibujamos la flecha DERECHA */
 .sl-wrapper .sl-navigation button.sl-next {
     right: 30px !important;
-    color: #FF6300 !important;
+}
+.sl-wrapper .sl-navigation button.sl-next:after {
+    transform: rotate(45deg) !important; 
+    margin-right: 4px; /* Ajuste para el pico de la flecha */
+}
+
+/* --- ESTADO HOVER --- */
+.sl-wrapper .sl-navigation button:hover {
+    background: #101010 !important;
+    border-color: #FF6300 !important;
+    transform: translateY(-50%) scale(1.05) !important;
+}
+
+/* --- ESTADO HOVER --- */
+.sl-wrapper .sl-navigation button:hover {
+    background: #101010 !important;
+    border-color: #FF6300 !important;
+    transform: translateY(-50%) scale(1.05) !important;
+}
+
+.sl-wrapper .sl-navigation button:hover:after {
+    border-color: #FFFFFF !important; /* Mantenemos la flecha blanca o cámbiala a #FF6300 si prefieres */
 }
 
 /*textos izquierda*/
@@ -850,6 +907,11 @@ html, body {
     color: #FF6300;
 }
 
+.gallery-description-wrapper a:hover {
+    background: #ff6200be;
+    color: #101010;
+}
+
 
 /* --- 7. SECCIÓN ENTRADAS Y UBICACIÓN --- */
 
@@ -880,7 +942,7 @@ html, body {
 #tickets .container {
     max-width: 100%; /* Permite que ocupe todo el ancho */
     margin: 0; /* Quita el centrado automático */
-    padding-left: 80px; /* Aplica el padding de 80px a la izquierda */
+    padding-left: 150px; /* Aplica el padding de 80px a la izquierda */
     align-items: flex-start; /* Alinea los elementos internos a la izquierda */
     text-align: left; /* Asegura que el texto no esté centrado */
 }
@@ -1019,193 +1081,225 @@ html, body {
 /* =========================================
    BLOQUE 2: UBICACIÓN (LOCATION)
    ========================================= */
-.location-wrapper {
-    width: 100%;
-    height: 50vh;
+/* --- CONFIGURACIÓN SECCIÓN UBICACIÓN --- */
+/* =========================================
+   BLOQUE 2: UBICACIÓN (LOCATION)
+   ========================================= */
+/* --- CONFIGURACIÓN SECCIÓN UBICACIÓN --- */
+#location.snap-section {
     background-color: #101010;
-    display: flex;
-    align-items: center;
+    width: 100%;
+    height: 100vh;
+    display: flex; /* Añadido para asegurar comportamiento de sección */
+    align-items: flex-start; /* Centrado vertical general */
     justify-content: center;
-    padding: 40px 0;
+    overflow: hidden;
 }
 
-.location-grid {
+
+
+#location .container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding-left: 150px; /* Alineación coherente con entradas */
+    padding-right: 40px;
     display: flex;
     flex-direction: column;
-    gap: 40px;
-    width: 100%;
+    align-items: flex-start;
     text-align: left;
 }
 
-/* --- Columna Izquierda: Textos --- */
-.info-text {
-    flex: 1;
-    align-content: center;
+.location-split-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Modificado: reparte el espacio entre texto y mapa */
+    width: 100%; /* Cambiado de 100vw para evitar scroll horizontal */
+    gap: 20%; /* Ajustado para dar más aire */
+    flex-shrink: 0; /* Evita que el contenedor se comprima demasiado */
+    margin-top: 50px;
 }
 
-.info-text h3 {
-    margin-bottom: 5px;
-    margin-top: 10px;
+.location-text-side {
+    max-width: 450px;
+    flex-shrink: 0; /* Evita que el texto se comprima demasiado */
+}
+
+.location-text-side h3 {
+    font-family: "Anton", sans-serif;
     font-size: 55px;
     color: #FFF4CC;
+    line-height: 0.8;
+    margin: 0 0 5px 0; /* Simplificado */
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
-.info-text .font-accent {
+.location-split-content p.location-accent { /* Especificado para el párrafo naranja */
     color: #FF6300;
     margin-top: 0;
     margin-bottom: 20px;
-    line-height: 0.5;
+    line-height: 0.7;
+    font-family: 'P22-Freely', cursive; /* Asegura la fuente accent */
 }
 
-.info-text .description {
+.location-text-side .description {
     font-family: 'Helvetica-Thin', sans-serif;
     color: #FFF4CC;
-    font-size: 16px;
-    line-height: 1.6;
-    max-width: 450px;
-    margin-top: 40px;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    margin-top: 30px;
+    margin-bottom: 50px;
 }
 
-/* --- AJUSTES EN LA TARJETA (INFO-CARD) --- */
-.info-card {
-    flex: 1;
-    border: 1px solid rgba(255, 244, 204, 0.3);
-    padding: 30px;
-    display: grid; 
-    grid-template-columns: 1fr 1.2fr; 
-    gap: 20px;
-    height: 250px; 
-    width: 800px; 
+/* Iconos inferiores de la sección */
+#location .benefits-card {
+    background-color: rgba(255, 244, 204, 0.05);
+    border: 1px solid rgba(255, 244, 204, 0.2);
+    width:500px;
+    max-width: 600px;
+    display: flex; /* Asegura el layout interno */
     align-items: center;
+    justify-content: space-between;
+    padding: 25px;
+    border-radius: 15px;
+    flex-shrink: 0; /* Evita que se comprima en pantallas pequeñas */
 }
 
-/* Contenedor de datos (Izquierda) */
-.card-left {
+#location .benefit-col strong {
+    font-family: 'Helvetica-Medium', sans-serif !important;
+    color: #f87727 !important;
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.8px;
+}
+
+#location .benefit-col span {
+        font-family: 'Helvetica-Medium', sans-serif;
+    font-size: 14px;
+    color: #ffffffcb;
+    line-height: 1.1;
+}
+
+#location .benefit-sep {
+    background-color: rgba(255, 244, 204, 0.1);
+    height: 110px;
+    width: 1px;
+    margin: 0 10px;
+}
+
+#location .benefit-icon {
+    color: #f87727;
+}
+
+/* --- TARJETA DE MAPA DERECHA --- */
+.location-map-side {
+    flex-grow: 2;
+    display: flex;
+    justify-content: flex-end; /* Empuja la tarjeta a la derecha[cite: 1] */
+}
+
+.map-info-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 244, 204, 0.2);
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: 1.8fr 1.3fr;
+    width: 800px; /* Cambiado de fijo a flexible[cite: 1] */
+    max-width: 900px; /* Límite para no desbordar[cite: 1] */
+    overflow: hidden;
+    padding: 10px;
+}
+
+.map-box {
+    border-radius: 15px;
+    overflow: hidden;
+    height: 400px;
+}
+
+.map-box iframe {
+    width: 100%;
+    height: 100%;
+    filter: grayscale(1) invert(0.92) contrast(1.2);
+}
+
+.map-details {
+    padding: 30px;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    justify-content: center;
 }
 
-.btn-map-standalone {
+.detail-block {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 15px 0;
+}
+
+.icon-circle {
+    background-color: #FFF4CC;
+    color: #101010 !important;
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px; /* Evita que el círculo se aplaste */
+    border-radius: 50%;
+    
+    /* ESTO ES CLAVE PARA EL CENTRADO */
+    display: flex !important; 
+    align-items: center !important;
+    justify-content: center !important;
+    
+    /* ELIMINA ESTILOS POR DEFECTO DEL ICONO */
+    line-height: 1 !important; 
+    text-align: center;
+    font-size: 32px !important; /* Ajusta el tamaño del icono aquí */
+}
+
+.detail-block strong {
+    display: block;
+    font-family: 'Helvetica-Medium', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.8px;
+    color: #FFF4CC;
+    margin-bottom: 5px;
+}
+
+.detail-block span {
+    font-family: 'Helvetica-Thin', sans-serif;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+}
+
+.card-hr {
+    border: none;
+    height: 1px;
+    background: rgba(255, 244, 204, 0.1);
+    margin: 15px 0;
+}
+
+.btn-maps-cta {
+    margin-top: 20px;
+    border: 1px solid #FF6300;
+    color: #FF6300;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Helvetica-Medium', sans-serif;
+    font-size: 13px;
+    text-align: center;
+    transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding: 12px 25px;
-    border: 1px solid #FF6300;
-    border-radius: 50px;
-    text-decoration: none;
-    color: #FF6300;
-    font-family: 'Helvetica-Medium', sans-serif;
-    font-size: 13px;
-    text-transform: uppercase;
-    width: fit-content;
-    transition: all 0.3s ease;
 }
 
-.btn-map-standalone:hover {
-    background-color: #FF6300;
+.btn-maps-cta:hover {
+    background: #ff6200be;
     color: #101010;
 }
-
-/* Contenedor del Mapa (Derecha) */
-
-.map-placeholder {
-    width: 100%;
-    height: 200px;
-    border-radius: 15px;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-}
-
-.map-placeholder iframe {
-    filter: grayscale(1) invert(0.9) contrast(1.2);
-    width: 100%;
-    height: 100%;
-}
-
-.custom-marker-svg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 5;
-    pointer-events: none;
-    
-    width: 30px;
-    height: 38px;
-    
-    /* El SVG del pin naranja codificado directamente en el CSS */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512' fill='%23ff4500'%3E%3Cpath d='M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-size: contain;
-    
-    /* Sombra naranja */
-    filter: drop-shadow(0 0 10px rgba(255, 69, 0, 0.7));
-}
-
-/* --- ESTILOS DE DATOS DENTRO DE LA TARJETA --- */
-.data-block {
-    display: flex;
-    align-items: center;
-    gap: 15px; 
-}
-
-/* Títulos de los datos (Dirección / Estaciones) */
-.data-block strong {
-    display: block;
-    font-family: 'Helvetica-Medium', sans-serif;
-    color: #FFF4CC; 
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 2px;
-}
-
-/* Valores de los datos (Juan B. Justo / Belgrano) */
-.data-block span {
-    font-family: 'Helvetica-Thin', sans-serif;
-    color: #ffffff; 
-    font-size: 14px;
-    opacity: 0.9;
-}
-
-/* --- ESTILOS PARA LOS ICONOS (CIRCULOS BEIGE) --- */
-.icon-map, .icon-train {
-    width: 45px;
-    height: 45px;
-    background-color: #FFF4CC;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0; 
-    position: relative;
-}
-
-.icon-map::after, .icon-train::after {
-    content: '';
-    width: 20px;
-    height: 20px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    filter: invert(1); 
-}
-
-/* Responsive: En mobile se ponen uno arriba del otro */
-@media (max-width: 768px) {
-    .info-card {
-        grid-template-columns: 1fr;
-        height: auto;
-        padding: 20px;
-    }
-    
-    .map-placeholder {
-        height: 200px;
-    }
-}
-
 /* =========================================
    MEDIA QUERIES PARA ESCRITORIO
    ========================================= */
