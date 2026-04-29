@@ -640,14 +640,12 @@ html, body {
     overflow: visible !important; 
 }
 
-
-
 /* Estilos para los slides */
 .swiper-slide {
     width: 280px;
     height: 550px;
     opacity: 0 !important; /* Por defecto todos invisibles */
-    transition: opacity 0.4s ease;
+    transition: opacity 1s ease;
     transform: scale(0.8);
     cursor: default;
 }

@@ -182,8 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 coverflowEffect: {
                     rotate: 0,
                     stretch: 0,
-                    depth: 150, 
-                    modifier: 2.5,
+                    depth: 350, 
+                    modifier: 1.0,
                     slideShadows: false,
                 },
 
