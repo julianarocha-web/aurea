@@ -247,6 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initContador();
     initGaleria();
     cargarConfiguracion();
+    
     // --- MAPA (Google Maps API) ---
     function initMap() {
     const ubicacion = { lat: -34.582, lng: -58.433 }; // Coordenadas de Juan B. Justo 62
