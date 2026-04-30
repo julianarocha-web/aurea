@@ -1030,6 +1030,12 @@ html, body {
         text-align: center;
     }
 
+    .font-accent {
+        font-size: 40px;
+        line-height: 0.5;
+        margin-bottom:40px;
+    }
+
     .gallery-description-wrapper h3 {
         font-size: 40px;
         margin-bottom: 10px;
@@ -1037,7 +1043,7 @@ html, body {
 
     .gallery-description {
         font-size: 14px;
-        max-width: 100%;
+        max-width: 80%;
         margin: 20px auto;
         text-align: center;
     }
@@ -1223,7 +1229,6 @@ html, body {
     }
 }
 
-/* --- 7. SECCIÓN ENTRADAS Y UBICACIÓN --- */
 
 /* --- CONFIGURACIÓN DE LA SECCIÓN TICKETS --- */
 #tickets.snap-section {
@@ -1388,6 +1393,96 @@ html, body {
 
     .ticket-bg-container {
         background-position: 25% center; 
+    }
+}
+
+/* --- AJUSTE TICKETS SOLO MOBILE --- */
+@media (max-width: 1023px) {
+    /* 1. Forzamos a que la sección sea un bloque vertical */
+    #tickets.snap-section {
+        display: block; 
+        height: auto;
+        min-height: 100vh;
+        background-color: #101010; /* Fondo negro para la zona de texto */
+    }
+
+    /* 2. Reconfiguramos el contenedor de la imagen */
+    #tickets .ticket-bg-container {
+        display: flex;
+        flex-direction: column;
+        background-image: none; /* Quitamos la imagen de desktop */
+        height: auto;
+        min-height: 100vh;
+        padding: 0;
+    }
+
+    /* 3. Inyectamos la foto de mobile mediante un pseudo-elemento */
+    /* Esto permite tener la foto ARRIBA sin tocar el HTML */
+    #tickets .ticket-bg-container::before {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 55vh; /* Ajusta este alto según cuánto querés que se vea de la foto */
+        background-image: url('../assets/img/entradas-mobile.png'); /* Tu nueva imagen con rasgado */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    /* 4. Ajustamos el contenedor de contenido (Texto y Botón) */
+    #tickets .container {
+        padding: 40px 20px !important; /* Padding uniforme para mobile */
+        margin: 0;
+        max-width: 100%;
+        width: 100%;
+        align-items: center; /* Centramos todo */
+        text-align: center;
+    }
+
+    #tickets .ticket-content-overlay {
+        max-width: 100%;
+        align-items: center;
+        padding: 0;
+    }
+
+    /* 5. Estilos de Texto para fondo negro (según tu referencia) */
+    .ticket-title {
+        font-size: clamp(1.8rem, 8vw, 2.5rem); 
+        text-align: center;
+        line-height: 1.1;
+        margin-bottom: 20px;
+        color: #FFF4CC !important; /* Cambiamos a color claro para el fondo negro */
+    }
+
+    .ticket-description {
+        font-family: "Helvetica-Thin", sans-serif !important;
+        font-weight: 300 !important;
+        font-size: 0.98rem !important;
+        text-align: center;
+        max-width: 320px;
+        margin-bottom: 30px !important;
+        color: #FFF4CC !important; /* Cambiamos a color claro */
+        opacity: 0.9;
+    }
+
+    /* 6. Transformación del Botón (Píldora Naranja) */
+    .btn-tickets-black {
+        background-color: transparent !important;
+        color: #FF6300 !important;
+        border: 1px solid #FF6300;
+        padding: 12px 30px;
+        margin-bottom: 0;
+        justify-content: center;
+        width: fit-content;
+    }
+
+    .btn-tickets-black .arrow-icon {
+        stroke: #FF6300; /* La flecha también naranja */
+    }
+
+    /* 7. Ocultamos los beneficios en mobile como ya tenías planeado */
+    #tickets .benefits-card {
+        display: none;
     }
 }
 /* =========================================
@@ -1612,6 +1707,180 @@ html, body {
 /* =========================================
    MEDIA QUERIES PARA ESCRITORIO
    ========================================= */
+
+/* --- AJUSTE LOCATION SOLO MOBILE --- */
+/* --- AJUSTE LOCATION SOLO MOBILE --- */
+/* --- AJUSTE LOCATION SOLO MOBILE --- */
+/* --- AJUSTE LOCATION SOLO MOBILE --- */
+@media (max-width: 1023px) {
+    #location.snap-section {
+        height: auto;
+        min-height: 100vh;
+        
+        display: block;
+    }
+
+    #location .container {
+        padding: 0 20px !important;
+        align-items: center;
+        text-align: center;
+    }
+
+    .location-split-content {
+        flex-direction: column;
+        gap: 40px;
+        margin-top: 0;
+    }
+
+    .location-text-side {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 100%;
+    }
+
+    /* --- CAJA DE BENEFICIOS --- */
+ @media (max-width: 1023px) {
+    /* ... (tus otros estilos de location) ... */
+
+    #location .benefits-card {
+        order: -1; 
+        width: 100%;
+        max-width: 350px; /* Ajustamos para que no sea tan ancha en vertical */
+        margin-bottom: 50px;
+        padding: 30px 20px;
+        background-color: rgba(255, 244, 204, 0.05);
+        border: 1px solid rgba(255, 244, 204, 0.2);
+        
+        /* CAMBIO CLAVE: De horizontal a vertical */
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        gap: 20px; /* Espaciado entre elementos y líneas */
+    }
+
+    #location .benefit-col {
+        flex: none; /* Evitamos que intenten ocupar todo el alto */
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* LÍNEAS DE SEPARACIÓN HORIZONTALES */
+    #location .benefit-sep { 
+        height: 1px; /* Ahora es una línea horizontal */
+        width: 80%;  /* No ocupa todo el ancho para un look más limpio */
+        background: linear-gradient(
+            to right, 
+            transparent, 
+            rgba(255, 244, 204, 0.2), 
+            transparent
+        );
+        margin: 10px 0;
+        flex-shrink: 0;
+    }
+
+    #location .benefit-col .benefit-icon { 
+        font-size: 32px !important; /* Un poco más grandes para la vista vertical */
+        margin-bottom: 10px;
+    }
+
+    #location .benefit-col strong { 
+        font-size: 13px !important; 
+        margin-bottom: 5px;
+    }
+    
+    #location .benefit-col span { 
+        font-size: 12px !important;
+        opacity: 0.8;
+    }
+}
+
+    /* --- RESTO DE ELEMENTOS (SIN CAMBIOS) --- */
+.location-split-content {
+    gap:0px;
+}
+
+    .location-title {
+        font-size: 38px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .location-accent {
+        font-size: 32px !important;
+        margin-bottom: 25px !important;
+    }
+
+    .location-text-side .description {
+        font-size: 1rem;
+        margin: 10px auto 45px auto;
+        max-width: 320px;
+    }
+
+    .location-map-side {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .map-info-card {
+        display: flex; 
+        flex-direction: column;
+        width: 100%;
+        max-width: 400px;
+        padding: 10px;
+    }
+
+    .map-box {
+        height: 280px; 
+    }
+
+    .map-details {
+        padding: 30px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .detail-block {
+        flex-direction: row !important;
+        align-items: center;
+        gap: 18px;
+        width: 100%;
+    }
+
+    .icon-circle {
+        background-color: #FFF4CC !important;
+        color: #101010 !important;
+        width: 55px !important;
+        height: 55px !important;
+        min-width: 55px;
+        font-size: 26px !important;
+        border: none !important;
+    }
+
+    .detail-block strong { font-size: 17px; color: #FFF4CC; }
+    .detail-block span { font-size: 15px; color: #FFF4CC; opacity: 0.8; }
+
+    .btn-maps-cta {
+        width: 100%;
+        max-width: 300px;
+        margin: 30px auto 0 auto;
+        background-color: transparent !important;
+        border: 1px solid #FF6300 !important;
+        color: #FF6300 !important;
+        padding: 12px 25px;
+        font-size: 13px;
+    }
+}
+
+
+
+
+
+
+
 @media (min-width: 1024px) {
     #ticket-location.snap-section {
         flex-direction: column; 
