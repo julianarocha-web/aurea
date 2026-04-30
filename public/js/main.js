@@ -136,33 +136,79 @@ snapContainer.addEventListener('scroll', () => {
         try {
             const response = await fetch('/api/config');
             const config = await response.json();
-            const targetDate = new Date(config.eventDate).getTime();
-
+            
+            const timerElement = document.getElementById('timer');
+            const titleElement = document.querySelector('.countdown-content h2');
+            
+            // Caso 1: No hay fecha planificada
+            if (!config.eventDate || config.eventDate === null) {
+                if (timerElement) timerElement.style.display = 'none';
+                if (titleElement) {
+                    titleElement.innerHTML = 'PRÓXIMAMENTE<br><span class="accent-color">MUY PRONTO</span>';
+                }
+                return;
+            }
+            
+            const startDate = new Date(config.eventDate).getTime();
+            const endDate = config.eventEndDate ? new Date(config.eventEndDate).getTime() : null;
+            const now = new Date().getTime();
+            
             const updateTimer = () => {
                 const now = new Date().getTime();
-                const distance = targetDate - now;
                 const displayNumbers = document.querySelectorAll('.time-block .number');
-
-                if (distance < 0 || displayNumbers.length === 0) {
-                    displayNumbers.forEach(num => num.innerHTML = "00");
+                
+                // Caso 2: Proximamente (si tiene endDate y ya pasó)
+                if (endDate && now > endDate) {
+                    if (timerElement) timerElement.style.display = 'none';
+                    if (titleElement) {
+                        titleElement.innerHTML = 'PRÓXIMAMENTE<br><span class="accent-color">PROXIMAMENTE</span>';
+                    }
                     return;
                 }
-
+                
+                // Caso 3: Evento ocurriendo ahora (startDate <= now <= endDate)
+                if (now >= startDate && (!endDate || now <= endDate)) {
+                    if (timerElement) timerElement.style.display = 'none';
+                    if (titleElement) {
+                        titleElement.innerHTML = 'ESTÁ<br><span class="accent-color">OCURRIENDO AHORA</span>';
+                    }
+                    return;
+                }
+                
+                // Caso 4: Evento futuro - mostrar contador
+                if (timerElement) timerElement.style.display = 'flex';
+                if (titleElement) {
+                    titleElement.innerHTML = '¿LISTO PARA CREAR <br>TU PRÓXIMO <span class="accent-color">RECUERDO</span>?';
+                }
+                
+                const distance = startDate - now;
+                
+                if (distance <= 0) return;
+                
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
+                
                 const timeValues = [days, hours, minutes, seconds];
-                displayNumbers.forEach((num, i) => {
-                    num.innerHTML = timeValues[i].toString().padStart(2, '0');
-                });
+                if (displayNumbers.length > 0) {
+                    displayNumbers.forEach((num, i) => {
+                        num.innerHTML = timeValues[i].toString().padStart(2, '0');
+                    });
+                }
             };
-
+            
             setInterval(updateTimer, 1000);
             updateTimer();
+            
         } catch (err) {
             console.error("Error cargando contador:", err);
+            const timerElement = document.getElementById('timer');
+            const titleElement = document.querySelector('.countdown-content h2');
+            if (timerElement) timerElement.style.display = 'none';
+            if (titleElement) {
+                titleElement.innerHTML = 'PRÓXIMAMENTE<br><span class="accent-color">MUY PRONTO</span>';
+            }
         }
     }
 
@@ -214,13 +260,13 @@ snapContainer.addEventListener('scroll', () => {
                     320: {
                         slidesPerView: 1.1,
                         coverflowEffect: {
-                            modifier: 1,
+                            modifier: 0.8,
                         }
                     },
-                    1024: {
-                        slidesPerView: 2.5,
+                    768: {
+                        slidesPerView: 1.5,
                         coverflowEffect: {
-                            modifier: 2, 
+                            modifier: 1,
                         }
                     }
                 },
