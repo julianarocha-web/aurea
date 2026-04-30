@@ -306,3 +306,4 @@ document.addEventListener('DOMContentLoaded', () => {
         ease: "power3.inOut"
     }, "-=0.4"); // Empieza un poquito antes de que termine la línea 1
 });
+
