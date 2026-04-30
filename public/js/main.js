@@ -280,3 +280,29 @@ snapContainer.addEventListener('scroll', () => {
 
 });
 
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tl = gsap.timeline();
+
+    // 1. Aparece el Título (H1)
+    tl.from(".text", {
+        filter: "blur(20px)",
+        opacity: 0,
+        scale: 0.9,
+        duration: 1.5,
+        ease: "power2.out"
+    })
+    // 2. Aparece la primera línea del P
+    .from(".line1", {
+        clipPath: "inset(0 100% 0 0)",
+        duration: 1.1,
+        ease: "power3.inOut"
+    }, "-=0.5") // Empieza un poquito antes de que termine el h1
+    // 3. Aparece la segunda línea del P
+    .from(".line2", {
+        clipPath: "inset(0 100% 0 0)",
+        duration: 1.1,
+        ease: "power3.inOut"
+    }, "-=0.4"); // Empieza un poquito antes de que termine la línea 1
+});
