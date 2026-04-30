@@ -693,8 +693,10 @@ html, body {
     }
 }
 
-
+/* ================================================================================================================== */
 /* --- 6. SUPER GALERIA --- */
+/* ================================================================================================================== */
+
 
 /* Contenedor general de la sección */
 .gallery-section {
@@ -707,7 +709,10 @@ html, body {
     box-sizing: border-box;
 }
 
+/* =============================================== */
 /* Contenedor del título y descripción (izquierda) */
+/* =============================================== */
+
 .gallery-description-wrapper {
     flex: 0 0 35%; 
     box-sizing: border-box;
@@ -716,241 +721,7 @@ html, body {
 }
 
 
-/* Contenedor de la galería (derecha) */
-.gallery-swiper-wrapper {
-    flex: 0 0 60%;
-    min-width: 0; 
-    position: relative;
-    overflow: hidden;
-}
-
-.swiper {
-    width: 100%;
-    max-width: 100%; 
-    margin: 0;
-    overflow: visible !important; 
-}
-
-/* Estilos para los slides */
-.swiper-slide {
-    width: 280px;
-    height: 550px;
-    opacity: 0 !important; /* Por defecto todos invisibles */
-    transition: opacity 1s ease;
-    transform: scale(0.8);
-    cursor: default;
-}
-
-.swiper-slide-active,
-.swiper-slide-prev,
-.swiper-slide-next {
-    opacity: 1 !important; /* Solo mostramos estos 3 */
-}
-
-.swiper-slide-prev,
-.swiper-slide-next {
-    opacity: 0.5 !important;
-}
-
-.slide-link {
-    display: block;
-    width: 100%;
-    height: 100%;
-    cursor: inherit;
-    border: 1px solid #fff4cc4b;
-    border-radius: 15px;
-}
-
-
-.slide-link img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    pointer-events: none;
-    border-radius:15px;
-}
-
-/* Estilos para los botones de navegación */
-
-/* Estilos para los botones de navegación de la galería minimizada */
-
-/* --- Estilos generales de flechas (Círculo) --- */
-.swiper-button-prev,
-.swiper-button-next {
-    width: 60px !important;
-    height: 60px !important;
-    border: 1px solid #FFF4CC !important;
-    border-radius: 50% !important;
-    background: rgba(0, 0, 0, 0.5) !important;
-    backdrop-filter: blur(8px) !important;
-    
-    /* ELIMINAMOS EL TEXTO ORIGINAL */
-    font-size: 0 !important;
-    color: transparent !important;
-    
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* DIBUJAMOS LA FLECHA BLANCA CON BORDES */
-.swiper-button-prev:after,
-.swiper-button-next:after {
-    content: '' !important;
-    display: block !important;
-    width: 12px !important;
-    height: 12px !important;
-    border-top: 2.5px solid #FFFFFF !important;
-    border-right: 2.5px solid #FFFFFF !important;
-    position: absolute !important;
-    font-size: 0 !important; /* Asegura que no haya texto */
-}
-
-/* Orientación IZQUIERDA */
-.swiper-button-prev:after {
-    transform: rotate(-135deg) !important;
-    margin-left: 4px; /* Ajuste óptico del pico */
-}
-
-/* Orientación DERECHA */
-.swiper-button-next:after {
-    transform: rotate(45deg) !important;
-    margin-right: 4px; /* Ajuste óptico del pico */
-}
-
-/* --- ESTADO HOVER --- */
-.swiper-button-prev:hover,
-.swiper-button-next:hover {
-    background: #101010 !important;
-    border-color: #FF6300 !important;
-    transform: scale(1.05) !important;
-}
-
-/* --- ESTADO DESACTIVADO --- */
-.swiper-button-disabled {
-    opacity: 0.2 !important;
-    pointer-events: none;
-}
-
-/* --- Asegurar la visibilidad si las sacamos del contenedor --- */
-.swiper {
-    overflow: visible !important;
-}
-.swiper-grabbing {
-    cursor: grabbing !important;
-}
-.swiper-grabbing .swiper-slide-active {
-    cursor: grabbing !important;
-}
-
-/* Estilos para el SimpleLightbox */
-
-/* Fondo */
-.sl-overlay {
-    background: #0a0a0a !important; 
-    opacity: 1 !important;
-}
-
-/* Botones de cerrar, siguiente y anterior */
-.sl-wrapper .sl-close, 
-.sl-wrapper .sl-navigation button {
-    color: #FF6300 !important; /* Tu color naranja */
-    font-weight: 300;
-}
-
-/* Cambiar el tamaño del icono de cerrar */
-.sl-wrapper .sl-close {
-    font-size: 3rem;
-    right: 30px;
-    top: 20px;
-}
-
-/* El contador (ej: "1 de 5") */
-.sl-wrapper .sl-counter {
-    font-family: 'Montserrat', sans-serif; /* Tu fuente principal */
-    color: #ffffff;
-    font-size: 1rem;
-    bottom: 20px;
-}
-
-/* --- BOTONES DE NAVEGACIÓN (Centrado Matemático y Limpieza) --- */
-
-.sl-wrapper .sl-navigation button {
-    width: 60px !important; 
-    height: 60px !important;
-    border-radius: 50% !important;
-    background: rgba(0, 0, 0, 0.5) !important;
-    border: 1px solid #FFF4CC !important;
-    backdrop-filter: blur(8px) !important;
-    
-    /* Centrado absoluto del contenido */
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    
-    /* ELIMINAMOS EL TEXTO NARANJA RESIDUAL */
-    font-size: 0 !important; /* Esto hace que el ">" o "<" de texto desaparezca por completo */
-    color: transparent !important;
-    
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-}
-
-/* DIBUJAMOS ÚNICAMENTE EL ICONO BLANCO NUEVO */
-.sl-wrapper .sl-navigation button:after {
-    content: '' !important; 
-    display: block !important;
-    width: 12px !important; 
-    height: 12px !important; 
-    border-top: 2.5px solid #FFFFFF !important; /* Grosor de la flecha blanca */
-    border-right: 2.5px solid #FFFFFF !important;
-    position: absolute !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
-/* Dibujamos la flecha IZQUIERDA */
-.sl-wrapper .sl-navigation button.sl-prev {
-    left: 30px !important;
-}
-.sl-wrapper .sl-navigation button.sl-prev:after {
-    transform: rotate(-135deg) !important; 
-    margin-left: 4px; /* Ajuste para el pico de la flecha */
-}
-
-/* Dibujamos la flecha DERECHA */
-.sl-wrapper .sl-navigation button.sl-next {
-    right: 30px !important;
-}
-.sl-wrapper .sl-navigation button.sl-next:after {
-    transform: rotate(45deg) !important; 
-    margin-right: 4px; /* Ajuste para el pico de la flecha */
-}
-
-/* --- ESTADO HOVER --- */
-.sl-wrapper .sl-navigation button:hover {
-    background: #101010 !important;
-    border-color: #FF6300 !important;
-    transform: translateY(-50%) scale(1.05) !important;
-}
-
-/* --- ESTADO HOVER --- */
-.sl-wrapper .sl-navigation button:hover {
-    background: #101010 !important;
-    border-color: #FF6300 !important;
-    transform: translateY(-50%) scale(1.05) !important;
-}
-
-.sl-wrapper .sl-navigation button:hover:after {
-    border-color: #FFFFFF !important; /* Mantenemos la flecha blanca o cámbiala a #FF6300 si prefieres */
-}
-
-/*textos izquierda*/
+/* textos izquierda */
 .gallery-description-wrapper h3 {
     font-size: 55px;
     margin-bottom: 5px;
@@ -1003,176 +774,144 @@ html, body {
     color: #101010;
 }
 
-@media (max-width: 1023px) {
-    #galery.snap-section {
-        padding: 0;
-    }
 
-   .gallery-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        width: 100%;
-        height: auto;
-        min-height: 100vh;
-        overflow-y: auto;
-        box-sizing: border-box;
-        padding: 80px 20px;
-    } 
+/* =============================================== */
+/* Contenedor de la galería (derecha) */
+/* =============================================== */
 
-    /* Contenedor del texto (arriba) */
-    .gallery-description-wrapper {
-        flex: none;
-        width: 100%;
-        padding: 0;
-        margin-bottom: 40px;
-        text-align: center;
-    }
-
-    .font-accent {
-        font-size: 40px;
-        line-height: 0.5;
-        margin-bottom:40px;
-    }
-
-    .gallery-description-wrapper h3 {
-        font-size: 40px;
-        margin-bottom: 10px;
-    }
-
-    .gallery-description {
-        font-size: 14px;
-        max-width: 80%;
-        margin: 20px auto;
-        text-align: center;
-    }
-
-    .gallery-description-wrapper a {
-        margin: 0 auto;
-    }
-
-    /* Contenedor de la galería (abajo) */
-    .gallery-swiper-wrapper {
-        flex: none;
-        width: 100%;
-        min-width: 0;
-        position: relative;
-        overflow: visible;
-    }
-
-    .swiper {
-        width: 100%;
-        max-width: 100%;
-        margin: 0;
-        overflow: visible !important;
-    }
-
-    /* Estilos para los slides */
-    .swiper-slide {
-        width: 260px;
-        height: 400px;
-        opacity: 0 !important;
-        transition: opacity 0.5s ease;
-        transform: scale(0.85);
-        cursor: default;
-    }
-
-    .swiper-slide-active,
-    .swiper-slide-prev,
-    .swiper-slide-next {
-        opacity: 1 !important;
-    }
-
-    .swiper-slide-prev,
-    .swiper-slide-next {
-        opacity: 0 !important;
-    }
-
-    .slide-link {
-        display: block;
-        width: 100%;
-        height: 300px;
-        cursor: inherit;
-        border: 1px solid #fff4cc4b;
-        border-radius: 15px;
-        overflow: hidden;
-    }
-
-    .slide-link img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        pointer-events: none;
-        border-radius: 15px;
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-        position: absolute;
-        top: auto !important;
-        bottom: -10px !important;
-        transform: none !important;
-        width: 45px !important;
-        height: 45px !important;
-        background: #101010 !important;
-        border: 1px solid #e9e9e9 !important;
-        margin-top: 0 !important;
-        z-index: 10;
-        transition: background 0.3s ease !important;
-    }
-
-    .swiper-button-prev {
-        left: 50% !important;
-        transform: translateX(-60px) !important;
-        right: auto !important;
-    }
-
-    .swiper-button-next {
-        right: 50% !important;
-        transform: translateX(60px) !important;
-        left: auto !important;
-    }
-
-    .swiper-button-prev:active,
-    .swiper-button-next:active {
-        transform: translateX(-60px) !important; /* Mantiene la misma posición para la flecha izquierda */
-    }
-
-    .swiper-button-next:active {
-        transform: translateX(60px) !important; /* Mantiene la misma posición para la flecha derecha */
-    }
-
-    .swiper-button-prev:hover,
-    .swiper-button-next:hover {
-        transform: none !important;
-    }
-
-    .swiper-button-prev:hover {
-        transform: translateX(-60px) !important;
-    }
-
-    .swiper-button-next:hover {
-        transform: translateX(60px) !important;
-    }
-
-    .swiper-button-prev:after,
-    .swiper-button-next:after {
-        width: 10px !important;
-        height: 10px !important;
-        border-width: 2px !important;
-        border-color: #e7e5e4 !important;
-        transition: border-color 0.3s ease !important;
-    }
-
-    .swiper-button-prev:hover:after,
-    .swiper-button-next:hover:after {
-        border-color: #e6e4e4 !important;
-    }
+.gallery-grid-wrapper {
+    width: 100%;
+    margin: auto;
 }
 
-/* Lightbox en Mobile - Botones abajo */
+.gallery {
+    width: 100%;
+}
+
+.gallery-item {
+    margin-bottom: 15px;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #fff4cc4b;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;   /* 🔥 clave */
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* hover */
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* =============================================== */
+/* LIGHTBOX */
+/* =============================================== */
+
+/* Fondo */
+.sl-overlay {
+    background: #0a0a0a !important; 
+    opacity: 1 !important;
+}
+
+/* Botones */
+.sl-wrapper .sl-close, 
+.sl-wrapper .sl-navigation button {
+    color: #FF6300 !important;
+    font-weight: 300;
+}
+
+/* Cerrar */
+.sl-wrapper .sl-close {
+    font-size: 3rem;
+    right: 30px;
+    top: 20px;
+}
+
+/* Contador */
+.sl-wrapper .sl-counter {
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff;
+    font-size: 1rem;
+    bottom: 20px;
+}
+
+/* Flechas */
+.sl-wrapper .sl-navigation button {
+    width: 60px !important; 
+    height: 60px !important;
+    border-radius: 50% !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid #FFF4CC !important;
+    backdrop-filter: blur(8px) !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    font-size: 0 !important;
+    color: transparent !important;
+
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
+/* Flecha icono */
+.sl-wrapper .sl-navigation button:after {
+    content: ''; 
+    display: block;
+    width: 12px; 
+    height: 12px; 
+    border-top: 2.5px solid #FFFFFF;
+    border-right: 2.5px solid #FFFFFF;
+    position: absolute;
+}
+
+/* Izquierda */
+.sl-wrapper .sl-navigation button.sl-prev {
+    left: 30px;
+}
+.sl-wrapper .sl-navigation button.sl-prev:after {
+    transform: rotate(-135deg);
+    margin-left: 4px;
+}
+
+/* Derecha */
+.sl-wrapper .sl-navigation button.sl-next {
+    right: 30px;
+}
+.sl-wrapper .sl-navigation button.sl-next:after {
+    transform: rotate(45deg);
+    margin-right: 4px;
+}
+
+/* Hover */
+.sl-wrapper .sl-navigation button:hover {
+    background: #101010 !important;
+    border-color: #FF6300 !important;
+    transform: translateY(-50%) scale(1.05) !important;
+}
+
+.sl-wrapper .sl-navigation button:hover:after {
+    border-color: #FFFFFF;
+}
+
+/* =============================================== */
+/* MOBILE LIGHTBOX */
+/* =============================================== */
+
 @media (max-width: 1023px) {
+
     .sl-wrapper .sl-navigation button {
         top: auto !important;
         bottom: 30px !important;
@@ -1184,20 +923,10 @@ html, body {
     .sl-wrapper .sl-navigation button.sl-prev {
         left: 50% !important;
         transform: translateX(-70px) !important;
-        right: auto !important;
     }
 
     .sl-wrapper .sl-navigation button.sl-next {
         right: 50% !important;
-        transform: translateX(70px) !important;
-        left: auto !important;
-    }
-
-    .sl-wrapper .sl-navigation button:hover {
-        transform: translateX(-70px) !important;
-    }
-
-    .sl-wrapper .sl-navigation button.sl-next:hover {
         transform: translateX(70px) !important;
     }
 
@@ -1208,7 +937,6 @@ html, body {
     }
 
     .sl-wrapper .sl-counter {
-        bottom: auto !important;
         top: 20px !important;
         left: 20px !important;
         font-size: 0.9rem !important;
@@ -1219,16 +947,7 @@ html, body {
         height: 10px !important;
         border-width: 2px !important;
     }
-
-    .sl-wrapper .sl-navigation button.sl-prev:after {
-        margin-left: 3px !important;
-    }
-
-    .sl-wrapper .sl-navigation button.sl-next:after {
-        margin-right: 3px !important;
-    }
 }
-
 
 /* --- CONFIGURACIÓN DE LA SECCIÓN TICKETS --- */
 #tickets.snap-section {

@@ -17,12 +17,30 @@ document.addEventListener('DOMContentLoaded', () => {
         if (index < 0 || index >= sections.length || isAnimating) return;
         isAnimating = true;
         currentIndex = index;
-        gsap.to(container, {
-            scrollTo: { y: sections[index].offsetTop, autoKill: false },
-            duration: 0.8,
-            ease: "power2.inOut",
-            onComplete: () => { isAnimating = false; }
-        });
+        
+        // Detectar si estamos en mobile o desktop
+        const isMobile = window.innerWidth < 1024;
+        let scrollTarget;
+        
+        if (isMobile) {
+            // En mobile, el scroll es sobre el body/html
+            scrollTarget = sections[index].offsetTop;
+            gsap.to(window, {
+                scrollTo: { y: scrollTarget, autoKill: false },
+                duration: 0.8,
+                ease: "power2.inOut",
+                onComplete: () => { isAnimating = false; }
+            });
+        } else {
+            // En desktop, el scroll es sobre el container
+            scrollTarget = sections[index].offsetTop;
+            gsap.to(container, {
+                scrollTo: { y: scrollTarget, autoKill: false },
+                duration: 0.8,
+                ease: "power2.inOut",
+                onComplete: () => { isAnimating = false; }
+            });
+        }
     }
 
     // --- SOPORTE PARA TECLADO (Flechas arriba/abajo) ---
@@ -115,11 +133,16 @@ snapContainer.addEventListener('scroll', () => {
 
     // --- BOTÓN BACK TO TOP ---
     const backToTopBtn = document.getElementById('backToTop');
-    
+
     const handleScroll = () => {
-        let scrollPos = (window.innerWidth >= 1024 && container) 
-            ? container.scrollTop 
-            : (window.pageYOffset || document.documentElement.scrollTop);
+        const isMobile = window.innerWidth < 1024;
+        let scrollPos;
+        
+        if (isMobile) {
+            scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+        } else {
+            scrollPos = container ? container.scrollTop : 0;
+        }
 
         if (scrollPos > 300) {
             backToTopBtn.classList.add('show');
@@ -213,67 +236,37 @@ snapContainer.addEventListener('scroll', () => {
     }
 
 
-    // --- GALERÍA DINÁMICA con SWIPER & LIGHTBOX---
+    // --- GALERÍA DINÁMICA & LIGHTBOX---
     async function initGaleria() {
         try {
             const response = await fetch('/api/imagenes');
             const imagenes = await response.json();
-            const swiperWrapper = document.querySelector('.swiper-wrapper');
+            const gallery = document.querySelector('.gallery');
 
-            // Limpiamos y generamos slides
-            swiperWrapper.innerHTML = imagenes.map(foto => `
-                <div class="swiper-slide">
-                    <a href="assets/img/fotos/${foto}" class="slide-link">
+            const primeras6 = imagenes.slice(0, 6);
+
+
+            gallery.innerHTML = primeras6.map(foto => `
+                <div class="gallery-item">
+                    <a href="assets/img/fotos/${foto}">
                         <img src="assets/img/fotos/${foto}" alt="Galería Áurea" loading="lazy">
                     </a>
                 </div>
             `).join('');
 
-            // Inicializamos Swiper
-            const gallerySwiper = new Swiper('.gallery', {
-                slidesPerView: 1.5,
-                centeredSlides: true,
-                loop: true,
-                speed: 500,
-                grabCursor: true,
-                
-                effect: 'coverflow',
-                coverflowEffect: {
-                    rotate: 0,
-                    stretch: 0,
-                    depth: 350, 
-                    modifier: 1.0,
-                    slideShadows: false,
-                },
-
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-
-                freeMode: {
-                    enabled: false,
-                    sticky: true,
-                },  
-
-                breakpoints: {
-                    320: {
-                        slidesPerView: 1.1,
-                        coverflowEffect: {
-                            modifier: 0.8,
-                        }
-                    },
-                    768: {
-                        slidesPerView: 1.5,
-                        coverflowEffect: {
-                            modifier: 1,
-                        }
-                    }
-                },
+            const macy = Macy({
+                container: '.gallery',
+                margin: 15,
+                columns: 3,
+                breakAt: {
+                    1024: 2,
+                    600: 1
+                }
             });
 
-            const lightbox = new SimpleLightbox('.gallery .swiper-slide:not(.swiper-slide-duplicate) a', {
-                uniqueImages: false,
+            macy.recalculate(true);
+
+            const lightbox = new SimpleLightbox('.gallery a', {
                 loop: true
             });
 
