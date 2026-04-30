@@ -76,7 +76,7 @@ html, body {
 @media (max-width: 1023px) {
     .snap-section {
         min-height: 100vh;
-        padding: 80px 20px;
+        padding: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -1003,6 +1003,225 @@ html, body {
     color: #101010;
 }
 
+@media (max-width: 1023px) {
+    #galery.snap-section {
+        padding: 0;
+    }
+
+   .gallery-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        box-sizing: border-box;
+        padding: 80px 20px;
+    } 
+
+    /* Contenedor del texto (arriba) */
+    .gallery-description-wrapper {
+        flex: none;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .gallery-description-wrapper h3 {
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    .gallery-description {
+        font-size: 14px;
+        max-width: 100%;
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    .gallery-description-wrapper a {
+        margin: 0 auto;
+    }
+
+    /* Contenedor de la galería (abajo) */
+    .gallery-swiper-wrapper {
+        flex: none;
+        width: 100%;
+        min-width: 0;
+        position: relative;
+        overflow: visible;
+    }
+
+    .swiper {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        overflow: visible !important;
+    }
+
+    /* Estilos para los slides */
+    .swiper-slide {
+        width: 260px;
+        height: 400px;
+        opacity: 0 !important;
+        transition: opacity 0.5s ease;
+        transform: scale(0.85);
+        cursor: default;
+    }
+
+    .swiper-slide-active,
+    .swiper-slide-prev,
+    .swiper-slide-next {
+        opacity: 1 !important;
+    }
+
+    .swiper-slide-prev,
+    .swiper-slide-next {
+        opacity: 0 !important;
+    }
+
+    .slide-link {
+        display: block;
+        width: 100%;
+        height: 300px;
+        cursor: inherit;
+        border: 1px solid #fff4cc4b;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .slide-link img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none;
+        border-radius: 15px;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        position: absolute;
+        top: auto !important;
+        bottom: -10px !important;
+        transform: none !important;
+        width: 45px !important;
+        height: 45px !important;
+        background: #101010 !important;
+        border: 1px solid #e9e9e9 !important;
+        margin-top: 0 !important;
+        z-index: 10;
+        transition: background 0.3s ease !important;
+    }
+
+    .swiper-button-prev {
+        left: 50% !important;
+        transform: translateX(-60px) !important;
+        right: auto !important;
+    }
+
+    .swiper-button-next {
+        right: 50% !important;
+        transform: translateX(60px) !important;
+        left: auto !important;
+    }
+
+    .swiper-button-prev:active,
+    .swiper-button-next:active {
+        transform: translateX(-60px) !important; /* Mantiene la misma posición para la flecha izquierda */
+    }
+
+    .swiper-button-next:active {
+        transform: translateX(60px) !important; /* Mantiene la misma posición para la flecha derecha */
+    }
+
+    .swiper-button-prev:hover,
+    .swiper-button-next:hover {
+        transform: none !important;
+    }
+
+    .swiper-button-prev:hover {
+        transform: translateX(-60px) !important;
+    }
+
+    .swiper-button-next:hover {
+        transform: translateX(60px) !important;
+    }
+
+    .swiper-button-prev:after,
+    .swiper-button-next:after {
+        width: 10px !important;
+        height: 10px !important;
+        border-width: 2px !important;
+        border-color: #e7e5e4 !important;
+        transition: border-color 0.3s ease !important;
+    }
+
+    .swiper-button-prev:hover:after,
+    .swiper-button-next:hover:after {
+        border-color: #e6e4e4 !important;
+    }
+}
+
+/* Lightbox en Mobile - Botones abajo */
+@media (max-width: 1023px) {
+    .sl-wrapper .sl-navigation button {
+        top: auto !important;
+        bottom: 30px !important;
+        transform: none !important;
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    .sl-wrapper .sl-navigation button.sl-prev {
+        left: 50% !important;
+        transform: translateX(-70px) !important;
+        right: auto !important;
+    }
+
+    .sl-wrapper .sl-navigation button.sl-next {
+        right: 50% !important;
+        transform: translateX(70px) !important;
+        left: auto !important;
+    }
+
+    .sl-wrapper .sl-navigation button:hover {
+        transform: translateX(-70px) !important;
+    }
+
+    .sl-wrapper .sl-navigation button.sl-next:hover {
+        transform: translateX(70px) !important;
+    }
+
+    .sl-wrapper .sl-close {
+        font-size: 2.5rem !important;
+        right: 20px !important;
+        top: 20px !important;
+    }
+
+    .sl-wrapper .sl-counter {
+        bottom: auto !important;
+        top: 20px !important;
+        left: 20px !important;
+        font-size: 0.9rem !important;
+    }
+
+    .sl-wrapper .sl-navigation button:after {
+        width: 10px !important;
+        height: 10px !important;
+        border-width: 2px !important;
+    }
+
+    .sl-wrapper .sl-navigation button.sl-prev:after {
+        margin-left: 3px !important;
+    }
+
+    .sl-wrapper .sl-navigation button.sl-next:after {
+        margin-right: 3px !important;
+    }
+}
 
 /* --- 7. SECCIÓN ENTRADAS Y UBICACIÓN --- */
 
@@ -1162,9 +1381,11 @@ html, body {
 
 /* Ajuste para pantallas pequeñas */
 @media (max-width: 1023px) {
+
     #tickets .container {
         padding-left: 20px; /* Reduce el padding en mobile para que no se corte el texto */
     }
+
     .ticket-bg-container {
         background-position: 25% center; 
     }
