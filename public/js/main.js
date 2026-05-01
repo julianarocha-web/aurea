@@ -116,16 +116,55 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================================================================== //
     // --- MENÚ HAMBURGUESA ---
     // ===================================================================================================== //
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navMenu = document.querySelector('.nav-desktop');
+const menuToggle = document.querySelector('.menu-toggle');
+const navMenu = document.querySelector('.nav-desktop');
+const navOverlay = document.getElementById('nav-overlay'); // Asegurate de que el ID coincida con tu HTML
 
-    if (menuToggle) {
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('is-active');
-            navMenu.classList.toggle('is-active');
-            document.body.style.overflow = navMenu.classList.contains('is-active') ? 'hidden' : '';
+if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', () => {
+        const isActive = navMenu.classList.toggle('is-active');
+        menuToggle.classList.toggle('is-active');
+        
+        // Manejo del overlay si lo tenés en el HTML
+        if (navOverlay) navOverlay.classList.toggle('is-active');
+
+        if (isActive) {
+            // --- ANIMACIÓN DE APERTURA ---
+            document.body.style.overflow = 'hidden';
+            
+            // Los links entran uno por uno con suavidad
+            gsap.fromTo(".nav-desktop.is-active li", 
+                { x: -30, opacity: 0 }, 
+                { x: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power4.out", delay: 0.2 }
+            );
+        } else {
+            // --- ANIMACIÓN DE CIERRE MEJORADA ---
+            // Primero animamos la salida de los links
+            gsap.to(".nav-desktop li", {
+                x: 20,
+                opacity: 0,
+                duration: 0.4,
+                stagger: {
+                    each: 0.05,
+                    from: "end" // Salen desde el último hacia el primero para un efecto más natural
+                },
+                ease: "power2.in",
+                onComplete: () => {
+                    // Solo cuando termina la animación devolvemos el scroll
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+    });
+
+    // Cerrar al hacer clic en un link (evita que el menú quede abierto tras navegar)
+    document.querySelectorAll('.nav-desktop a').forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.click(); // Disparamos el mismo evento para que ejecute la animación de cierre
         });
-    }
+    });
+}
+    
 
     // ===================================================================================================== //
     // --- BOTÓN PARA VOLVER ARRIBA ---
