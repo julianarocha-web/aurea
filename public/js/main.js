@@ -116,53 +116,65 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================================================================== //
     // --- MENÚ HAMBURGUESA ---
     // ===================================================================================================== //
+// ===================================================================================================== //
+// --- MENÚ HAMBURGUESA ---
+// ===================================================================================================== //
 const menuToggle = document.querySelector('.menu-toggle');
 const navMenu = document.querySelector('.nav-desktop');
-const navOverlay = document.getElementById('nav-overlay'); // Asegurate de que el ID coincida con tu HTML
+const navOverlay = document.getElementById('nav-overlay');
 
 if (menuToggle && navMenu) {
     menuToggle.addEventListener('click', () => {
         const isActive = navMenu.classList.toggle('is-active');
         menuToggle.classList.toggle('is-active');
         
-        // Manejo del overlay si lo tenés en el HTML
         if (navOverlay) navOverlay.classList.toggle('is-active');
 
         if (isActive) {
-            // --- ANIMACIÓN DE APERTURA ---
+            // --- APERTURA (Bloqueo y animación) ---
             document.body.style.overflow = 'hidden';
-            
-            // Los links entran uno por uno con suavidad
             gsap.fromTo(".nav-desktop.is-active li", 
                 { x: -30, opacity: 0 }, 
                 { x: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power4.out", delay: 0.2 }
             );
         } else {
-            // --- ANIMACIÓN DE CIERRE MEJORADA ---
-            // Primero animamos la salida de los links
-            gsap.to(".nav-desktop li", {
-                x: 20,
-                opacity: 0,
-                duration: 0.4,
-                stagger: {
-                    each: 0.05,
-                    from: "end" // Salen desde el último hacia el primero para un efecto más natural
-                },
-                ease: "power2.in",
-                onComplete: () => {
-                    // Solo cuando termina la animación devolvemos el scroll
-                    document.body.style.overflow = '';
-                }
-            });
+            // --- CIERRE MANUAL (Clic en hamburguesa o overlay) ---
+            cerrarNavDesplegable();
         }
     });
 
-    // Cerrar al hacer clic en un link (evita que el menú quede abierto tras navegar)
+    // MANEJO DE CLICS EN LINKS
     document.querySelectorAll('.nav-desktop a').forEach(link => {
-        link.addEventListener('click', () => {
-            menuToggle.click(); // Disparamos el mismo evento para que ejecute la animación de cierre
+        link.addEventListener('click', (e) => {
+            // SOLO si el menú está desplegado (is-active), ejecutamos el cierre animado
+            if (navMenu.classList.contains('is-active')) {
+                cerrarNavDesplegable();
+                // El scroll a la sección lo maneja el código de GSAP que ya tenés arriba
+            }
         });
     });
+
+    // Función reutilizable para cerrar
+    function cerrarNavDesplegable() {
+        gsap.to(".nav-desktop li", {
+            x: 20,
+            opacity: 0,
+            duration: 0.4,
+            stagger: { each: 0.05, from: "end" },
+            ease: "power2.in",
+            onComplete: () => {
+                navMenu.classList.remove('is-active');
+                menuToggle.classList.remove('is-active');
+                if (navOverlay) navOverlay.classList.remove('is-active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+
+    // Cerrar al tocar el overlay
+    if (navOverlay) {
+        navOverlay.addEventListener('click', cerrarNavDesplegable);
+    }
 }
     
 
@@ -213,92 +225,94 @@ if (menuToggle && navMenu) {
     // ===================================================================================================== //
     // --- CONTADOR DINÁMICO ---
     // ===================================================================================================== //
-    async function initContador() {
-        try {
-            const config = await cargarConfiguracion();
-            if (!config) throw new Error('No hay configuración');
-            
-            const timerContainer = document.getElementById('timer');
-            const titleElement = document.getElementById('countdownTitle');
-            
-            const daysSpan = document.getElementById('days');
-            const hoursSpan = document.getElementById('hours');
-            const minutesSpan = document.getElementById('minutes');
-            const secondsSpan = document.getElementById('seconds');
-            
-            function setTimerVisible(visible) {
-                timerContainer.style.display = visible ? 'flex' : 'none';
+ async function initContador() {
+    try {
+        const config = await cargarConfiguracion();
+        if (!config) throw new Error('No hay configuración');
+        
+        const timerContainer = document.getElementById('timer');
+        const titleElement = document.getElementById('countdownTitle');
+        
+        const daysSpan = document.getElementById('days');
+        const hoursSpan = document.getElementById('hours');
+        const minutesSpan = document.getElementById('minutes');
+        const secondsSpan = document.getElementById('seconds');
+        
+        function setTimerVisible(visible) {
+            timerContainer.style.display = visible ? 'flex' : 'none';
+        }
+        
+        // Modificación: se cambió el <br> por un espacio
+        function setTitle(title, accentText = null) {
+            if (accentText) {
+                titleElement.innerHTML = `${title} <span class="accent-color">${accentText}</span>`;
+            } else {
+                titleElement.innerHTML = title;
             }
+        }
+        
+        // Verificar si hay fecha válida
+        if (!config.eventDate) {
+            setTimerVisible(false);
+            setTitle('PRÓXIMAMENTE', 'MUY PRONTO');
+            return;
+        }
+        
+        const startDate = new Date(config.eventDate).getTime();
+        const endDate = config.eventEndDate ? new Date(config.eventEndDate).getTime() : null;
+        
+        console.log('Fecha inicio:', new Date(startDate));
+        console.log('Fecha fin:', endDate ? new Date(endDate) : 'Sin fecha fin');
+        
+        function updateTimer() {
+            const now = new Date().getTime();
             
-            function setTitle(title, accentText = null) {
-                if (accentText) {
-                    titleElement.innerHTML = `${title}<br><span class="accent-color">${accentText}</span>`;
-                } else {
-                    titleElement.innerHTML = title;
-                }
-            }
-            
-            // Verificar si hay fecha válida
-            if (!config.eventDate) {
+            // Evento finalizado
+            if (endDate && now > endDate) {
                 setTimerVisible(false);
-                setTitle('PRÓXIMAMENTE', 'MUY PRONTO');
+                setTitle('MUY PRONTO,', 'NUEVA FECHA.');
                 return;
             }
             
-            const startDate = new Date(config.eventDate).getTime();
-            const endDate = config.eventEndDate ? new Date(config.eventEndDate).getTime() : null;
-            
-            console.log('Fecha inicio:', new Date(startDate));
-            console.log('Fecha fin:', endDate ? new Date(endDate) : 'Sin fecha fin');
-            
-            function updateTimer() {
-                const now = new Date().getTime();
-                
-                // Evento finalizado
-                if (endDate && now > endDate) {
-                    setTimerVisible(false);
-                    setTitle('PRÓXIMAMENTE', 'NUEVA FECHA PRONTO');
-                    return;
-                }
-                
-                // Evento ocurriendo ahora
-                if (now >= startDate && (!endDate || now <= endDate)) {
-                    setTimerVisible(false);
-                    setTitle('ESTÁ', 'OCURRIENDO AHORA');
-                    return;
-                }
-                
-                // Evento futuro - mostrar contador
-                setTimerVisible(true);
-                setTitle('¿LISTO PARA CREAR <br>TU PRÓXIMO', 'RECUERDO?');
-                
-                const distance = startDate - now;
-                if (distance <= 0) return;
-                
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
-                daysSpan.innerHTML = days.toString().padStart(2, '0');
-                hoursSpan.innerHTML = hours.toString().padStart(2, '0');
-                minutesSpan.innerHTML = minutes.toString().padStart(2, '0');
-                secondsSpan.innerHTML = seconds.toString().padStart(2, '0');
+            // Evento ocurriendo ahora
+            if (now >= startDate && (!endDate || now <= endDate)) {
+                setTimerVisible(false);
+                setTitle('ÁUREA', 'ESTÁ SUCEDIENDO!');
+                return;
             }
             
-            updateTimer();
-            setInterval(updateTimer, 1000);
+            // Evento futuro - mostrar contador
+            // Mantenemos el <br> inicial para el diseño pero el espacio para el acento
+            setTimerVisible(true);
+            setTitle('¿LISTO PARA CREAR <br>TU PRÓXIMO', 'RECUERDO?');
             
-        } catch (err) {
-            console.error("Error cargando contador:", err);
-            const timerContainer = document.getElementById('timer');
-            const titleElement = document.getElementById('countdownTitle');
-            if (timerContainer) timerContainer.style.display = 'none';
-            if (titleElement) {
-                titleElement.innerHTML = 'PRÓXIMAMENTE<br><span class="accent-color">MUY PRONTO</span>';
-            }
+            const distance = startDate - now;
+            if (distance <= 0) return;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            daysSpan.innerHTML = days.toString().padStart(2, '0');
+            hoursSpan.innerHTML = hours.toString().padStart(2, '0');
+            minutesSpan.innerHTML = minutes.toString().padStart(2, '0');
+            secondsSpan.innerHTML = seconds.toString().padStart(2, '0');
+        }
+        
+        updateTimer();
+        setInterval(updateTimer, 1000);
+        
+    } catch (err) {
+        console.error("Error cargando contador:", err);
+        const timerContainer = document.getElementById('timer');
+        const titleElement = document.getElementById('countdownTitle');
+        if (timerContainer) timerContainer.style.display = 'none';
+        if (titleElement) {
+            titleElement.innerHTML = 'PRÓXIMAMENTE<br><span class="accent-color">MUY PRONTO</span>';
         }
     }
+}
 
     // ===================================================================================================== //
     // --- LINK DEL DRIVE ---
