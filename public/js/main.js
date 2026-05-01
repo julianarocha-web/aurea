@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             preventDefault: true,
             onUp: () => !isAnimating && goToSection(currentIndex + 1), 
             onDown: () => !isAnimating && goToSection(currentIndex - 1),
-            ignore: ".no-scroll, .swiper, .simple-lightbox" 
+            ignore: ".no-scroll, .gallery, .simple-lightbox, .sl-overlay, .sl-wrapper"
         });
     }
 
@@ -235,43 +235,44 @@ snapContainer.addEventListener('scroll', () => {
         }
     }
 
-
     // --- GALERÍA DINÁMICA & LIGHTBOX---
     async function initGaleria() {
         try {
             const response = await fetch('/api/imagenes');
             const imagenes = await response.json();
             const gallery = document.querySelector('.gallery');
-
             const primeras6 = imagenes.slice(0, 6);
-
-
-            gallery.innerHTML = primeras6.map(foto => `
-                <div class="gallery-item">
-                    <a href="assets/img/fotos/${foto}">
+            
+            // Crear un array con todas las imágenes para el lightbox (pero solo mostrar las primeras 6)
+            const todasLasImagenesHTML = imagenes.map(foto => `
+                <div class="gallery-item" style="${imagenes.indexOf(foto) >= 6 ? 'display: none;' : ''}">
+                    <a href="assets/img/fotos/${foto}" data-lightbox="gallery" data-title="Galería Áurea">
                         <img src="assets/img/fotos/${foto}" alt="Galería Áurea" loading="lazy">
                     </a>
                 </div>
             `).join('');
-
-            const macy = Macy({
-                container: '.gallery',
-                margin: 15,
-                columns: 3,
-                breakAt: {
-                    1024: 2,
-                    600: 1
-                }
+            
+            // Insertar todas las imágenes en el DOM (las primeras 6 visibles, las demás ocultas)
+            gallery.innerHTML = todasLasImagenesHTML;
+            
+            // Configurar SimpleLightbox para que incluya TODAS las imágenes
+            const lightbox = new SimpleLightbox('.gallery-grid-wrapper .gallery a', {
+                loop: true,
+                captions: false,
+                fileExt: false
             });
-
-            macy.recalculate(true);
-
-            const lightbox = new SimpleLightbox('.gallery a', {
-                loop: true
-            });
-
+            
+            // Forzar a que el lightbox reconozca todos los enlaces
+            lightbox.refresh();
+            
         } catch (err) {
             console.error("Error cargando galería:", err);
+            
+            // Fallback: mostrar mensaje de error en la galería
+            const gallery = document.querySelector('.gallery');
+            if (gallery) {
+                gallery.innerHTML = '<div class="error-message">Error al cargar la galería. Por favor, intenta más tarde.</div>';
+            }
         }
     }
 
