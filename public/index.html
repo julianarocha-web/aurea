@@ -45,30 +45,26 @@
         <section id="countdown" class="snap-section">
             <div class="countdown-wrapper">
                 <div class="countdown-content">
-                    <h2>¿LISTO PARA CREAR <br>TU PRÓXIMO <span class="accent-color">RECUERDO</span>?</h2>
+                    <h2 id="countdownTitle">¿LISTO PARA CREAR <br>TU PRÓXIMO <span class="accent-color">RECUERDO</span>?</h2>
                     
                     <div class="timer" id="timer">
                         <div class="time-block">
-                            <span class="number">00</span>
+                            <span class="number" id="days">00</span>
                             <span class="label">DÍAS</span>
                         </div>
                         <div class="time-block">
-                            <span class="number">00</span>
+                            <span class="number" id="hours">00</span>
                             <span class="label">HORAS</span>
                         </div>
                         <div class="time-block">
-                            <span class="number">00</span>
+                            <span class="number" id="minutes">00</span>
                             <span class="label">MINUTOS</span>
                         </div>
                         <div class="time-block">
-                            <span class="number">00</span>
+                            <span class="number" id="seconds">00</span>
                             <span class="label">SEGUNDOS</span>
                         </div>
                     </div>
-
-                    <p id="comingSoon" style="display:none;">
-                    Próximamente...
-                    </p>
                 </div>
                 <div class="countdown-image">
                     <img src="assets/img/img-contador.webp" alt="Imagen de cuenta regresiva">
@@ -119,7 +115,7 @@
                             </svg>
                         </a>
 
-                        <!-- Caja de beneficios con el diseño de la imagen -->
+                    <!-- Caja de beneficios con el diseño de la imagen -->
                     <div class="benefits-card">
                         <div class="benefit-col">
                             <span class="material-symbols-outlined benefit-icon">confirmation_number</span>
@@ -245,6 +241,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Observer.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.0/simple-lightbox.min.js"></script>
+    <script src="js/googleConfig.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

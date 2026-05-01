@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - ÁUREA</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div id="loginContainer" class="container login-box">
+        <h1>🔐 Panel Admin</h1>
+        <div class="card">
+            <input type="password" id="password" placeholder="Contraseña" style="margin-bottom: 15px;">
+            <button onclick="login()">Ingresar</button>
+            <div id="loginError" class="error"></div>
+        </div>
+    </div>
+
+    <div id="adminContainer" style="display: none;">
+        <div class="container">
+            <h1>🎛️ Panel de Administración - ÁUREA</h1>
+            
+            <!-- Configuración General -->
+            <div class="card">
+                <h2>📅 Configuración del Evento</h2>
+                <div class="form-group">
+                    <label>Fecha de inicio</label>
+                    <input type="datetime-local" id="eventDate">
+                </div>
+                <div class="form-group">
+                    <label>Fecha de fin</label>
+                    <input type="datetime-local" id="eventEndDate">
+                </div>
+            </div>
+
+            <!-- Links -->
+            <div class="card">
+                <h2>🔗 Links</h2>
+                <div class="form-group">
+                    <label>Link del Drive (fotos)</label>
+                    <input type="url" id="driveLink" placeholder="https://drive.google.com/...">
+                </div>
+                <div class="form-group">
+                    <label>Link del mapa (opcional)</label>
+                    <input type="url" id="mapLink" placeholder="https://maps.app.goo.gl/...">
+                </div>
+                <div class="form-group">
+                    <label>Embed del mapa (código iframe)</label>
+                    <textarea id="mapEmbed" rows="3" placeholder='<iframe src="..."></iframe>'></textarea>
+                </div>
+            </div>
+
+            <!-- Galería -->
+            <div class="card">
+                <h2>🖼️ Galería de Imágenes</h2>
+                <div class="form-group">
+                    <label>Subir nueva imagen</label>
+                    <input type="file" id="newImage" accept="image/*">
+                    <button onclick="uploadImage()" style="margin-top: 10px;">Subir Imagen</button>
+                </div>
+                <div id="galleryList" class="image-list">
+                    <!-- Las imágenes se cargarán acá -->
+                </div>
+            </div>
+
+            <div class="card">
+                <button onclick="saveConfig()">💾 Guardar todos los cambios</button>
+                <div id="saveMessage" class="success"></div>
+            </div>
+            
+            <div class="card">
+                <button onclick="logout()" style="background: #333;">🚪 Cerrar sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

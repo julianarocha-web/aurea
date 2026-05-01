@@ -2,28 +2,26 @@
 gsap.registerPlugin(ScrollToPlugin, Observer);
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- 1. LÓGICA DE NAVEGACIÓN Y GSAP (Se mantiene igual) --- //
 
-    // VARIABLES GLOBALES DE NAVEGACIÓN
+    // ===================================================================================================== //
+    // --- LÓGICA DE NAVEGACIÓN Y GSAP ---
+    // ===================================================================================================== //
     const container = document.querySelector('.snap-container');
     const sections = gsap.utils.toArray(".snap-section");
     const navLinks = document.querySelectorAll('.nav-desktop a');
     let currentIndex = 0;
     let isAnimating = false;
 
-    // --- FUNCIÓN PARA IR A UNA SECCIÓN (GSAP)
+    // --- FUNCIÓN PARA IR A UNA SECCIÓN (GSAP) ---
     function goToSection(index) {
-        // Bloqueo si está animando o si el índice se sale de los límites
         if (index < 0 || index >= sections.length || isAnimating) return;
         isAnimating = true;
         currentIndex = index;
         
-        // Detectar si estamos en mobile o desktop
         const isMobile = window.innerWidth < 1024;
         let scrollTarget;
         
         if (isMobile) {
-            // En mobile, el scroll es sobre el body/html
             scrollTarget = sections[index].offsetTop;
             gsap.to(window, {
                 scrollTo: { y: scrollTarget, autoKill: false },
@@ -32,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 onComplete: () => { isAnimating = false; }
             });
         } else {
-            // En desktop, el scroll es sobre el container
             scrollTarget = sections[index].offsetTop;
             gsap.to(container, {
                 scrollTo: { y: scrollTarget, autoKill: false },
@@ -43,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- SOPORTE PARA TECLADO (Flechas arriba/abajo) ---
+    // --- SOPORTE PARA TECLADO ---
     window.addEventListener("keydown", (e) => {
         if (isAnimating) return;
         if (e.key === "ArrowDown" || e.key === "PageDown") {
@@ -62,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetIndex = sections.indexOf(targetSection);
 
             if (targetIndex !== -1) {
-                // Cerrar menú mobile si estuviera abierto
                 const navMenu = document.querySelector('.nav-desktop');
                 const menuToggle = document.querySelector('.menu-toggle');
                 if (navMenu && navMenu.classList.contains('is-active')) {
@@ -75,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- OBSERVADOR DE GSAP (Mouse, Trackpad y Touch) ---
+    // --- OBSERVADOR DE GSAP ---
     if (window.innerWidth >= 1024) {
         Observer.create({
             target: container,
@@ -89,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- INTERSECTION OBSERVER (Resaltar links activos) ---
+    // --- INTERSECTION OBSERVER ---
     const activeLinkObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -106,20 +102,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sections.forEach(section => activeLinkObserver.observe(section));
 
-
+    // --- HEADER SCROLL ---
     const header = document.querySelector('.main-header');
-const snapContainer = document.querySelector('.snap-container');
+    const snapContainer = document.querySelector('.snap-container');
+    snapContainer.addEventListener('scroll', () => {
+        if (snapContainer.scrollTop > 100) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
 
-snapContainer.addEventListener('scroll', () => {
-    // Si el scroll baja más de 50px (o la altura de tu hero), activa el modo compacto
-    if (snapContainer.scrollTop > 100) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
-    }
-});
-
+    // ===================================================================================================== //
     // --- MENÚ HAMBURGUESA ---
+    // ===================================================================================================== //
     const menuToggle = document.querySelector('.menu-toggle');
     const navMenu = document.querySelector('.nav-desktop');
 
@@ -131,7 +127,9 @@ snapContainer.addEventListener('scroll', () => {
         });
     }
 
-    // --- BOTÓN BACK TO TOP ---
+    // ===================================================================================================== //
+    // --- BOTÓN PARA VOLVER ARRIBA ---
+    // ===================================================================================================== //
     const backToTopBtn = document.getElementById('backToTop');
 
     const handleScroll = () => {
@@ -154,58 +152,88 @@ snapContainer.addEventListener('scroll', () => {
     if (container) container.addEventListener('scroll', handleScroll);
     window.addEventListener('scroll', handleScroll);
 
+    // ===================================================================================================== //
+    // --- CONFIGURACIÓN (API del servidor) ---
+    // ===================================================================================================== //
+    
+    let cachedConfig = null;
+    
+    async function cargarConfiguracion() {
+        try {
+            const response = await fetch('/api/config?t=' + Date.now());
+            if (!response.ok) throw new Error('Error al cargar config');
+            cachedConfig = await response.json();
+            console.log('Configuración cargada:', cachedConfig);
+            return cachedConfig;
+        } catch (err) {
+            console.error("Error cargando configuración:", err);
+            return null;
+        }
+    }
+
+    // ===================================================================================================== //
     // --- CONTADOR DINÁMICO ---
+    // ===================================================================================================== //
     async function initContador() {
         try {
-            const response = await fetch('/api/config');
-            const config = await response.json();
+            const config = await cargarConfiguracion();
+            if (!config) throw new Error('No hay configuración');
             
-            const timerElement = document.getElementById('timer');
-            const titleElement = document.querySelector('.countdown-content h2');
+            const timerContainer = document.getElementById('timer');
+            const titleElement = document.getElementById('countdownTitle');
             
-            // Caso 1: No hay fecha planificada
-            if (!config.eventDate || config.eventDate === null) {
-                if (timerElement) timerElement.style.display = 'none';
-                if (titleElement) {
-                    titleElement.innerHTML = 'PRÓXIMAMENTE<br><span class="accent-color">MUY PRONTO</span>';
+            const daysSpan = document.getElementById('days');
+            const hoursSpan = document.getElementById('hours');
+            const minutesSpan = document.getElementById('minutes');
+            const secondsSpan = document.getElementById('seconds');
+            
+            function setTimerVisible(visible) {
+                timerContainer.style.display = visible ? 'flex' : 'none';
+            }
+            
+            function setTitle(title, accentText = null) {
+                if (accentText) {
+                    titleElement.innerHTML = `${title}<br><span class="accent-color">${accentText}</span>`;
+                } else {
+                    titleElement.innerHTML = title;
                 }
+            }
+            
+            // Verificar si hay fecha válida
+            if (!config.eventDate) {
+                setTimerVisible(false);
+                setTitle('PRÓXIMAMENTE', 'MUY PRONTO');
                 return;
             }
             
             const startDate = new Date(config.eventDate).getTime();
             const endDate = config.eventEndDate ? new Date(config.eventEndDate).getTime() : null;
-            const now = new Date().getTime();
             
-            const updateTimer = () => {
+            console.log('Fecha inicio:', new Date(startDate));
+            console.log('Fecha fin:', endDate ? new Date(endDate) : 'Sin fecha fin');
+            
+            function updateTimer() {
                 const now = new Date().getTime();
-                const displayNumbers = document.querySelectorAll('.time-block .number');
                 
-                // Caso 2: Proximamente (si tiene endDate y ya pasó)
+                // Evento finalizado
                 if (endDate && now > endDate) {
-                    if (timerElement) timerElement.style.display = 'none';
-                    if (titleElement) {
-                        titleElement.innerHTML = 'PRÓXIMAMENTE<br><span class="accent-color">PROXIMAMENTE</span>';
-                    }
+                    setTimerVisible(false);
+                    setTitle('PRÓXIMAMENTE', 'NUEVA FECHA PRONTO');
                     return;
                 }
                 
-                // Caso 3: Evento ocurriendo ahora (startDate <= now <= endDate)
+                // Evento ocurriendo ahora
                 if (now >= startDate && (!endDate || now <= endDate)) {
-                    if (timerElement) timerElement.style.display = 'none';
-                    if (titleElement) {
-                        titleElement.innerHTML = 'ESTÁ<br><span class="accent-color">OCURRIENDO AHORA</span>';
-                    }
+                    setTimerVisible(false);
+                    setTitle('ESTÁ', 'OCURRIENDO AHORA');
                     return;
                 }
                 
-                // Caso 4: Evento futuro - mostrar contador
-                if (timerElement) timerElement.style.display = 'flex';
-                if (titleElement) {
-                    titleElement.innerHTML = '¿LISTO PARA CREAR <br>TU PRÓXIMO <span class="accent-color">RECUERDO</span>?';
-                }
+                // Evento futuro - mostrar contador
+                setTimerVisible(true);
+                setTitle('¿LISTO PARA CREAR <br>TU PRÓXIMO', 'RECUERDO?');
                 
                 const distance = startDate - now;
-                
                 if (distance <= 0) return;
                 
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -213,62 +241,161 @@ snapContainer.addEventListener('scroll', () => {
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
                 
-                const timeValues = [days, hours, minutes, seconds];
-                if (displayNumbers.length > 0) {
-                    displayNumbers.forEach((num, i) => {
-                        num.innerHTML = timeValues[i].toString().padStart(2, '0');
-                    });
-                }
-            };
+                daysSpan.innerHTML = days.toString().padStart(2, '0');
+                hoursSpan.innerHTML = hours.toString().padStart(2, '0');
+                minutesSpan.innerHTML = minutes.toString().padStart(2, '0');
+                secondsSpan.innerHTML = seconds.toString().padStart(2, '0');
+            }
             
-            setInterval(updateTimer, 1000);
             updateTimer();
+            setInterval(updateTimer, 1000);
             
         } catch (err) {
             console.error("Error cargando contador:", err);
-            const timerElement = document.getElementById('timer');
-            const titleElement = document.querySelector('.countdown-content h2');
-            if (timerElement) timerElement.style.display = 'none';
+            const timerContainer = document.getElementById('timer');
+            const titleElement = document.getElementById('countdownTitle');
+            if (timerContainer) timerContainer.style.display = 'none';
             if (titleElement) {
                 titleElement.innerHTML = 'PRÓXIMAMENTE<br><span class="accent-color">MUY PRONTO</span>';
             }
         }
     }
 
+    // ===================================================================================================== //
+    // --- LINK DEL DRIVE ---
+    // ===================================================================================================== //
+    async function configurarDrive() {
+        try {
+            const config = await cargarConfiguracion();
+            if (!config) return;
+            
+            const btnDrive = document.querySelector('.btn-gallery');
+            if (btnDrive && config.driveLink && config.driveLink !== '#') {
+                btnDrive.href = config.driveLink;
+                console.log('Link del Drive actualizado:', config.driveLink);
+            }
+        } catch (err) {
+            console.error("Error configurando Drive:", err);
+        }
+    }
+
+    // ===================================================================================================== //
+    // --- MAPA ---
+    // ===================================================================================================== //
+    async function initMap() {
+        try {
+            const config = await cargarConfiguracion();
+            if (!config) return;
+            
+            // Si hay un embed de mapa, usarlo
+            if (config.mapEmbed && config.mapEmbed.includes('iframe')) {
+                const srcMatch = config.mapEmbed.match(/src="([^"]+)"/);
+                if (srcMatch && srcMatch[1]) {
+                    const mapContainer = document.getElementById('mapDiv');
+                    if (mapContainer) {
+                        const iframe = document.createElement('iframe');
+                        iframe.src = srcMatch[1];
+                        iframe.width = '100%';
+                        iframe.height = '100%';
+                        iframe.style.border = '0';
+                        iframe.style.borderRadius = '8px';
+                        iframe.allowFullscreen = true;
+                        iframe.loading = 'lazy';
+                        iframe.title = 'Ubicación ÁUREA';
+                        
+                        mapContainer.parentNode.replaceChild(iframe, mapContainer);
+                        iframe.id = 'mapDiv';
+                        console.log('Mapa embed cargado');
+                        return;
+                    }
+                }
+            }
+            
+            // Si hay un link de mapa, usarlo
+            if (config.mapLink && config.mapLink !== '#') {
+                const mapContainer = document.getElementById('mapDiv');
+                if (mapContainer) {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyCmL18misQw9KdwqGaw3zHkitj8vG6QF2Y&q=${encodeURIComponent(config.mapLink)}`;
+                    iframe.width = '100%';
+                    iframe.height = '100%';
+                    iframe.style.border = '0';
+                    iframe.style.borderRadius = '8px';
+                    iframe.allowFullscreen = true;
+                    iframe.loading = 'lazy';
+                    
+                    mapContainer.parentNode.replaceChild(iframe, mapContainer);
+                    iframe.id = 'mapDiv';
+                    console.log('Mapa desde link cargado');
+                    return;
+                }
+            }
+            
+            // Fallback: coordenadas por defecto (Juan B. Justo 62)
+            if (typeof google !== 'undefined' && google.maps) {
+                const ubicacion = { lat: -34.582, lng: -58.433 };
+                const map = new google.maps.Map(document.getElementById("mapDiv"), {
+                    zoom: 15,
+                    center: ubicacion,
+                    styles: []
+                });
+                new google.maps.Marker({
+                    position: ubicacion,
+                    map: map,
+                    title: "ÁUREA",
+                });
+                console.log('Mapa con Google Maps API cargado');
+            } else {
+                console.warn('Google Maps no disponible');
+            }
+            
+        } catch (err) {
+            console.error("Error cargando mapa:", err);
+        }
+    }
+
+    // ===================================================================================================== //
     // --- GALERÍA DINÁMICA & LIGHTBOX---
+    // ===================================================================================================== //
     async function initGaleria() {
         try {
-            const response = await fetch('/api/imagenes');
+            const response = await fetch('/api/imagenes?t=' + Date.now());
             const imagenes = await response.json();
             const gallery = document.querySelector('.gallery');
-            const primeras6 = imagenes.slice(0, 6);
             
-            // Crear un array con todas las imágenes para el lightbox (pero solo mostrar las primeras 6)
-            const todasLasImagenesHTML = imagenes.map(foto => `
-                <div class="gallery-item" style="${imagenes.indexOf(foto) >= 6 ? 'display: none;' : ''}">
-                    <a href="assets/img/fotos/${foto}" data-lightbox="gallery" data-title="Galería Áurea">
-                        <img src="assets/img/fotos/${foto}" alt="Galería Áurea" loading="lazy">
+            if (!gallery) {
+                console.error('No se encontró el contenedor .gallery');
+                return;
+            }
+            
+            if (!imagenes || imagenes.length === 0) {
+                gallery.innerHTML = '<div class="error-message">No hay imágenes disponibles. Subí algunas desde el panel de administración.</div>';
+                return;
+            }
+            
+            // Crear todas las imágenes (mostrar primeras 6)
+            const todasLasImagenesHTML = imagenes.map((foto, index) => `
+                <div class="gallery-item" style="${index >= 6 ? 'display: none;' : ''}">
+                    <a href="/assets/img/fotos/${foto}" data-lightbox="gallery" data-title="Galería Áurea">
+                        <img src="/assets/img/fotos/${foto}" alt="Galería Áurea" loading="lazy">
                     </a>
                 </div>
             `).join('');
             
-            // Insertar todas las imágenes en el DOM (las primeras 6 visibles, las demás ocultas)
             gallery.innerHTML = todasLasImagenesHTML;
             
-            // Configurar SimpleLightbox para que incluya TODAS las imágenes
-            const lightbox = new SimpleLightbox('.gallery-grid-wrapper .gallery a', {
+            // Configurar SimpleLightbox
+            const lightbox = new SimpleLightbox('.gallery a', {
                 loop: true,
                 captions: false,
                 fileExt: false
             });
-            
-            // Forzar a que el lightbox reconozca todos los enlaces
             lightbox.refresh();
+            
+            console.log(`Galería cargada con ${imagenes.length} imágenes`);
             
         } catch (err) {
             console.error("Error cargando galería:", err);
-            
-            // Fallback: mostrar mensaje de error en la galería
             const gallery = document.querySelector('.gallery');
             if (gallery) {
                 gallery.innerHTML = '<div class="error-message">Error al cargar la galería. Por favor, intenta más tarde.</div>';
@@ -276,56 +403,28 @@ snapContainer.addEventListener('scroll', () => {
         }
     }
 
-    // --- Link del Drive dinámico ---
-    async function cargarConfiguracion() {
-    try {
-        const response = await fetch('/api/config');
-        const config = await response.json();
-
-        // 1. Configurar el link del Drive
-        const btnDrive = document.querySelector('.btn-gallery');
-        if (btnDrive && config.driveLink) {
-            btnDrive.href = config.driveLink;
-        }
-
-        // 2. Configurar el Contador (Tu lógica existente)
-        iniciarLogicaContador(config.eventDate);
-
-    } catch (err) {
-        console.error("Error cargando la configuración:", err);
-    }
-}
-
-    // Lanzamos las funciones dinámicas
-    initContador();
-    initGaleria();
-    cargarConfiguracion();
+    // ===================================================================================================== //
+    // --- INICIALIZACIÓN ---
+    // ===================================================================================================== //
     
-    // --- MAPA (Google Maps API) ---
-    function initMap() {
-    const ubicacion = { lat: -34.582, lng: -58.433 }; // Coordenadas de Juan B. Justo 62
-    const map = new google.maps.Map(document.getElementById("mapDiv"), {
-        zoom: 15,
-        center: ubicacion,
-        styles: []
-    });
-
-    const marker = new google.maps.Marker({
-        position: ubicacion,
-        map: map,
-        title: "ÁUREA",
-    });
-
-}
+    async function inicializarTodo() {
+        await cargarConfiguracion();
+        await initContador();
+        await configurarDrive();
+        await initMap();
+        await initGaleria();
+    }
+    
+    inicializarTodo();
 
 });
 
-
-
+// ===================================================================================================== //
+// --- ANIMACIONES DEL HERO ---
+// ===================================================================================================== //
 document.addEventListener('DOMContentLoaded', () => {
     const tl = gsap.timeline();
 
-    // 1. Aparece el Título (H1)
     tl.from(".text", {
         filter: "blur(20px)",
         opacity: 0,
@@ -333,17 +432,14 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 1.5,
         ease: "power2.out"
     })
-    // 2. Aparece la primera línea del P
     .from(".line1", {
         clipPath: "inset(0 100% 0 0)",
         duration: 1.1,
         ease: "power3.inOut"
-    }, "-=0.5") // Empieza un poquito antes de que termine el h1
-    // 3. Aparece la segunda línea del P
+    }, "-=0.5")
     .from(".line2", {
         clipPath: "inset(0 100% 0 0)",
         duration: 1.1,
         ease: "power3.inOut"
-    }, "-=0.4"); // Empieza un poquito antes de que termine la línea 1
+    }, "-=0.4");
 });
-
