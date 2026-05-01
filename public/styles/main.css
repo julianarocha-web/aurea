@@ -891,7 +891,6 @@ html, body {
     font-family: 'Montserrat', sans-serif;
     color: #ffffff;
     font-size: 1rem;
-    bottom: 20px;
 }
 
 /* Flechas */
@@ -955,6 +954,10 @@ html, body {
 
 .sl-wrapper .sl-navigation button:hover:after {
     border-color: #FFFFFF;
+}
+
+.sl-counter {
+    display: inline-block !important;
 }
 
 /* =============================================== */
@@ -1269,8 +1272,6 @@ html, body {
     justify-content: center;
     overflow: hidden;
 }
-
-
 
 #location .container {
     max-width: 100%;
