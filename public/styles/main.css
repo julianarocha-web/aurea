@@ -755,7 +755,7 @@ html, body {
 
     .countdown-content {
         width: 100%;
-        padding: 60px 20px 20px 20px;
+        padding: 20px 20px 20px 20px;
         align-items: center; 
         text-align: center;
         flex: 1; 
@@ -899,6 +899,7 @@ html, body {
     margin-top: 0;
     margin-bottom: 20px;
     line-height: 0.5;
+    width: 300px;
 }
 
 .gallery-description {
@@ -943,6 +944,10 @@ html, body {
 /* Contenedor de la galería (derecha) */
 /* =============================================== */
 
+/* =============================================== */
+/* Contenedor de la galería (derecha) */
+/* =============================================== */
+
 .gallery-grid-wrapper {
     width: 100%;
     margin: auto;
@@ -951,7 +956,7 @@ html, body {
 .gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 180px;
+    grid-auto-rows: 220px; /* Aumentado de 180px para dar más altura a los elementos[cite: 1] */
     padding-right: 150px;
     gap: 15px;
 }
@@ -974,6 +979,8 @@ html, body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Ajusta según la foto: top, bottom, left, right o porcentajes */
+    object-position: center 20%; 
     display: block;
     transition: transform 0.4s ease;
     pointer-events: none;
@@ -1107,6 +1114,28 @@ html, body {
 .sl-wrapper .sl-navigation button.sl-next:after {
     transform: rotate(45deg);
     margin-right: 4px;
+}
+
+
+/* =============================================== */
+/* AJUSTE PARA NOTEBOOKS / PANTALLAS PEQUEÑAS */
+/* =============================================== */
+
+@media (max-height: 800px) {
+    .gallery {
+        grid-auto-rows: 160px; /* Achicamos un poco las filas para que no desborde */
+        gap: 12px;
+    }
+    
+    .gallery-description-wrapper h3 {
+        font-size: 45px; /* Reducimos un poco el título también */
+    }
+
+    .gallery-description {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
 }
 
 /* Hover */
