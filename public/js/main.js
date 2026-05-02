@@ -116,67 +116,56 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================================================================== //
     // --- MENÚ HAMBURGUESA ---
     // ===================================================================================================== //
-// ===================================================================================================== //
-// --- MENÚ HAMBURGUESA ---
-// ===================================================================================================== //
-const menuToggle = document.querySelector('.menu-toggle');
-const navMenu = document.querySelector('.nav-desktop');
-const navOverlay = document.getElementById('nav-overlay');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('.nav-desktop');
+    const navOverlay = document.getElementById('nav-overlay');
 
-if (menuToggle && navMenu) {
-    menuToggle.addEventListener('click', () => {
-        const isActive = navMenu.classList.toggle('is-active');
-        menuToggle.classList.toggle('is-active');
-        
-        if (navOverlay) navOverlay.classList.toggle('is-active');
+    if (menuToggle && navMenu) {
+        menuToggle.addEventListener('click', () => {
+            const isActive = navMenu.classList.toggle('is-active');
+            menuToggle.classList.toggle('is-active');
+            
+            if (navOverlay) navOverlay.classList.toggle('is-active');
 
-        if (isActive) {
-            // --- APERTURA (Bloqueo y animación) ---
-            document.body.style.overflow = 'hidden';
-            gsap.fromTo(".nav-desktop.is-active li", 
-                { x: -30, opacity: 0 }, 
-                { x: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power4.out", delay: 0.2 }
-            );
-        } else {
-            // --- CIERRE MANUAL (Clic en hamburguesa o overlay) ---
-            cerrarNavDesplegable();
-        }
-    });
-
-    // MANEJO DE CLICS EN LINKS
-    document.querySelectorAll('.nav-desktop a').forEach(link => {
-        link.addEventListener('click', (e) => {
-            // SOLO si el menú está desplegado (is-active), ejecutamos el cierre animado
-            if (navMenu.classList.contains('is-active')) {
+            if (isActive) {
+                document.body.style.overflow = 'hidden';
+                gsap.fromTo(".nav-desktop.is-active li", 
+                    { x: -30, opacity: 0 }, 
+                    { x: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power4.out", delay: 0.2 }
+                );
+            } else {
                 cerrarNavDesplegable();
-                // El scroll a la sección lo maneja el código de GSAP que ya tenés arriba
             }
         });
-    });
 
-    // Función reutilizable para cerrar
-    function cerrarNavDesplegable() {
-        gsap.to(".nav-desktop li", {
-            x: 20,
-            opacity: 0,
-            duration: 0.4,
-            stagger: { each: 0.05, from: "end" },
-            ease: "power2.in",
-            onComplete: () => {
-                navMenu.classList.remove('is-active');
-                menuToggle.classList.remove('is-active');
-                if (navOverlay) navOverlay.classList.remove('is-active');
-                document.body.style.overflow = '';
-            }
+        document.querySelectorAll('.nav-desktop a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navMenu.classList.contains('is-active')) {
+                    cerrarNavDesplegable();
+                }
+            });
         });
-    }
 
-    // Cerrar al tocar el overlay
-    if (navOverlay) {
-        navOverlay.addEventListener('click', cerrarNavDesplegable);
+        function cerrarNavDesplegable() {
+            gsap.to(".nav-desktop li", {
+                x: 20,
+                opacity: 0,
+                duration: 0.4,
+                stagger: { each: 0.05, from: "end" },
+                ease: "power2.in",
+                onComplete: () => {
+                    navMenu.classList.remove('is-active');
+                    menuToggle.classList.remove('is-active');
+                    if (navOverlay) navOverlay.classList.remove('is-active');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+
+        if (navOverlay) {
+            navOverlay.addEventListener('click', cerrarNavDesplegable);
+        }
     }
-}
-    
 
     // ===================================================================================================== //
     // --- BOTÓN PARA VOLVER ARRIBA ---
@@ -215,6 +204,10 @@ if (menuToggle && navMenu) {
             if (!response.ok) throw new Error('Error al cargar config');
             cachedConfig = await response.json();
             console.log('Configuración cargada:', cachedConfig);
+            
+            // Actualizar información de ubicación en la UI
+            updateLocationInfo(cachedConfig);
+            
             return cachedConfig;
         } catch (err) {
             console.error("Error cargando configuración:", err);
@@ -225,94 +218,85 @@ if (menuToggle && navMenu) {
     // ===================================================================================================== //
     // --- CONTADOR DINÁMICO ---
     // ===================================================================================================== //
- async function initContador() {
-    try {
-        const config = await cargarConfiguracion();
-        if (!config) throw new Error('No hay configuración');
-        
-        const timerContainer = document.getElementById('timer');
-        const titleElement = document.getElementById('countdownTitle');
-        
-        const daysSpan = document.getElementById('days');
-        const hoursSpan = document.getElementById('hours');
-        const minutesSpan = document.getElementById('minutes');
-        const secondsSpan = document.getElementById('seconds');
-        
-        function setTimerVisible(visible) {
-            timerContainer.style.display = visible ? 'flex' : 'none';
-        }
-        
-        // Modificación: se cambió el <br> por un espacio
-        function setTitle(title, accentText = null) {
-            if (accentText) {
-                titleElement.innerHTML = `${title} <span class="accent-color">${accentText}</span>`;
-            } else {
-                titleElement.innerHTML = title;
-            }
-        }
-        
-        // Verificar si hay fecha válida
-        if (!config.eventDate) {
-            setTimerVisible(false);
-            setTitle('PRÓXIMAMENTE', 'MUY PRONTO');
-            return;
-        }
-        
-        const startDate = new Date(config.eventDate).getTime();
-        const endDate = config.eventEndDate ? new Date(config.eventEndDate).getTime() : null;
-        
-        console.log('Fecha inicio:', new Date(startDate));
-        console.log('Fecha fin:', endDate ? new Date(endDate) : 'Sin fecha fin');
-        
-        function updateTimer() {
-            const now = new Date().getTime();
+    async function initContador() {
+        try {
+            const config = await cargarConfiguracion();
+            if (!config) throw new Error('No hay configuración');
             
-            // Evento finalizado
-            if (endDate && now > endDate) {
+            const timerContainer = document.getElementById('timer');
+            const titleElement = document.getElementById('countdownTitle');
+            
+            const daysSpan = document.getElementById('days');
+            const hoursSpan = document.getElementById('hours');
+            const minutesSpan = document.getElementById('minutes');
+            const secondsSpan = document.getElementById('seconds');
+            
+            function setTimerVisible(visible) {
+                timerContainer.style.display = visible ? 'flex' : 'none';
+            }
+            
+            function setTitle(title, accentText = null) {
+                if (accentText) {
+                    titleElement.innerHTML = `${title} <span class="accent-color">${accentText}</span>`;
+                } else {
+                    titleElement.innerHTML = title;
+                }
+            }
+            
+            if (!config.eventDate) {
                 setTimerVisible(false);
-                setTitle('MUY PRONTO,', 'NUEVA FECHA.');
+                setTitle('PRÓXIMAMENTE', 'MUY PRONTO');
                 return;
             }
             
-            // Evento ocurriendo ahora
-            if (now >= startDate && (!endDate || now <= endDate)) {
-                setTimerVisible(false);
-                setTitle('ÁUREA', 'ESTÁ SUCEDIENDO!');
-                return;
+            const startDate = new Date(config.eventDate).getTime();
+            const endDate = config.eventEndDate ? new Date(config.eventEndDate).getTime() : null;
+            
+            function updateTimer() {
+                const now = new Date().getTime();
+                
+                if (endDate && now > endDate) {
+                    setTimerVisible(false);
+                    setTitle('MUY PRONTO,', 'NUEVA FECHA.');
+                    return;
+                }
+                
+                if (now >= startDate && (!endDate || now <= endDate)) {
+                    setTimerVisible(false);
+                    setTitle('ÁUREA', 'ESTÁ SUCEDIENDO!');
+                    return;
+                }
+                
+                setTimerVisible(true);
+                setTitle('¿LISTO PARA CREAR <br>TU PRÓXIMO', 'RECUERDO?');
+                
+                const distance = startDate - now;
+                if (distance <= 0) return;
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                daysSpan.innerHTML = days.toString().padStart(2, '0');
+                hoursSpan.innerHTML = hours.toString().padStart(2, '0');
+                minutesSpan.innerHTML = minutes.toString().padStart(2, '0');
+                secondsSpan.innerHTML = seconds.toString().padStart(2, '0');
             }
             
-            // Evento futuro - mostrar contador
-            // Mantenemos el <br> inicial para el diseño pero el espacio para el acento
-            setTimerVisible(true);
-            setTitle('¿LISTO PARA CREAR <br>TU PRÓXIMO', 'RECUERDO?');
+            updateTimer();
+            setInterval(updateTimer, 1000);
             
-            const distance = startDate - now;
-            if (distance <= 0) return;
-            
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            daysSpan.innerHTML = days.toString().padStart(2, '0');
-            hoursSpan.innerHTML = hours.toString().padStart(2, '0');
-            minutesSpan.innerHTML = minutes.toString().padStart(2, '0');
-            secondsSpan.innerHTML = seconds.toString().padStart(2, '0');
-        }
-        
-        updateTimer();
-        setInterval(updateTimer, 1000);
-        
-    } catch (err) {
-        console.error("Error cargando contador:", err);
-        const timerContainer = document.getElementById('timer');
-        const titleElement = document.getElementById('countdownTitle');
-        if (timerContainer) timerContainer.style.display = 'none';
-        if (titleElement) {
-            titleElement.innerHTML = 'PRÓXIMAMENTE<br><span class="accent-color">MUY PRONTO</span>';
+        } catch (err) {
+            console.error("Error cargando contador:", err);
+            const timerContainer = document.getElementById('timer');
+            const titleElement = document.getElementById('countdownTitle');
+            if (timerContainer) timerContainer.style.display = 'none';
+            if (titleElement) {
+                titleElement.innerHTML = 'PRÓXIMAMENTE<br><span class="accent-color">MUY PRONTO</span>';
+            }
         }
     }
-}
 
     // ===================================================================================================== //
     // --- LINK DEL DRIVE ---
@@ -333,6 +317,23 @@ if (menuToggle && navMenu) {
     }
 
     // ===================================================================================================== //
+    // --- ACTUALIZAR INFORMACIÓN DE UBICACIÓN ---
+    // ===================================================================================================== //
+    function updateLocationInfo(config) {
+        if (!config) return;
+        
+        const addressSpan = document.querySelector('.detail-block .text span');
+        if (addressSpan && config.eventAddress) {
+            addressSpan.innerHTML = config.eventAddress.replace(/\n/g, '<br>');
+        }
+        
+        const stationsSpan = document.querySelectorAll('.detail-block .text span')[1];
+        if (stationsSpan && config.nearbyStations) {
+            stationsSpan.innerHTML = config.nearbyStations.split(',').map(s => s.trim()).join(', ');
+        }
+    }
+
+    // ===================================================================================================== //
     // --- MAPA ---
     // ===================================================================================================== //
     async function initMap() {
@@ -340,67 +341,38 @@ if (menuToggle && navMenu) {
             const config = await cargarConfiguracion();
             if (!config) return;
             
-            // Si hay un embed de mapa, usarlo
-            if (config.mapEmbed && config.mapEmbed.includes('iframe')) {
-                const srcMatch = config.mapEmbed.match(/src="([^"]+)"/);
+            const mapContainer = document.querySelector('.map-box');
+            if (!mapContainer) return;
+            
+            let mapEmbed = config.mapEmbed;
+            let mapLink = config.mapLink;
+            
+            const currentIframe = mapContainer.querySelector('iframe');
+            if (currentIframe) {
+                const srcMatch = mapEmbed?.match(/src="([^"]+)"/);
                 if (srcMatch && srcMatch[1]) {
-                    const mapContainer = document.getElementById('mapDiv');
-                    if (mapContainer) {
-                        const iframe = document.createElement('iframe');
-                        iframe.src = srcMatch[1];
-                        iframe.width = '100%';
-                        iframe.height = '100%';
-                        iframe.style.border = '0';
-                        iframe.style.borderRadius = '8px';
-                        iframe.allowFullscreen = true;
-                        iframe.loading = 'lazy';
-                        iframe.title = 'Ubicación ÁUREA';
-                        
-                        mapContainer.parentNode.replaceChild(iframe, mapContainer);
-                        iframe.id = 'mapDiv';
-                        console.log('Mapa embed cargado');
-                        return;
+                    currentIframe.src = srcMatch[1];
+                } else if (mapEmbed) {
+                    mapContainer.innerHTML = mapEmbed;
+                }
+            } else if (mapEmbed) {
+                mapContainer.innerHTML = mapEmbed;
+            }
+            
+            const mapButton = document.querySelector('.btn-maps-cta');
+            if (mapButton && mapLink) {
+                mapButton.href = mapLink;
+            } else if (mapButton && !mapLink && mapEmbed) {
+                const srcMatch = mapEmbed.match(/src="([^"]+)"/);
+                if (srcMatch && srcMatch[1]) {
+                    const coordsMatch = srcMatch[1].match(/!3d([-\d.]+)!2d([-\d.]+)/);
+                    if (coordsMatch) {
+                        mapButton.href = `https://www.google.com/maps?q=${coordsMatch[1]},${coordsMatch[2]}`;
                     }
                 }
             }
             
-            // Si hay un link de mapa, usarlo
-            if (config.mapLink && config.mapLink !== '#') {
-                const mapContainer = document.getElementById('mapDiv');
-                if (mapContainer) {
-                    const iframe = document.createElement('iframe');
-                    iframe.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyCmL18misQw9KdwqGaw3zHkitj8vG6QF2Y&q=${encodeURIComponent(config.mapLink)}`;
-                    iframe.width = '100%';
-                    iframe.height = '100%';
-                    iframe.style.border = '0';
-                    iframe.style.borderRadius = '8px';
-                    iframe.allowFullscreen = true;
-                    iframe.loading = 'lazy';
-                    
-                    mapContainer.parentNode.replaceChild(iframe, mapContainer);
-                    iframe.id = 'mapDiv';
-                    console.log('Mapa desde link cargado');
-                    return;
-                }
-            }
-            
-            // Fallback: coordenadas por defecto (Juan B. Justo 62)
-            if (typeof google !== 'undefined' && google.maps) {
-                const ubicacion = { lat: -34.582, lng: -58.433 };
-                const map = new google.maps.Map(document.getElementById("mapDiv"), {
-                    zoom: 15,
-                    center: ubicacion,
-                    styles: []
-                });
-                new google.maps.Marker({
-                    position: ubicacion,
-                    map: map,
-                    title: "ÁUREA",
-                });
-                console.log('Mapa con Google Maps API cargado');
-            } else {
-                console.warn('Google Maps no disponible');
-            }
+            console.log('Mapa actualizado');
             
         } catch (err) {
             console.error("Error cargando mapa:", err);
@@ -408,7 +380,94 @@ if (menuToggle && navMenu) {
     }
 
     // ===================================================================================================== //
-    // --- GALERÍA DINÁMICA & LIGHTBOX---
+    // --- DETECTAR CAMBIOS EN LOCALSTORAGE (PANEL ADMIN) ---
+    // ===================================================================================================== //
+    function listenForMapUpdates() {
+        const savedEmbed = localStorage.getItem('mapEmbed');
+        const savedLink = localStorage.getItem('mapLink');
+        const eventAddress = localStorage.getItem('eventAddress');
+        const nearbyStations = localStorage.getItem('nearbyStations');
+        
+        if (savedEmbed) {
+            const mapContainer = document.querySelector('.map-box');
+            if (mapContainer) {
+                const currentIframe = mapContainer.querySelector('iframe');
+                if (currentIframe) {
+                    const srcMatch = savedEmbed.match(/src="([^"]+)"/);
+                    if (srcMatch && srcMatch[1]) {
+                        currentIframe.src = srcMatch[1];
+                    }
+                } else {
+                    mapContainer.innerHTML = savedEmbed;
+                }
+            }
+            
+            const mapButton = document.querySelector('.btn-maps-cta');
+            if (mapButton && savedLink) {
+                mapButton.href = savedLink;
+            }
+            
+            localStorage.removeItem('mapUpdated');
+            localStorage.removeItem('mapEmbed');
+            localStorage.removeItem('mapLink');
+        }
+        
+        if (eventAddress) {
+            const addressSpan = document.querySelector('.detail-block .text span');
+            if (addressSpan) {
+                addressSpan.innerHTML = eventAddress.replace(/\n/g, '<br>');
+            }
+            localStorage.removeItem('eventAddress');
+        }
+        
+        if (nearbyStations) {
+            const stationsSpan = document.querySelectorAll('.detail-block .text span')[1];
+            if (stationsSpan) {
+                stationsSpan.innerHTML = nearbyStations.split(',').map(s => s.trim()).join(', ');
+            }
+            localStorage.removeItem('nearbyStations');
+        }
+    }
+
+    window.addEventListener('storage', (event) => {
+        if (event.key === 'mapEmbed' && event.newValue) {
+            const mapContainer = document.querySelector('.map-box');
+            if (mapContainer) {
+                const currentIframe = mapContainer.querySelector('iframe');
+                if (currentIframe) {
+                    const srcMatch = event.newValue.match(/src="([^"]+)"/);
+                    if (srcMatch && srcMatch[1]) {
+                        currentIframe.src = srcMatch[1];
+                    }
+                } else {
+                    mapContainer.innerHTML = event.newValue;
+                }
+                console.log('Mapa actualizado automáticamente');
+            }
+        }
+        
+        if (event.key === 'mapLink' && event.newValue) {
+            const mapButton = document.querySelector('.btn-maps-cta');
+            if (mapButton) mapButton.href = event.newValue;
+        }
+        
+        if (event.key === 'eventAddress' && event.newValue) {
+            const addressSpan = document.querySelector('.detail-block .text span');
+            if (addressSpan) {
+                addressSpan.innerHTML = event.newValue.replace(/\n/g, '<br>');
+            }
+        }
+        
+        if (event.key === 'nearbyStations' && event.newValue) {
+            const stationsSpan = document.querySelectorAll('.detail-block .text span')[1];
+            if (stationsSpan) {
+                stationsSpan.innerHTML = event.newValue.split(',').map(s => s.trim()).join(', ');
+            }
+        }
+    });
+
+    // ===================================================================================================== //
+    // --- GALERÍA DINÁMICA ---
     // ===================================================================================================== //
     async function initGaleria() {
         try {
@@ -426,7 +485,6 @@ if (menuToggle && navMenu) {
                 return;
             }
             
-            // Crear todas las imágenes (mostrar primeras 6)
             const todasLasImagenesHTML = imagenes.map((foto, index) => `
                 <div class="gallery-item" style="${index >= 6 ? 'display: none;' : ''}">
                     <a href="/assets/img/fotos/${foto}" data-lightbox="gallery" data-title="Galería Áurea">
@@ -437,7 +495,6 @@ if (menuToggle && navMenu) {
             
             gallery.innerHTML = todasLasImagenesHTML;
             
-            // Configurar SimpleLightbox
             const lightbox = new SimpleLightbox('.gallery a', {
                 loop: true,
                 captions: false,
@@ -459,13 +516,13 @@ if (menuToggle && navMenu) {
     // ===================================================================================================== //
     // --- INICIALIZACIÓN ---
     // ===================================================================================================== //
-    
     async function inicializarTodo() {
         await cargarConfiguracion();
         await initContador();
         await configurarDrive();
         await initMap();
         await initGaleria();
+        listenForMapUpdates();
     }
     
     inicializarTodo();

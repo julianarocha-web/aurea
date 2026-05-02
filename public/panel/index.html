@@ -41,13 +41,31 @@
                     <input type="url" id="driveLink" placeholder="https://drive.google.com/...">
                 </div>
                 <div class="form-group">
-                    <label>Link del mapa (opcional)</label>
+                    <label>Link del mapa</label>
                     <input type="url" id="mapLink" placeholder="https://maps.app.goo.gl/...">
                 </div>
                 <div class="form-group">
-                    <label>Embed del mapa (código iframe)</label>
+                    <label>Embed del mapa</label>
                     <textarea id="mapEmbed" rows="3" placeholder='<iframe src="..."></iframe>'></textarea>
                 </div>
+            </div>
+
+            <!-- Configuración de Ubicación y Transporte -->
+            <div class="card">
+                <h2>📍 Información de Ubicación</h2>
+                
+                <div class="form-group">
+                    <label>🏠 Dirección del evento</label>
+                    <input type="text" id="eventAddress" placeholder="Ej: Ayacucho 920, Recoleta, CABA">
+                    <small class="hint">Dirección que se mostrará en la tarjeta de ubicación</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>🚆 Estaciones cercanas</label>
+                    <input type="text" id="nearbyStations" placeholder="Ej: Facultad de Medicina, Bulnes, Agüero">
+                    <small class="hint">Separá las estaciones por coma si hay varias</small>
+                </div>
+                
             </div>
 
             <!-- Galería -->

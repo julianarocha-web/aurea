@@ -38,15 +38,23 @@ async function loadConfig() {
         if (response.ok) {
             const config = await response.json();
             
+            // Fechas del evento
             if (config.eventDate) {
                 document.getElementById('eventDate').value = config.eventDate.replace(' ', 'T');
             }
             if (config.eventEndDate) {
                 document.getElementById('eventEndDate').value = config.eventEndDate.replace(' ', 'T');
             }
+            
+            // Links
             if (config.driveLink) document.getElementById('driveLink').value = config.driveLink;
             if (config.mapLink) document.getElementById('mapLink').value = config.mapLink;
             if (config.mapEmbed) document.getElementById('mapEmbed').value = config.mapEmbed;
+            
+            // 🔥 NUEVOS CAMPOS: Dirección y estaciones
+            if (config.eventAddress) document.getElementById('eventAddress').value = config.eventAddress;
+            if (config.nearbyStations) document.getElementById('nearbyStations').value = config.nearbyStations;
+            if (config.additionalTransport) document.getElementById('additionalTransport').value = config.additionalTransport;
         }
     } catch (err) {
         console.error('Error cargando config:', err);
@@ -54,14 +62,23 @@ async function loadConfig() {
     }
 }
 
+
 // Guardar configuración
 async function saveConfig() {
     const config = {
+        // Fechas
         eventDate: document.getElementById('eventDate').value?.replace('T', ' ') || null,
         eventEndDate: document.getElementById('eventEndDate').value?.replace('T', ' ') || null,
+        
+        // Links
         driveLink: document.getElementById('driveLink').value || null,
         mapLink: document.getElementById('mapLink').value || null,
-        mapEmbed: document.getElementById('mapEmbed').value || null
+        mapEmbed: document.getElementById('mapEmbed').value || null,
+        
+        // 🔥 NUEVOS CAMPOS: Dirección y estaciones
+        eventAddress: document.getElementById('eventAddress').value || null,
+        nearbyStations: document.getElementById('nearbyStations').value || null,
+        additionalTransport: document.getElementById('additionalTransport').value || null
     };
     
     try {
@@ -73,6 +90,13 @@ async function saveConfig() {
         
         if (response.ok) {
             showMessage('✅ Configuración guardada correctamente', 'success');
+            
+            // Notificar actualización a la página principal
+            localStorage.setItem('configUpdated', Date.now().toString());
+            localStorage.setItem('eventAddress', config.eventAddress);
+            localStorage.setItem('nearbyStations', config.nearbyStations);
+            localStorage.setItem('additionalTransport', config.additionalTransport);
+            
         } else {
             throw new Error('Error al guardar');
         }
