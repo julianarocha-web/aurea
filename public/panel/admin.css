@@ -68,3 +68,24 @@ button:hover { opacity: 0.8; transform: scale(1.02); }
     background: #ff4444;
 }
 .image-list { margin-top: 15px; }
+
+/* Estilos para los mensajes */
+.message {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.message.success {
+    background: rgba(0, 200, 81, 0.1);
+    border: 1px solid #00c851;
+    color: #00c851;
+}
+
+.message.error {
+    background: rgba(255, 68, 68, 0.1);
+    border: 1px solid #ff4444;
+    color: #ff4444;
+}

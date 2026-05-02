@@ -243,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
+            // Caso 1: Sin fecha configurada O evento ya terminó
             if (!config.eventDate) {
                 setTimerVisible(false);
                 setTitle('PRÓXIMAMENTE', 'MUY PRONTO');
@@ -251,41 +252,38 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const startDate = new Date(config.eventDate).getTime();
             const endDate = config.eventEndDate ? new Date(config.eventEndDate).getTime() : null;
+            const now = new Date().getTime();
             
-            function updateTimer() {
-                const now = new Date().getTime();
-                
-                if (endDate && now > endDate) {
-                    setTimerVisible(false);
-                    setTitle('MUY PRONTO,', 'NUEVA FECHA.');
-                    return;
-                }
-                
-                if (now >= startDate && (!endDate || now <= endDate)) {
-                    setTimerVisible(false);
-                    setTitle('ÁUREA', 'ESTÁ SUCEDIENDO!');
-                    return;
-                }
-                
-                setTimerVisible(true);
-                setTitle('¿LISTO PARA CREAR <br>TU PRÓXIMO', 'RECUERDO?');
-                
-                const distance = startDate - now;
-                if (distance <= 0) return;
-                
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
-                daysSpan.innerHTML = days.toString().padStart(2, '0');
-                hoursSpan.innerHTML = hours.toString().padStart(2, '0');
-                minutesSpan.innerHTML = minutes.toString().padStart(2, '0');
-                secondsSpan.innerHTML = seconds.toString().padStart(2, '0');
+            // Caso 2: Evento ya terminó (después de la fecha de fin)
+            if (endDate && now > endDate) {
+                setTimerVisible(false);
+                setTitle('PRÓXIMAMENTE', 'MUY PRONTO');
+                return;
             }
             
-            updateTimer();
-            setInterval(updateTimer, 1000);
+            // Caso 3: Evento ocurriendo ahora (entre fecha inicio y fecha fin)
+            if (now >= startDate && (!endDate || now <= endDate)) {
+                setTimerVisible(false);
+                setTitle('¡ÁUREA', 'ESTÁ SUCEDIENDO AHORA!');
+                return;
+            }
+            
+            // Caso 4: Evento futuro (falta tiempo)
+            setTimerVisible(true);
+            setTitle('¿LISTO PARA CREAR <br>TU PRÓXIMO', 'RECUERDO?');
+            
+            const distance = startDate - now;
+            if (distance <= 0) return;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            daysSpan.innerHTML = days.toString().padStart(2, '0');
+            hoursSpan.innerHTML = hours.toString().padStart(2, '0');
+            minutesSpan.innerHTML = minutes.toString().padStart(2, '0');
+            secondsSpan.innerHTML = seconds.toString().padStart(2, '0');
             
         } catch (err) {
             console.error("Error cargando contador:", err);
@@ -347,6 +345,21 @@ document.addEventListener('DOMContentLoaded', () => {
             let mapEmbed = config.mapEmbed;
             let mapLink = config.mapLink;
             
+            // Si no hay configuración, mostrar mapa de "próximamente"
+            if (!mapEmbed && !mapLink) {
+                // Mostrar un mapa genérico de CABA
+                const defaultEmbed = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016887216314!2d-58.383759!3d-34.603734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4aa9f0a6da5edb%3A0x11bead4e234e558b!2sBuenos%20Aires!5e0!3m2!1ses!2sar!4v1" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>';
+                
+                mapContainer.innerHTML = defaultEmbed;
+                
+                const mapButton = document.querySelector('.btn-maps-cta');
+                if (mapButton) {
+                    mapButton.href = 'https://maps.app.goo.gl/VpnPPxKHhMMuiDXF8';
+                }
+                return;
+            }
+            
+            // Resto del código normal...
             const currentIframe = mapContainer.querySelector('iframe');
             if (currentIframe) {
                 const srcMatch = mapEmbed?.match(/src="([^"]+)"/);
@@ -362,17 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const mapButton = document.querySelector('.btn-maps-cta');
             if (mapButton && mapLink) {
                 mapButton.href = mapLink;
-            } else if (mapButton && !mapLink && mapEmbed) {
-                const srcMatch = mapEmbed.match(/src="([^"]+)"/);
-                if (srcMatch && srcMatch[1]) {
-                    const coordsMatch = srcMatch[1].match(/!3d([-\d.]+)!2d([-\d.]+)/);
-                    if (coordsMatch) {
-                        mapButton.href = `https://www.google.com/maps?q=${coordsMatch[1]},${coordsMatch[2]}`;
-                    }
-                }
             }
-            
-            console.log('Mapa actualizado');
             
         } catch (err) {
             console.error("Error cargando mapa:", err);

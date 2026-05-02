@@ -66,20 +66,25 @@ async function loadConfig() {
 // Guardar configuración
 async function saveConfig() {
     const config = {
-        // Fechas
         eventDate: document.getElementById('eventDate').value?.replace('T', ' ') || null,
         eventEndDate: document.getElementById('eventEndDate').value?.replace('T', ' ') || null,
-        
-        // Links
         driveLink: document.getElementById('driveLink').value || null,
         mapLink: document.getElementById('mapLink').value || null,
         mapEmbed: document.getElementById('mapEmbed').value || null,
-        
-        // 🔥 NUEVOS CAMPOS: Dirección y estaciones
         eventAddress: document.getElementById('eventAddress').value || null,
-        nearbyStations: document.getElementById('nearbyStations').value || null,
-        additionalTransport: document.getElementById('additionalTransport').value || null
+        nearbyStations: document.getElementById('nearbyStations').value || null
     };
+    
+    // Validar que haya al menos un campo completo
+    if (!config.eventDate && !config.driveLink && !config.mapLink && !config.eventAddress) {
+        showMessage('⚠️ Completá al menos un campo antes de guardar', 'error');
+        return;
+    }
+    
+    const saveBtn = event.target;
+    const originalText = saveBtn.innerText;
+    saveBtn.innerText = '💾 Guardando...';
+    saveBtn.disabled = true;
     
     try {
         const response = await fetch(`${API_BASE}/api/config/save`, {
@@ -91,18 +96,28 @@ async function saveConfig() {
         if (response.ok) {
             showMessage('✅ Configuración guardada correctamente', 'success');
             
-            // Notificar actualización a la página principal
+            // Notificar a la página principal
             localStorage.setItem('configUpdated', Date.now().toString());
-            localStorage.setItem('eventAddress', config.eventAddress);
-            localStorage.setItem('nearbyStations', config.nearbyStations);
-            localStorage.setItem('additionalTransport', config.additionalTransport);
+            if (config.mapEmbed) localStorage.setItem('mapEmbed', config.mapEmbed);
+            if (config.mapLink) localStorage.setItem('mapLink', config.mapLink);
+            if (config.eventAddress) localStorage.setItem('eventAddress', config.eventAddress);
+            if (config.nearbyStations) localStorage.setItem('nearbyStations', config.nearbyStations);
+            
+            // Recargar la configuración mostrada
+            setTimeout(() => {
+                loadConfig();
+            }, 500);
             
         } else {
-            throw new Error('Error al guardar');
+            const error = await response.text();
+            throw new Error(error || 'Error al guardar');
         }
     } catch (err) {
         console.error('Error:', err);
-        showMessage('❌ Error al guardar configuración', 'error');
+        showMessage('❌ Error al guardar configuración: ' + err.message, 'error');
+    } finally {
+        saveBtn.innerText = originalText;
+        saveBtn.disabled = false;
     }
 }
 
@@ -208,10 +223,21 @@ async function deleteImage(filename) {
 // Mostrar mensaje temporal
 function showMessage(msg, type) {
     const messageDiv = document.getElementById('saveMessage');
+    if (!messageDiv) {
+        console.log('Mensaje:', msg);
+        return;
+    }
+    
     messageDiv.innerText = msg;
-    messageDiv.className = type === 'error' ? 'error' : 'success';
+    messageDiv.className = 'message ' + type;
+    messageDiv.style.display = 'block';
+    
     setTimeout(() => {
-        messageDiv.innerText = '';
-        messageDiv.className = '';
+        messageDiv.style.opacity = '0';
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+            messageDiv.style.opacity = '1';
+            messageDiv.className = 'message';
+        }, 300);
     }, 3000);
 }
