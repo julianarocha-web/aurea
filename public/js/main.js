@@ -166,8 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
             navOverlay.addEventListener('click', cerrarNavDesplegable);
         }
     }
-} 
-    
 
     // ===================================================================================================== //
     // --- BOTÓN PARA VOLVER ARRIBA ---
