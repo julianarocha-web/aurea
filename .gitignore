@@ -1,1 +1,13 @@
-node_modules
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# Dependencias
+node_modules/
+
+# Configuración sensible
+config.json
+
+# Archivos subidos
+uploads/
