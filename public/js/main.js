@@ -433,15 +433,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderLocationCard();
 
+        applyLocationTexts(config.eventAddress || '', config.nearbyStations || '');
+    }
+
+    function applyLocationTexts(eventAddress = '', nearbyStations = '') {
         const locationSpans = document.querySelectorAll('.map-details .detail-block .text span');
         const addressSpan = locationSpans[0];
-        if (addressSpan && config.eventAddress) {
-            addressSpan.innerHTML = config.eventAddress.replace(/\n/g, '<br>');
+        const stationsSpan = locationSpans[1];
+
+        if (addressSpan) {
+            addressSpan.innerHTML = eventAddress ? eventAddress.replace(/\n/g, '<br>') : '';
         }
 
-        const stationsSpan = locationSpans[1];
-        if (stationsSpan && config.nearbyStations) {
-            stationsSpan.innerHTML = config.nearbyStations.split(',').map(s => s.trim()).join(', ');
+        if (stationsSpan) {
+            stationsSpan.innerHTML = nearbyStations
+                ? nearbyStations.split(',').map(s => s.trim()).join(', ')
+                : '';
         }
     }
 
@@ -495,9 +502,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedLink = localStorage.getItem('mapLink');
         const eventAddress = localStorage.getItem('eventAddress');
         const nearbyStations = localStorage.getItem('nearbyStations');
-        
-        if (savedEmbed) {
+
+        const hasLocationTextUpdate = eventAddress !== null || nearbyStations !== null;
+
+        if (savedEmbed || savedLink || hasLocationTextUpdate) {
             renderLocationCard();
+        }
+
+        if (savedEmbed) {
             const mapContainer = document.querySelector('.map-box');
             if (mapContainer) {
                 const currentIframe = mapContainer.querySelector('iframe');
@@ -511,31 +523,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            const mapButton = document.querySelector('.btn-maps-cta');
-            if (mapButton && savedLink) {
-                mapButton.href = savedLink;
-            }
-            
             localStorage.removeItem('mapUpdated');
             localStorage.removeItem('mapEmbed');
+        }
+
+        if (savedLink) {
+            const mapButton = document.querySelector('.btn-maps-cta');
+            if (mapButton) {
+                mapButton.href = savedLink;
+            }
             localStorage.removeItem('mapLink');
         }
-        
-        if (eventAddress) {
-            renderLocationCard();
-            const addressSpan = document.querySelector('.map-details .detail-block .text span');
-            if (addressSpan) {
-                addressSpan.innerHTML = eventAddress.replace(/\n/g, '<br>');
-            }
+
+        if (hasLocationTextUpdate) {
+            applyLocationTexts(eventAddress || '', nearbyStations || '');
             localStorage.removeItem('eventAddress');
-        }
-        
-        if (nearbyStations) {
-            renderLocationCard();
-            const stationsSpan = document.querySelectorAll('.map-details .detail-block .text span')[1];
-            if (stationsSpan) {
-                stationsSpan.innerHTML = nearbyStations.split(',').map(s => s.trim()).join(', ');
-            }
             localStorage.removeItem('nearbyStations');
         }
     }
@@ -564,20 +566,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (mapButton) mapButton.href = event.newValue;
         }
         
-        if (event.key === 'eventAddress' && event.newValue) {
+        if (event.key === 'eventAddress' && event.newValue !== null) {
             renderLocationCard();
-            const addressSpan = document.querySelector('.map-details .detail-block .text span');
-            if (addressSpan) {
-                addressSpan.innerHTML = event.newValue.replace(/\n/g, '<br>');
-            }
+            applyLocationTexts(event.newValue, localStorage.getItem('nearbyStations') || '');
         }
         
-        if (event.key === 'nearbyStations' && event.newValue) {
+        if (event.key === 'nearbyStations' && event.newValue !== null) {
             renderLocationCard();
-            const stationsSpan = document.querySelectorAll('.map-details .detail-block .text span')[1];
-            if (stationsSpan) {
-                stationsSpan.innerHTML = event.newValue.split(',').map(s => s.trim()).join(', ');
-            }
+            applyLocationTexts(localStorage.getItem('eventAddress') || '', event.newValue);
         }
     });
 
