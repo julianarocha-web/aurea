@@ -218,6 +218,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================================================================== //
     // --- CONTADOR DINÁMICO ---
     // ===================================================================================================== //
+    let countdownIntervalId = null;
+
     async function initContador() {
         try {
             const config = await cargarConfiguracion();
@@ -230,6 +232,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const hoursSpan = document.getElementById('hours');
             const minutesSpan = document.getElementById('minutes');
             const secondsSpan = document.getElementById('seconds');
+
+            if (countdownIntervalId) {
+                clearInterval(countdownIntervalId);
+                countdownIntervalId = null;
+            }
             
             function setTimerVisible(visible) {
                 timerContainer.style.display = visible ? 'flex' : 'none';
@@ -252,38 +259,63 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const startDate = new Date(config.eventDate).getTime();
             const endDate = config.eventEndDate ? new Date(config.eventEndDate).getTime() : null;
-            const now = new Date().getTime();
-            
-            // Caso 2: Evento ya terminó (después de la fecha de fin)
-            if (endDate && now > endDate) {
-                setTimerVisible(false);
-                setTitle('NUEVA FECHA', 'MUY PRONTO.');
-                return;
+
+            if (Number.isNaN(startDate)) {
+                throw new Error('Fecha de inicio inválida en configuración');
             }
-            
-            // Caso 3: Evento ocurriendo ahora (entre fecha inicio y fecha fin)
-            if (now >= startDate && (!endDate || now <= endDate)) {
-                setTimerVisible(false);
-                setTitle('¡ÁUREA', 'ESTÁ SUCEDIENDO AHORA!');
-                return;
-            }
-            
-            // Caso 4: Evento futuro (falta tiempo)
-            setTimerVisible(true);
-            setTitle('¿LISTO PARA CREAR <br>TU PRÓXIMO', 'RECUERDO?');
-            
-            const distance = startDate - now;
-            if (distance <= 0) return;
-            
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            daysSpan.innerHTML = days.toString().padStart(2, '0');
-            hoursSpan.innerHTML = hours.toString().padStart(2, '0');
-            minutesSpan.innerHTML = minutes.toString().padStart(2, '0');
-            secondsSpan.innerHTML = seconds.toString().padStart(2, '0');
+
+            const updateCountdown = () => {
+                const now = Date.now();
+
+                // Caso 2: Evento ya terminó (después de la fecha de fin)
+                if (endDate && now > endDate) {
+                    setTimerVisible(false);
+                    setTitle('NUEVA FECHA', 'MUY PRONTO.');
+                    if (countdownIntervalId) {
+                        clearInterval(countdownIntervalId);
+                        countdownIntervalId = null;
+                    }
+                    return;
+                }
+
+                // Caso 3: Evento ocurriendo ahora (entre fecha inicio y fecha fin)
+                if (now >= startDate && (!endDate || now <= endDate)) {
+                    setTimerVisible(false);
+                    setTitle('¡ÁUREA', 'ESTÁ SUCEDIENDO AHORA!');
+                    if (countdownIntervalId) {
+                        clearInterval(countdownIntervalId);
+                        countdownIntervalId = null;
+                    }
+                    return;
+                }
+
+                // Caso 4: Evento futuro (falta tiempo)
+                setTimerVisible(true);
+                setTitle('¿LISTO PARA CREAR <br>TU PRÓXIMO', 'RECUERDO?');
+
+                const distance = startDate - now;
+
+                if (distance <= 0) {
+                    daysSpan.innerHTML = '00';
+                    hoursSpan.innerHTML = '00';
+                    minutesSpan.innerHTML = '00';
+                    secondsSpan.innerHTML = '00';
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                daysSpan.innerHTML = days.toString().padStart(2, '0');
+                hoursSpan.innerHTML = hours.toString().padStart(2, '0');
+                minutesSpan.innerHTML = minutes.toString().padStart(2, '0');
+                secondsSpan.innerHTML = seconds.toString().padStart(2, '0');
+            };
+
+            updateCountdown();
+            countdownIntervalId = setInterval(updateCountdown, 1000);
             
         } catch (err) {
             console.error("Error cargando contador:", err);
@@ -311,6 +343,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (err) {
             console.error("Error configurando Drive:", err);
+        }
+    }
+
+    // ===================================================================================================== //
+    // --- LINK DEL BOTÓN DE ENTRADAS ---
+    // ===================================================================================================== //
+    async function configurarEntradas() {
+        try {
+            const config = await cargarConfiguracion();
+            if (!config) return;
+
+            const btnTickets = document.querySelector('.btn-tickets-black');
+            if (btnTickets && config.ticketLink && config.ticketLink !== '#') {
+                btnTickets.href = config.ticketLink;
+                console.log('Link de entradas actualizado:', config.ticketLink);
+            }
+        } catch (err) {
+            console.error("Error configurando link de entradas:", err);
         }
     }
 
@@ -585,6 +635,7 @@ document.addEventListener('DOMContentLoaded', () => {
         await cargarConfiguracion();
         await initContador();
         await configurarDrive();
+        await configurarEntradas();
         await initMap();
         await initGaleria();
         listenForMapUpdates();

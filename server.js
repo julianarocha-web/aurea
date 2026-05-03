@@ -98,6 +98,7 @@ app.get('/api/config', (req, res) => {
         if (!fs.existsSync(configPath)) {
             const defaultConfig = {
                 driveLink: '#',
+                ticketLink: '#',
                 mapLink: '',
                 mapEmbed: '',
                 eventDate: null,
