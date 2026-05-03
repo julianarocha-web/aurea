@@ -519,11 +519,135 @@ html, body {
 }
 
 /* --- 5. SECCIÓN HERO Y TIPOGRAFÍA --- */
+/* Reemplaza o modifica tu estilo de #hero */
 #hero {
-    background-image: url('../assets/img/hero.webp');
+    position: relative;
+    overflow: hidden;
+    background-color: #101010; /* Color de respaldo */
+}
+
+/* Contenedor principal del slider */
+.hero-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Por debajo de los textos */
+}
+
+/* 1. Contenedor y Velo Oscuro */
+#hero {
+    position: relative;
+    overflow: hidden;
+    background-color: #101010;
+}
+
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(16, 16, 16, 0.5); /* Oscurecimiento permanente */
+    z-index: 2; /* Por encima de las fotos, debajo del texto */
+    pointer-events: none;
+}
+
+/* 2. Slider y Slides */
+.hero-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    opacity: 0;
+    transform: scale(1);
+    /* 12s total: 4s por cada una de las 3 imágenes */
+    animation: crossfade-kenburns 12s infinite; 
+}
+
+/* 3. Delays para 3 imágenes */
+.slide:nth-child(1) { animation-delay: 0s; }
+.slide:nth-child(2) { animation-delay: 4s; }
+.slide:nth-child(3) { animation-delay: 8s; }
+
+/* 4. Animación Combinada: Opacidad + Zoom */
+@keyframes crossfade-kenburns {
+    0% { 
+        opacity: 0; 
+        transform: scale(1); 
+    }
+    5% { 
+        opacity: 1; 
+    }
+    33% { 
+        opacity: 1; 
+        /* El zoom continúa mientras la imagen es visible */
+    }
+    40% { 
+        opacity: 0; 
+        transform: scale(1.1); /* Termina un poco más grande para el efecto premium */
+    }
+    100% { 
+        opacity: 0; 
+    }
+}
+
+/* 5. Asegurar que el texto resalte */
+#hero .container {
+    position: relative;
+    z-index: 3;
+}
+
+/* Asegurar que el container de textos esté por encima */
+#hero .container {
+    position: relative;
+    z-index: 2; /* Importante para que el texto sea legible */
+}
+
+/* Capa extra de contraste (opcional pero recomendada para legibilidad) */
+#hero::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.562); /* Oscurece un poco las fotos */
+    z-index: 1;
+}
+
+/* Creamos el overlay oscuro */
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Ajusta el 0.6 (60%) para más o menos oscuridad */
+    background-color: rgba(16, 16, 16, 0.452); 
+    z-index: 2; /* Por encima de los slides, por debajo del texto */
+    pointer-events: none; /* Para que no interfiera con clicks */
+}
+
+/* Ajustamos los Z-INDEX para que todo encaje */
+.hero-slider {
+    z-index: 1; /* El nivel más bajo (las fotos) */
+}
+
+#hero .container {
+    position: relative;
+    z-index: 3; /* El nivel más alto (los textos) */
 }
 
 .container h1, 

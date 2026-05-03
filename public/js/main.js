@@ -175,7 +175,7 @@ if (menuToggle && navMenu) {
     if (navOverlay) {
         navOverlay.addEventListener('click', cerrarNavDesplegable);
     }
-}
+} 
     
 
     // ===================================================================================================== //
