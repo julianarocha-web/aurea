@@ -6,22 +6,22 @@
     <title>ÁUREA</title>
 
     <!-- 1. ESTILOS CRÍTICOS (Bloqueo de parpadeo) -->
-<style>
-    html, body {
-        background-color: #101010 !important;
-        margin: 0; padding: 0;
-    }
-    /* Agregamos .text2 para que esté oculto desde el milisegundo cero */
-    .nav-desktop, h1.text, .text2, .material-symbols-outlined {
-        visibility: hidden; 
-    }
-    .main-header {
-        position: fixed; top: 0; left: 50%;
-        transform: translateX(-50%); width: 100%;
-        padding: 40px 0; z-index: 1000;
-        background: transparent;
-    }
-</style>
+    <style>
+        html, body {
+            background-color: #101010 !important;
+            margin: 0; padding: 0;
+        }
+        /* Agregamos .text2 para que esté oculto desde el milisegundo cero */
+        .nav-desktop, h1.text, .text2, .material-symbols-outlined {
+            visibility: hidden; 
+        }
+        .main-header {
+            position: fixed; top: 0; left: 50%;
+            transform: translateX(-50%); width: 100%;
+            padding: 40px 0; z-index: 1000;
+            background: transparent;
+        }
+    </style>
 
     <!-- 2. CONEXIONES Y PRELOADS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -217,32 +217,33 @@
                                 </div>
                                 
                                 <!-- Datos a la derecha de la tarjeta -->
-                                <div class="map-details">
-                                    <div class="detail-block">
-                                        <span class="material-symbols-outlined icon-circle">location_on</span>
-                                        <div class="text">
-                                            <strong>Dirección:</strong>
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                    <hr class="card-hr">
-                                    <div class="detail-block">
-                                        <span class="material-symbols-outlined icon-circle">train</span>
-                                        <div class="text">
-                                            <strong>Estaciones cercanas:</strong>
-                                            <span></span>
-                                        </div>
-                                    </div>
-                                    <hr class="card-hr">
-                                    <a href="https://maps.app.goo.gl/VpnPPxKHhMMuiDXF8" target="_blank" class="btn-maps-cta">
-                                        VER EN MAPS 
-                                        <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M5 12h14"></path>
-                                            <path d="m12 5 7 7-7 7"></path>
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
+ <div class="map-details">
+    <div class="detail-block">
+        <!-- Agregamos el nombre del icono 'location_on' dentro del span -->
+        <span class="material-symbols-outlined icon-circle">location_on</span>
+        <div class="text">
+            <strong>Dirección:</strong>
+            <span></span> <!-- El JS completará la dirección aquí[cite: 3] -->
+        </div>
+    </div>
+    <hr class="card-hr">
+    <div class="detail-block">
+        <!-- Agregamos el nombre del icono 'train' dentro del span[cite: 13] -->
+        <span class="material-symbols-outlined icon-circle">train</span>
+        <div class="text">
+            <strong>Estaciones cercanas:</strong>
+            <span></span> <!-- El JS completará las estaciones aquí[cite: 3] -->
+        </div>
+    </div>
+    <hr class="card-hr">
+    <a href="https://maps.app.goo.gl/VpnPPxKHhMMuiDXF8" target="_blank" class="btn-maps-cta">
+        VER EN MAPS 
+        <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+        </svg>
+    </a>
+</div>
                         </div>
 
                     </div>
@@ -255,9 +256,13 @@
                             <div class="footer-logo-container">
                                 <img src="assets/icons/ÁUREA.webp" alt="Áurea Logo" class="footer-logo-img">
                             </div>
-                            <p>DESIGNED BY 
-                                <span class="designer-name">Juliana Rocha</span> & 
-                                <span class="designer-name">Taiel Alen Nunes</span>
+                            <p>DESIGNED AND DEVELOPED BY 
+                                <a href="https://julianarocha-web.github.io/Portfolio/" target="_blank" class="designer-link">
+                                    <span class="designer-name">Juliana Rocha</span>
+                                </a> & 
+                                <a href="TU_LINK_DE_PORTFOLIO_AQUÍ" target="_blank" class="designer-link">
+                                    <span class="designer-name">Taiel Alen Nunes</span>
+                                </a>
                             </p>
                         </div>
                     </footer>

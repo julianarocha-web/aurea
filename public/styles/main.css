@@ -2202,6 +2202,24 @@ html, body {
     transform: scale(1.05); /* Efecto sutil al pasar el mouse */
 }
 
+/* Quita el subrayado y mantiene el color del link */
+.designer-link {
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+/* Efecto opcional para que se note que es clickeable */
+.designer-link:hover {
+    transform: translateY(-2px);
+}
+
+/* Asegura que el span interno mantenga el color naranja de Áurea */
+.designer-link .designer-name {
+    color: #FF6300;
+    font-weight: 500;
+}
+
 /* --- AJUSTE FOOTER MOBILE --- */
 @media (max-width: 1023px) {
     .mini-footer {

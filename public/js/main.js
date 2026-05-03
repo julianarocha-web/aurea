@@ -635,6 +635,10 @@ document.addEventListener('DOMContentLoaded', () => {
         await initMap();
         await initGaleria();
         listenForMapUpdates();
+
+        // AGREGAR ESTA LÍNEA AQUÍ: 
+        // Asegura que los iconos dinámicos se vuelvan visibles después de cargar todo
+        gsap.set(".nav-desktop, .material-symbols-outlined, .text2", { autoAlpha: 1 });
     }
     
     inicializarTodo();
