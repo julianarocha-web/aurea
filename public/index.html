@@ -4,14 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ÁUREA</title>
-    <!-- Fuentes -->
-    <style>@import url('https://fonts.googleapis.com/css2?family=Anton&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');</style>
-    <!-- SimpleLightbox -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplelightbox@2.14.3/dist/simple-lightbox.min.css">
-    <!-- Estilos -->
+
+    <!-- 1. ESTILOS CRÍTICOS (Bloqueo de parpadeo) -->
+<style>
+    html, body {
+        background-color: #101010 !important;
+        margin: 0; padding: 0;
+    }
+    /* Agregamos .text2 para que esté oculto desde el milisegundo cero */
+    .nav-desktop, h1.text, .text2, .material-symbols-outlined {
+        visibility: hidden; 
+    }
+    .main-header {
+        position: fixed; top: 0; left: 50%;
+        transform: translateX(-50%); width: 100%;
+        padding: 40px 0; z-index: 1000;
+        background: transparent;
+    }
+</style>
+
+    <!-- 2. CONEXIONES Y PRELOADS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="preload" href="styles/main.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Anton&family=Raleway:wght@100..900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" as="style">
+
+    <!-- 3. CARGA DE RECURSOS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Raleway:ital,wght@0,100..900;1,100..900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap">
     <link rel="stylesheet" href="styles/main.css">
-    <!-- Iconos Google -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplelightbox@2.14.3/dist/simple-lightbox.min.css">
 </head>
 <body>
     <header class="main-header" id="header">
@@ -36,7 +58,7 @@
  <section id="hero" class="snap-section">
     <!-- Contenedor del Carrusel de Fondo -->
     <div class="hero-slider">
-        <div class="slide" style="background-image: url('assets/img/hero/1.png');"></div>
+        <div class="slide" style="background-image: url('assets/img/hero/1.png');" fetchpriority="high"></div>
         <div class="slide" style="background-image: url('assets/img/hero/2.png');"></div>
         <div class="slide" style="background-image: url('assets/img/hero/3.png');"></div>
     </div>

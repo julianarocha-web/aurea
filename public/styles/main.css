@@ -1303,6 +1303,7 @@ html, body {
      .gallery-description-wrapper .font-accent {
         font-size: 38px;
         line-height: 0.6;
+        width: 100%;
     }
 
     .gallery-description {

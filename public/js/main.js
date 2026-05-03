@@ -648,24 +648,30 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===================================================================================================== //
 // --- ANIMACIONES DEL HERO ---
 // ===================================================================================================== //
+// main.js
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Solo hacemos visibles la navegación y los iconos
+    gsap.set(".nav-desktop, .material-symbols-outlined", { autoAlpha: 1 });
+
     const tl = gsap.timeline();
 
-    tl.from(".text", {
-        filter: "blur(20px)",
-        opacity: 0,
-        scale: 0.9,
-        duration: 1.5,
-        ease: "power2.out"
-    })
-    .from(".line1", {
-        clipPath: "inset(0 100% 0 0)",
-        duration: 1.1,
-        ease: "power3.inOut"
-    }, "-=0.5")
-    .from(".line2", {
-        clipPath: "inset(0 100% 0 0)",
-        duration: 1.1,
-        ease: "power3.inOut"
-    }, "-=0.4");
+    // 2. Animación del título principal
+    tl.fromTo(".text", 
+        { filter: "blur(20px)", autoAlpha: 0, scale: 0.9 }, 
+        { filter: "blur(0px)", autoAlpha: 1, scale: 1, duration: 1.5, ease: "power2.out" }
+    )
+    // 3. Animación de las líneas (aquí es donde se vuelven visibles)[cite: 9]
+    .fromTo(".line1", 
+        { autoAlpha: 0, clipPath: "inset(0 100% 0 0)" }, 
+        { autoAlpha: 1, clipPath: "inset(0 0% 0 0)", duration: 1.1, ease: "power3.inOut" }, 
+        "-=0.5"
+    )
+    .fromTo(".line2", 
+        { autoAlpha: 0, clipPath: "inset(0 100% 0 0)" }, 
+        { autoAlpha: 1, clipPath: "inset(0 0% 0 0)", duration: 1.1, ease: "power3.inOut" }, 
+        "-=0.4"
+    );
+    
+    // Al final, aseguramos que el contenedor padre sea visible por si acaso[cite: 9]
+    gsap.set(".text2", { autoAlpha: 1 });
 });
