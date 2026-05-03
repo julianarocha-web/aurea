@@ -2056,6 +2056,9 @@ html, body {
         width: 100%;
         max-width: 400px;
         padding: 10px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 244, 204, 0.2);
+    
     }
 
     .map-box {
@@ -2078,18 +2081,29 @@ html, body {
         margin: 0px;
     }
 
-    .icon-circle {
-        background-color: #FFF4CC !important;
-        color: #101010 !important;
+.icon-circle {
+        /* Cambiamos el fondo a negro y el borde a naranja como en desktop */
+        background-color: #101010 !important;
+        color: #FF6300 !important;
+        border: 1px solid #FF6300 !important;
         width: 55px !important;
         height: 55px !important;
         min-width: 55px;
         font-size: 26px !important;
-        border: none !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 50%;
     }
 
-    .detail-block strong { font-size: 17px; color: #FFF4CC; }
-    .detail-block span { font-size: 15px; color: #FFF4CC; opacity: 0.8; }
+    .detail-block strong { 
+        font-size: 17px; 
+        color: #FFF4CC; /* Color crema para los títulos */
+    }
+    .detail-block span { 
+        font-size: 15px; 
+        color: rgba(255, 255, 255, 0.8); /* Blanco tenue para el contenido[cite: 17] */
+    }
 
     .btn-maps-cta {
         width: 100%;
