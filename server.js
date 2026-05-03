@@ -13,7 +13,6 @@ const PORT = process.env.PORT || 3000;
 // ============================================================
 // 1. CONFIGURACIÓN DE SEGURIDAD DESDE VARIABLES DE ENTORNO
 // ============================================================
-// El token se lee desde el archivo .env
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
 
 // Verificar que el token exista al iniciar el servidor
@@ -21,7 +20,7 @@ if (!ADMIN_TOKEN) {
     console.error('\n❌ ERROR CRÍTICO: No se encontró ADMIN_TOKEN en las variables de entorno');
     console.error('📌 Creá un archivo .env en la raíz del proyecto con:');
     console.error('   ADMIN_TOKEN=tu_token_secreto_aqui\n');
-    process.exit(1); // Detiene el servidor si no hay token
+    process.exit(1);
 }
 
 // La contraseña del panel también desde variables de entorno

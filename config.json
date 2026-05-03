@@ -1,10 +1,10 @@
 {
-  "eventDate": null,
-  "eventEndDate": null,
-  "driveLink": null,
-  "mapLink": null,
-  "mapEmbed": null,
-  "eventAddress": null,
-  "nearbyStations": null,
-  "lastUpdate": null
+  "eventDate": "3001-01-01T14:02",
+  "eventEndDate": "3002-01-01T14:02",
+  "driveLink": "",
+  "mapLink": "",
+  "mapEmbed": "",
+  "eventAddress": "",
+  "nearbyStations": "",
+  "lastUpdate": "2026-05-03T04:35:20.351Z"
 }
