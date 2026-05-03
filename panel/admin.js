@@ -117,6 +117,7 @@ async function loadConfig() {
         const eventDate = document.getElementById('eventDate');
         const eventEndDate = document.getElementById('eventEndDate');
         const driveLink = document.getElementById('driveLink');
+        const ticketLink = document.getElementById('ticketLink');
         const mapLink = document.getElementById('mapLink');
         const mapEmbed = document.getElementById('mapEmbed');
         const eventAddress = document.getElementById('eventAddress');
@@ -125,6 +126,7 @@ async function loadConfig() {
         if (eventDate) eventDate.value = formatDateTimeLocal(config.eventDate);
         if (eventEndDate) eventEndDate.value = formatDateTimeLocal(config.eventEndDate);
         if (driveLink) driveLink.value = config.driveLink || '';
+        if (ticketLink) ticketLink.value = config.ticketLink || '';
         if (mapLink) mapLink.value = config.mapLink || '';
         if (mapEmbed) mapEmbed.value = config.mapEmbed || '';
         if (eventAddress) eventAddress.value = config.eventAddress || '';
@@ -152,6 +154,7 @@ async function saveConfig() {
             eventDate: document.getElementById('eventDate')?.value || null,
             eventEndDate: document.getElementById('eventEndDate')?.value || null,
             driveLink: document.getElementById('driveLink')?.value || '',
+            ticketLink: document.getElementById('ticketLink')?.value || '',
             mapLink: document.getElementById('mapLink')?.value || '',
             mapEmbed: document.getElementById('mapEmbed')?.value || '',
             eventAddress: document.getElementById('eventAddress')?.value || '',
