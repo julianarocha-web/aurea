@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Caso 2: Evento ya terminó (después de la fecha de fin)
             if (endDate && now > endDate) {
                 setTimerVisible(false);
-                setTitle('PRÓXIMAMENTE', 'MUY PRONTO');
+                setTitle('NUEVA FECHA', 'MUY PRONTO.');
                 return;
             }
             
