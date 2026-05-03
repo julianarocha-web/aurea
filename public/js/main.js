@@ -317,15 +317,79 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================================================================== //
     // --- ACTUALIZAR INFORMACIÓN DE UBICACIÓN ---
     // ===================================================================================================== //
+    function renderLocationEmptyState() {
+        const mapInfoCard = document.querySelector('.map-info-card');
+        if (!mapInfoCard) return;
+
+        mapInfoCard.classList.add('is-empty');
+
+        mapInfoCard.innerHTML = `
+            <div class="location-empty-state">
+                <span class="material-symbols-outlined empty-location-icon">location_off</span>
+                <strong>Aún no hay una ubicación disponible</strong>
+                <p>Cuando se cargue la dirección del evento, aparecerá aquí el mapa y los datos de acceso.</p>
+            </div>
+        `;
+    }
+
+    function renderLocationCard() {
+        const mapInfoCard = document.querySelector('.map-info-card');
+        if (!mapInfoCard) return;
+
+        mapInfoCard.classList.remove('is-empty');
+
+        mapInfoCard.innerHTML = `
+            <div class="map-box">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.2268939234914!2d-58.39876882339876!3d-34.598423657220145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcca95c8142b9d%3A0xc982da928d310457!2sAyacucho%20920%2C%20C1111AAD%20Cdad.%20Aut%C3%B3noma%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1777667624868!5m2!1ses!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
+            <div class="map-details">
+                <div class="detail-block">
+                    <span class="material-symbols-outlined icon-circle">location_on</span>
+                    <div class="text">
+                        <strong>Dirección:</strong>
+                        <span>Ayacucho 920, <br>Recoleta, CABA.</span>
+                    </div>
+                </div>
+                <hr class="card-hr">
+                <div class="detail-block">
+                    <span class="material-symbols-outlined icon-circle">train</span>
+                    <div class="text">
+                        <strong>Estaciones cercanas:</strong>
+                        <span>Facultad de Medicina.</span>
+                    </div>
+                </div>
+                <hr class="card-hr">
+                <a href="https://maps.app.goo.gl/VpnPPxKHhMMuiDXF8" target="_blank" class="btn-maps-cta">
+                    VER EN MAPS 
+                    <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14"></path>
+                        <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        `;
+    }
+
     function updateLocationInfo(config) {
         if (!config) return;
-        
-        const addressSpan = document.querySelector('.detail-block .text span');
+
+        const hasLocationData = Boolean(config.eventAddress || config.nearbyStations || config.mapEmbed || config.mapLink);
+
+        if (!hasLocationData) {
+            renderLocationEmptyState();
+            return;
+        }
+
+        renderLocationCard();
+
+        const locationSpans = document.querySelectorAll('.map-details .detail-block .text span');
+        const addressSpan = locationSpans[0];
         if (addressSpan && config.eventAddress) {
             addressSpan.innerHTML = config.eventAddress.replace(/\n/g, '<br>');
         }
-        
-        const stationsSpan = document.querySelectorAll('.detail-block .text span')[1];
+
+        const stationsSpan = locationSpans[1];
         if (stationsSpan && config.nearbyStations) {
             stationsSpan.innerHTML = config.nearbyStations.split(',').map(s => s.trim()).join(', ');
         }
@@ -338,43 +402,34 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const config = await cargarConfiguracion();
             if (!config) return;
-            
-            const mapContainer = document.querySelector('.map-box');
-            if (!mapContainer) return;
-            
-            let mapEmbed = config.mapEmbed;
-            let mapLink = config.mapLink;
-            
-            // Si no hay configuración, mostrar mapa de "próximamente"
-            if (!mapEmbed && !mapLink) {
-                // Mostrar un mapa genérico de CABA
-                const defaultEmbed = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016887216314!2d-58.383759!3d-34.603734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4aa9f0a6da5edb%3A0x11bead4e234e558b!2sBuenos%20Aires!5e0!3m2!1ses!2sar!4v1" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>';
-                
-                mapContainer.innerHTML = defaultEmbed;
-                
-                const mapButton = document.querySelector('.btn-maps-cta');
-                if (mapButton) {
-                    mapButton.href = 'https://maps.app.goo.gl/VpnPPxKHhMMuiDXF8';
-                }
+
+            const hasLocationData = Boolean(config.eventAddress || config.nearbyStations || config.mapEmbed || config.mapLink);
+
+            if (!hasLocationData) {
+                renderLocationEmptyState();
                 return;
             }
-            
-            // Resto del código normal...
+
+            renderLocationCard();
+
+            const mapContainer = document.querySelector('.map-box');
+            if (!mapContainer) return;
+
             const currentIframe = mapContainer.querySelector('iframe');
-            if (currentIframe) {
-                const srcMatch = mapEmbed?.match(/src="([^"]+)"/);
+            if (currentIframe && config.mapEmbed) {
+                const srcMatch = config.mapEmbed.match(/src="([^"]+)"/);
                 if (srcMatch && srcMatch[1]) {
                     currentIframe.src = srcMatch[1];
-                } else if (mapEmbed) {
-                    mapContainer.innerHTML = mapEmbed;
+                } else {
+                    mapContainer.innerHTML = config.mapEmbed;
                 }
-            } else if (mapEmbed) {
-                mapContainer.innerHTML = mapEmbed;
+            } else if (config.mapEmbed) {
+                mapContainer.innerHTML = config.mapEmbed;
             }
-            
+
             const mapButton = document.querySelector('.btn-maps-cta');
-            if (mapButton && mapLink) {
-                mapButton.href = mapLink;
+            if (mapButton && config.mapLink) {
+                mapButton.href = config.mapLink;
             }
             
         } catch (err) {
@@ -392,6 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const nearbyStations = localStorage.getItem('nearbyStations');
         
         if (savedEmbed) {
+            renderLocationCard();
             const mapContainer = document.querySelector('.map-box');
             if (mapContainer) {
                 const currentIframe = mapContainer.querySelector('iframe');
@@ -416,7 +472,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (eventAddress) {
-            const addressSpan = document.querySelector('.detail-block .text span');
+            renderLocationCard();
+            const addressSpan = document.querySelector('.map-details .detail-block .text span');
             if (addressSpan) {
                 addressSpan.innerHTML = eventAddress.replace(/\n/g, '<br>');
             }
@@ -424,7 +481,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (nearbyStations) {
-            const stationsSpan = document.querySelectorAll('.detail-block .text span')[1];
+            renderLocationCard();
+            const stationsSpan = document.querySelectorAll('.map-details .detail-block .text span')[1];
             if (stationsSpan) {
                 stationsSpan.innerHTML = nearbyStations.split(',').map(s => s.trim()).join(', ');
             }
@@ -434,6 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('storage', (event) => {
         if (event.key === 'mapEmbed' && event.newValue) {
+            renderLocationCard();
             const mapContainer = document.querySelector('.map-box');
             if (mapContainer) {
                 const currentIframe = mapContainer.querySelector('iframe');
@@ -450,19 +509,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (event.key === 'mapLink' && event.newValue) {
+            renderLocationCard();
             const mapButton = document.querySelector('.btn-maps-cta');
             if (mapButton) mapButton.href = event.newValue;
         }
         
         if (event.key === 'eventAddress' && event.newValue) {
-            const addressSpan = document.querySelector('.detail-block .text span');
+            renderLocationCard();
+            const addressSpan = document.querySelector('.map-details .detail-block .text span');
             if (addressSpan) {
                 addressSpan.innerHTML = event.newValue.replace(/\n/g, '<br>');
             }
         }
         
         if (event.key === 'nearbyStations' && event.newValue) {
-            const stationsSpan = document.querySelectorAll('.detail-block .text span')[1];
+            renderLocationCard();
+            const stationsSpan = document.querySelectorAll('.map-details .detail-block .text span')[1];
             if (stationsSpan) {
                 stationsSpan.innerHTML = event.newValue.split(',').map(s => s.trim()).join(', ');
             }

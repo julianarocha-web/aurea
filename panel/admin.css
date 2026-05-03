@@ -31,6 +31,15 @@ input, textarea, select {
     color: #FFF4CC;
     font-size: 0.9rem;
 }
+
+textarea {
+    min-height: 120px;
+    max-height: 220px;
+    resize: vertical;
+    overflow-y: auto;
+    line-height: 1.5;
+}
+
 input:focus, textarea:focus { outline: none; border-color: #FF6300; }
 button {
     background: #FF6300;

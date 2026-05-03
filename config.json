@@ -1,10 +1,10 @@
 {
-  "eventDate": "2111-02-12 12:12",
-  "eventEndDate": "1212-12-12 12:12",
+  "eventDate": null,
+  "eventEndDate": null,
   "driveLink": null,
   "mapLink": null,
   "mapEmbed": null,
   "eventAddress": null,
   "nearbyStations": null,
-  "lastUpdate": "2026-05-02T04:52:54.327Z"
+  "lastUpdate": null
 }
