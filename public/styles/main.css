@@ -1027,7 +1027,7 @@ html, body {
 }
 
 .gallery-description {
-    font-family: 'Helvetica-Thin', sans-serif;
+    font-family: 'Helvetica-Medium', sans-serif;
     color: #FFF4CC !important;
     font-size: 16px;
     line-height: 1.6;
@@ -1284,7 +1284,7 @@ html, body {
         flex-direction: column;
         height: auto; /* Permitimos que crezca con el contenido */
         overflow: visible;
-        padding: 80px 20px; /* Espaciado superior para el header */
+        padding: 50px 20px; /* Espaciado superior para el header */
     }
 
     /* 2. Ajustamos el bloque de texto */
@@ -1437,7 +1437,7 @@ html, body {
 .ticket-description {
     font-family: 'Helvetica-Medium', sans-serif !important;
     color: #333 !important;
-    font-size: 1.1rem !important;
+    font-size: 16px !important;
     line-height: 1.2 !important;
     margin-bottom: 35px !important;
 }
@@ -1614,7 +1614,7 @@ html, body {
         font-weight: 300 !important;
         font-size: 0.98rem !important;
         text-align: center;
-        max-width: 320px;
+        max-width: 280px;
         margin-bottom: 30px !important;
         color: #3a3a3a !important; /* Cambiamos a color claro */
     }
@@ -1701,9 +1701,9 @@ html, body {
 }
 
 .location-text-side .description {
-    font-family: 'Helvetica-Thin', sans-serif;
+    font-family: 'Helvetica-Medium', sans-serif;
     color: #FFF4CC;
-    font-size: 1.1rem;
+    font-size: 16px;
     line-height: 1.4;
     margin-top: 30px;
     margin-bottom: 50px;
@@ -1956,7 +1956,7 @@ html, body {
         flex-direction: column;
         align-items: center;
         max-width: 100%;
-        margin-top: 10px;
+        margin-top: 50px;
     }
 
     .location-accent {
