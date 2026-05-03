@@ -1087,7 +1087,7 @@ html, body {
 
 /* BASE */
 .gallery-item {
-    border-radius: 15px;
+    border-radius: 4px;
     overflow: hidden;
     border: 1px solid #fff4cc4b;
 }
