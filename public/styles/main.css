@@ -428,45 +428,52 @@ html, body {
 /* --- COMPORTAMIENTO DESKTOP CON SCROLL (min-width: 1024px) --- */
 @media (min-width: 1024px) {
     
-    /* 1. Al hacer scroll, ocultamos la lista centrada */
+    /* 1. Al hacer scroll, ocultamos la lista centrada SI el menú no está abierto */
+    /* Añadimos !important para sobreescribir cualquier estilo inline de GSAP */
     .main-header.scrolled .nav-desktop:not(.is-active) {
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px); /* Ligero efecto de subida */
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateY(-10px);
+        pointer-events: none; /* Evita que los links sean clickeables mientras están ocultos */
+        transition: all 0.4s ease;
     }
 
     /* 2. Mostramos la hamburguesa a la DERECHA, alineada con el botón Home */
     .main-header.scrolled .menu-toggle {
-        display: flex;
-        right: 30px; /* Misma distancia al borde que el botón .back-to-top */
-        /* Eliminamos left: 20px si existía */
-        
+        display: flex !important; /* Forzamos que aparezca al hacer scroll */
+        right: 30px; 
+        position: absolute;
     }
 
     /* 3. Estilos del menú desplegado (is-active) en Desktop con scroll */
+    /* Usamos especificidad alta para asegurar que se muestre al activarse */
     .main-header.scrolled .nav-desktop.is-active {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100vh;
-        background-color: rgba(16, 16, 16, 0.98); /* Casi opaco para el menú abierto */
-        display: flex;
+        background-color: rgba(16, 16, 16, 0.98); 
+        display: flex !important; /* Sobreescribe el ocultamiento anterior */
         align-items: center;
         justify-content: center;
-        opacity: 1;
-        visibility: visible;
+        opacity: 1 !important;
+        visibility: visible !important;
         transform: translateY(0);
+        pointer-events: auto; /* Reactivamos los clicks */
+        z-index: 1050;
     }
 
     .main-header.scrolled .nav-desktop.is-active ul {
+        display: flex !important; /* Asegura que la lista sea visible */
         flex-direction: column;
         text-align: center;
         gap: 30px;
     }
 
     .main-header.scrolled .nav-desktop.is-active a {
-        font-size: 2rem; /* Links grandes en menú abierto */
+        font-size: 2rem; 
+        border: none;
     }
 }
 
