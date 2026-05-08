@@ -1627,15 +1627,19 @@ html, body {
     }
 
     /* 4. AJUSTE DE POSICIÓN: Contenedor Beige */
+ /* --- AJUSTE TICKETS SOLO MOBILE --- */
     #tickets .container {
-        background-color: #FFF4CC !important;
+        /* 1. Usamos tu imagen de textura como fondo principal */
+        background-image: url('../assets/img/textura-papel-mobile.png') !important; 
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        
         position: relative;
         z-index: 5 !important; 
         
-        /* Subimos el bloque beige bajo la foto */
+        /* 2. Mantenemos tus márgenes y paddings originales */
         margin-top: -30px !important; 
-        
-        /* Aumentamos el padding superior para bajar el texto a su lugar original */
         padding: 100px 20px 60px 20px !important; 
         
         width: 100% !important;
@@ -1644,7 +1648,25 @@ html, body {
         flex-direction: column !important;
         align-items: center !important;
         text-align: center !important;
+        
+        /* 3. Limpiamos cualquier pseudo-elemento anterior para que no interfiera */
+        overflow: hidden;
     }
+
+   
+
+    #tickets .ticket-content-overlay {
+        position: relative;
+        z-index: 1; 
+        max-width: 100% !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        padding: 0 !important;
+    }
+
+    
 
     #tickets .ticket-content-overlay {
         max-width: 100% !important;
@@ -1688,7 +1710,7 @@ html, body {
 
     /* 6. Botón Estilo Píldora Naranja */
     .btn-tickets-black {
-        background-color: transparent !important;
+        background-color: #fff4cc73;
         color: #FF6300 !important;
         border: 1px solid #FF6300 !important;
         padding: 12px 30px !important;
