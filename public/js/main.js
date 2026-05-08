@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('/api/config?t=' + Date.now());
             if (!response.ok) throw new Error('Error al cargar config');
             cachedConfig = await response.json();
-            console.log('Configuración cargada:', cachedConfig);
+            // configuración cargada (log eliminado para producción)
             
             // Actualizar información de ubicación en la UI
             updateLocationInfo(cachedConfig);
@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const btnDrive = document.querySelector('.btn-gallery');
             if (btnDrive && config.driveLink && config.driveLink !== '#') {
                 btnDrive.href = config.driveLink;
-                console.log('Link del Drive actualizado:', config.driveLink);
+                // link del Drive actualizado (log eliminado)
             }
         } catch (err) {
             console.error("Error configurando Drive:", err);
@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const btnTickets = document.querySelector('.btn-tickets-black');
             if (btnTickets && config.ticketLink && config.ticketLink !== '#') {
                 btnTickets.href = config.ticketLink;
-                console.log('Link de entradas actualizado:', config.ticketLink);
+                // link de entradas actualizado (log eliminado)
             }
         } catch (err) {
             console.error("Error configurando link de entradas:", err);
@@ -556,7 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     mapContainer.innerHTML = event.newValue;
                 }
-                console.log('Mapa actualizado automáticamente');
+                // mapa actualizado (log eliminado)
             }
         }
         
@@ -613,7 +613,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             lightbox.refresh();
             
-            console.log(`Galería cargada con ${imagenes.length} imágenes`);
+            // galería cargada (log eliminado)
             
         } catch (err) {
             console.error("Error cargando galería:", err);
