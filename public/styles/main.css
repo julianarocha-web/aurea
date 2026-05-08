@@ -1411,11 +1411,18 @@ html, body {
 
 /* Sobreescribimos el comportamiento del container solo para esta sección */
 #tickets .container {
-    max-width: 100%; /* Permite que ocupe todo el ancho */
-    margin: 0; /* Quita el centrado automático */
-    padding-left: 150px; /* Aplica el padding de 80px a la izquierda */
+    width: 50%;
+    height: 100%;
+    margin: 0 auto; /* Quita el centrado automático */
+    padding: 0 80px;
     align-items: flex-start; /* Alinea los elementos internos a la izquierda */
     text-align: left; /* Asegura que el texto no esté centrado */
+}
+
+#tickets .container-2 {
+    width: 50%;
+    height: 100%;
+    background-color: transparent;
 }
 
 .ticket-content-overlay {
@@ -1579,7 +1586,6 @@ html, body {
     #tickets .container {
         position: relative;
         z-index: 1; /* Aseguramos que el texto esté por encima de la imagen móvil */
-        padding-left: 150px !important;
     }
 
     #tickets .ticket-content-overlay {
