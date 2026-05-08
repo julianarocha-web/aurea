@@ -1540,26 +1540,65 @@ html, body {
     margin: 0 10px;
 }
 
-/* Ajuste para pantallas pequeñas */
-@media (max-width: 1023px) {
+/* --- AJUSTE PARA PANTALLAS TIPO MACBOOK / LAPTOPS --- */
+/* --- ENFOQUE: DESPLAZAMIENTO AGRESIVO DE FONDO --- */
+/* --- CONFIGURACIÓN UNIVERSAL PARA MACBOOKS Y LAPTOPS RETINA --- */
+/* Abarca desde la MacBook Neo 13" hasta la MacBook Pro 16" */
+@media screen and (min-width: 1024px) and (max-width: 1800px),
+       screen and (-webkit-min-device-pixel-ratio: 2) {
 
-    #tickets .container {
-        padding-left: 20px; /* Reduce el padding en mobile para que no se corte el texto */
+    #tickets .ticket-bg-container {
+        position: relative;
+        background-image: none !important; /* Quitamos el fondo original */
+        overflow: hidden;
+        display: flex;
+        align-items: center;
     }
 
-    .ticket-bg-container {
-        background-position: 25% center; 
+    /* Creamos una capa nueva para la imagen */
+    #tickets .ticket-bg-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('../assets/img/prueba-papel.png') !important;
+        background-size: cover;
+        background-position: center;
+        
+        /* ESTO ES LO QUE MUEVE LA IMAGEN: */
+        /* 'translateX' empuja la imagen a la derecha. 
+           'scale' la agranda un poco para que no quede un borde vacío al moverla */
+        transform: scale(1.2) translateX(7%); 
+        
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    #tickets .container {
+        position: relative;
+        z-index: 1; /* Aseguramos que el texto esté por encima de la imagen móvil */
+        padding-left: 150px !important;
+    }
+
+    #tickets .ticket-content-overlay {
+        max-width: 480px !important;
     }
 }
 
+
+
+/* --- AJUSTE TICKETS SOLO MOBILE (RESTAURADO SEGÚN REFERENCIA) --- */
+/* --- AJUSTE TICKETS SOLO MOBILE --- */
 /* --- AJUSTE TICKETS SOLO MOBILE --- */
 @media (max-width: 1023px) {
     /* 1. Forzamos a que la sección sea un bloque vertical */
     #tickets.snap-section {
-        display: block; 
-        height: auto;
+        display: block !important; 
+        height: auto !important;
         min-height: 100vh;
-        background-color: #101010; /* Fondo negro para la zona de texto */
+        background-color: #101010; 
     }
 
     /* 2. Reconfiguramos el contenedor de la imagen */
@@ -1572,79 +1611,104 @@ html, body {
         background-image: none !important;
     }
 
-    /* 3. Inyectamos la foto de mobile mediante un pseudo-elemento */
-    /* Esto permite tener la foto ARRIBA sin tocar el HTML */
+    /* 3. Inyectamos la foto mediante el pseudo-elemento */
     #tickets .ticket-bg-container::before {
         content: "";
         display: block;
         width: 100%;
         height: 55vh; 
-        background-image: url('../assets/img/entradas-mobile.png'); 
+        background-image: url('../assets/img/entradas-mobile.png') !important; 
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        /* Aseguramos que la imagen esté arriba en el flujo visual */
         position: relative;
-        z-index: 2;
+        /* Z-index alto para que el rasgado pise el bloque beige */
+        z-index: 10 !important; 
     }
 
-    /* 4. Ajustamos el contenedor de contenido (Texto y Botón) */
+    /* 4. AJUSTE DE POSICIÓN: Contenedor Beige */
     #tickets .container {
-        background-color: #FFF4CC;
+        background-color: #FFF4CC !important;
         position: relative;
-        /* Un z-index menor o igual, pero con un margen negativo */
-        z-index: 1; 
-        /* Subimos el bloque beige para que la imagen (que tiene el rasgado) lo solape */
-        margin-top: -60px; 
-        padding: 80px 20px 40px 20px !important; 
-        width: 100%;
-        align-items: center;
-        text-align: center;
+        z-index: 5 !important; 
+        
+        /* Subimos el bloque beige bajo la foto */
+        margin-top: -30px !important; 
+        
+        /* Aumentamos el padding superior para bajar el texto a su lugar original */
+        padding: 100px 20px 60px 20px !important; 
+        
+        width: 100% !important;
+        max-width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
     }
 
     #tickets .ticket-content-overlay {
-        max-width: 100%;
-        align-items: center;
-        padding: 0;
+        max-width: 100% !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        padding: 0 !important;
     }
 
-    /* 5. Estilos de Texto para fondo negro (según tu referencia) */
-    .ticket-title {
-        font-size: clamp(1.8rem, 8vw, 2.5rem); 
-        text-align: center;
-        line-height: 1.1;
-        margin-bottom: 20px;
-        color: #101010 !important; /* Cambiamos a color claro para el fondo negro */
-    }
+    /* 5. Títulos y Textos con el tamaño corregido */
+#tickets .ticket-content-overlay .ticket-title {
+    font-family: 'Anton', sans-serif !important;
+    
+    /* Forzamos el tamaño fijo */
+    font-size: 33px !important; 
+    
+    /* Evitamos que el navegador lo agrande por su cuenta */
+    -webkit-text-size-adjust: 100%; 
+    
+    text-align: center !important;
+    line-height: 1.1 !important;
+    margin-bottom: 20px !important;
+    color: #101010 !important;
+    text-transform: uppercase !important;
+    
+    /* Reseteamos posibles herencias de escritorio */
+    letter-spacing: normal !important;
+    transform: none !important;
+}
 
     .ticket-description {
         font-family: "Helvetica-Medium", sans-serif !important;
         font-weight: 300 !important;
         font-size: 0.98rem !important;
-        text-align: center;
-        max-width: 280px;
-        margin-bottom: 30px !important;
-        color: #3a3a3a !important; /* Cambiamos a color claro */
+        text-align: center !important;
+        max-width: 280px !important;
+        margin: 0 auto 30px auto !important;
+        color: #3a3a3a !important;
     }
 
-    /* 6. Transformación del Botón (Píldora Naranja) */
+    /* 6. Botón Estilo Píldora Naranja */
     .btn-tickets-black {
         background-color: transparent !important;
         color: #FF6300 !important;
-        border: 1px solid #FF6300;
-        padding: 12px 30px;
-        margin-bottom: 0;
-        justify-content: center;
-        width: fit-content;
+        border: 1px solid #FF6300 !important;
+        padding: 12px 30px !important;
+        margin: 0 auto !important;
+        justify-content: center !important;
+        width: fit-content !important;
+        display: flex !important;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        border-radius: 50px;
     }
 
     .btn-tickets-black .arrow-icon {
-        stroke: #FF6300; /* La flecha también naranja */
+        stroke: #FF6300 !important;
     }
 
-    /* 7. Ocultamos los beneficios en mobile como ya tenías planeado */
+    /* 7. Ocultamos los beneficios */
     #tickets .benefits-card {
-        display: none;
+        display: none !important;
     }
 }
 /* =========================================
@@ -1912,6 +1976,98 @@ html, body {
     background: #ff6200be;
     color: #101010;
 }
+
+/* --- AJUSTE INTEGRAL PARA MACBOOKS Y PANTALLAS RETINA (13" a 16") --- */
+/* --- AJUSTE EQUILIBRADO PARA MACBOOKS Y PANTALLAS RETINA --- */
+@media screen 
+  and (min-width: 1024px) 
+  and (max-width: 1800px),
+  screen and (-webkit-min-device-pixel-ratio: 2), 
+  screen and (min-resolution: 192dpi) {
+
+    /* --- SECCIÓN TICKETS --- */
+    #tickets .ticket-bg-container {
+        background-position: 35% center !important; 
+    }
+
+    #tickets .ticket-content-overlay {
+        max-width: 480px !important; /* Aumentado de 420px */
+    }
+
+    #tickets .ticket-title {
+        font-size: 48px !important; /* Un poco más de impacto */
+    }
+
+    /* --- SECCIÓN LOCATION --- */
+    #location .container {
+        padding-left: 150px !important;
+        padding-right: 60px !important;
+    }
+
+    .location-split-content {
+        gap: 40px !important; /* Espacio fijo para evitar solapamiento */
+        justify-content: flex-start !important;
+    }
+
+    .location-text-side {
+        max-width: 420px !important; /* Texto más ancho y legible */
+        flex-shrink: 0;
+    }
+
+    .location-text-side h3 {
+        font-size: 50px !important; /* Título con más peso */
+    }
+
+    /* Caja de iconos inferior en Location (Música, Bebidas, etc) */
+    #location .benefits-card {
+        width: 100% !important;
+        max-width: 450px !important; /* Caja más grande */
+        padding: 20px !important;
+    }
+
+    /* Tarjeta del Mapa (Lado derecho) */
+    .location-map-side {
+        flex-grow: 1;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .map-info-card {
+        width: 100% !important;
+        max-width: 780px !important; /* Más presencia visual */
+        grid-template-columns: 1.6fr 1.2fr !important;
+    }
+
+    .map-box {
+        height: 380px !important; /* Mapa más alto */
+    }
+
+    .map-details {
+        padding: 25px !important;
+    }
+
+    /* Iconos circulares de dirección/estación */
+    .icon-circle {
+        width: 52px !important; /* Tamaño intermedio entre el gigante y el chico */
+        height: 52px !important;
+        min-width: 52px !important;
+        font-size: 26px !important;
+    }
+
+    .detail-block strong {
+        font-size: 16px !important;
+    }
+
+    .detail-block span {
+        font-size: 14px !important;
+    }
+}
+
+
+
+
+
+
 /* =========================================
    MEDIA QUERIES PARA ESCRITORIO
    ========================================= */
