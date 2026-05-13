@@ -26,12 +26,6 @@ if (!ADMIN_TOKEN) {
 // La contraseña del panel también desde variables de entorno
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'aura2026';
 
-if (process.env.NODE_ENV !== 'production') {
-    console.log('\n🔧 Modo desarrollo activado');
-    console.log(`📌 ADMIN_TOKEN cargado: ${ADMIN_TOKEN.substring(0, 10)}...`);
-    console.log(`📌 ADMIN_PASSWORD cargada: ${'*'.repeat(ADMIN_PASSWORD.length)}`);
-}
-
 // ============================================================
 // 2. MIDDLEWARE DE VERIFICACIÓN DE TOKEN
 // ============================================================
@@ -64,7 +58,7 @@ const ensureDirectories = () => {
         const fullPath = path.join(__dirname, dir);
         if (!fs.existsSync(fullPath)) {
             fs.mkdirSync(fullPath, { recursive: true });
-            console.log(`Creada carpeta: ${dir}`);
+            // carpeta creada
         }
     });
 };
@@ -156,7 +150,6 @@ app.post('/api/config/save', verifyToken, (req, res) => {
             lastUpdate: new Date().toISOString()
         };
         fs.writeFileSync(configPath, JSON.stringify(newConfig, null, 2));
-        console.log('Configuración guardada:', newConfig);
         res.json({ success: true, message: 'Configuración guardada correctamente' });
     } catch (err) {
         console.error('Error guardando config:', err);
@@ -212,7 +205,7 @@ app.post('/api/imagenes/upload', verifyToken, upload.single('image'), (req, res)
             /\.(jpg|jpeg|png|webp|gif)$/i.test(file)
         );
         
-        console.log(`Imagen subida: ${req.file.filename}`);
+        // imagen subida: registro omitido en producción
         res.json({ 
             success: true, 
             message: 'Imagen subida correctamente',
@@ -233,7 +226,7 @@ app.delete('/api/imagenes/:filename', verifyToken, (req, res) => {
     try {
         if (fs.existsSync(filepath)) {
             fs.unlinkSync(filepath);
-            console.log(`Imagen eliminada: ${filename}`);
+            // imagen eliminada: registro omitido en producción
             
             const dirPath = path.join(__dirname, 'public/assets/img/fotos');
             const files = fs.existsSync(dirPath) ? 
@@ -272,14 +265,7 @@ app.get('/', (req, res) => {
 // ============================================================
 if (require.main === module) {
     app.listen(PORT, () => {
-        console.log(`\n🚀 Servidor corriendo en http://localhost:${PORT}`);
-        console.log(`📸 Galería (público): http://localhost:${PORT}/api/imagenes`);
-        console.log(`⚙️  Config (público): http://localhost:${PORT}/api/config`);
-        console.log(`🔐 Panel Admin: http://localhost:${PORT}/panel/`);
-        console.log(`\n🔒 Seguridad:`);
-        console.log(`   - Token de API: ${ADMIN_TOKEN.substring(0, 10)}... (desde .env)`);
-        console.log(`   - Contraseña panel: ${'*'.repeat(ADMIN_PASSWORD.length)} (desde .env)`);
-        console.log(`\n⚠️  Para cambiar estas credenciales, editá el archivo .env`);
+        // Mensajes de inicio eliminados para entorno de producción
     });
 }
 

@@ -1341,11 +1341,26 @@ html, body {
 }
 
 #tickets .container {
+<<<<<<< HEAD
     max-width: 100%; 
     margin: 0; 
     padding-left: 150px; 
     align-items: flex-start; 
     text-align: left; 
+=======
+    width: 50%;
+    height: 100%;
+    margin: 0 auto; /* Quita el centrado automático */
+    padding: 0 80px;
+    align-items: flex-start; /* Alinea los elementos internos a la izquierda */
+    text-align: left; /* Asegura que el texto no esté centrado */
+>>>>>>> 95168c051815c5e77ae428c96bf89d3b964f563a
+}
+
+#tickets .container-2 {
+    width: 50%;
+    height: 100%;
+    background-color: transparent;
 }
 
 .ticket-content-overlay {
@@ -1495,8 +1510,12 @@ html, body {
 
     #tickets .container {
         position: relative;
+<<<<<<< HEAD
         z-index: 1; 
         padding-left: 150px !important;
+=======
+        z-index: 1; /* Aseguramos que el texto esté por encima de la imagen móvil */
+>>>>>>> 95168c051815c5e77ae428c96bf89d3b964f563a
     }
 
     #tickets .ticket-content-overlay {
