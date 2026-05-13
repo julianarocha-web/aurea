@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ÁUREA</title>
-
-    <!-- 1. ESTILOS CRÍTICOS (Bloqueo de parpadeo) -->
     <style>
         html, body {
             background-color: #101010 !important;
             margin: 0; padding: 0;
         }
-        /* Agregamos .text2 para que esté oculto desde el milisegundo cero */
         .nav-desktop, h1.text, .text2, .material-symbols-outlined {
             visibility: hidden; 
         }
@@ -22,23 +19,17 @@
             background: transparent;
         }
     </style>
-
-    <!-- 2. CONEXIONES Y PRELOADS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <link rel="preload" href="styles/main.css" as="style">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Anton&family=Raleway:wght@100..900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" as="style">
-
-    <!-- 3. CARGA DE RECURSOS -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Raleway:ital,wght@0,100..900;1,100..900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplelightbox@2.14.3/dist/simple-lightbox.min.css">
     <link rel="icon" href="assets/img/A.png" sizes="32x32" type="image/png">
-
-<link rel="icon" href="assets/img/A.png" sizes="16x16" type="image/png">
-
-<link rel="apple-touch-icon" href="assets/img/A.png">
+    <link rel="icon" href="assets/img/A.png" sizes="16x16" type="image/png">
+    <link rel="apple-touch-icon" href="assets/img/A.png">
 </head>
 <body>
     <header class="main-header" id="header">
@@ -58,17 +49,13 @@
             </nav>
         </div>
     </header>
-
     <main class="snap-container">
  <section id="hero" class="snap-section">
-    <!-- Contenedor del Carrusel de Fondo -->
     <div class="hero-slider">
         <div class="slide" style="background-image: url('assets/img/hero/3.png');" fetchpriority="high"></div>
         <div class="slide" style="background-image: url('assets/img/hero/1.png');"></div>
         <div class="slide" style="background-image: url('assets/img/hero/2.png');"></div>
     </div>
-
-    <!-- Tu contenido original se mantiene intacto -->
     <div class="container">
         <h1 class="text">ÁUREA</h1>
         <p class="text2">
@@ -106,8 +93,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- Sección Galería -->
         <section id="gallery" class="snap-section">
             <div class="gallery-section">
                 <div class="gallery-description-wrapper">
@@ -127,8 +112,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- Sección Entradas -->
         <section id="tickets" class="snap-section">
             <div class="ticket-bg-container">
                 <div class="container">
@@ -137,12 +120,10 @@
                         <h3 class="ticket-title">
                             ES AHORA, ASEGURÁ<br>
                             TU LUGAR Y <span class="accent">SÉ PARTE</span>
-                        </h3>
-                        
+                        </h3>                     
                         <p class="ticket-description">
                             Al ser un encuentro de capacidad reducida, priorizamos que cada persona que asista se sienta parte de algo real. Asegurá tu lugar y sumate a escribir este nuevo capítulo con nosotros.
-                        </p>
-                        
+                        </p>                       
                         <a href="#" target="_blank" class="btn-tickets-black">
                             COMPRÁ TU ENTRADA 
                             <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -150,8 +131,6 @@
                                 <path d="m12 5 7 7-7 7"></path>
                             </svg>
                         </a>
-
-                        <!-- Caja de beneficios con el diseño de la imagen -->
                         <div class="benefits-card">
                             <div class="benefit-col">
                                 <span class="material-symbols-outlined benefit-icon">confirmation_number</span>
@@ -176,22 +155,16 @@
                 </div>
             </div>
         </section>
-
-        <!-- Sección Ubicación -->
         <section id="location" class="snap-section">
             <div class="location-wrapper">
                 <div class="container">
                     <div class="location-split-content">
-                        
-                        <!-- Lado Izquierdo: Textos y Mini-Beneficios -->
                         <div class="location-text-side">
                             <h3 class="location-title">ACÁ SUCEDE</h3>
                             <p class="location-accent">El encuentro</p>
                             <p class="description">
                                 Nuestra esencia no depende de un lugar fijo, sino de la energía que llevamos a cada nuevo spot. Para cada edición, seleccionamos un espacio que se adapte a lo que queremos transmitir esa noche.
                             </p>
-
-                            <!-- Fila de iconos inferiores -->
                             <div class="benefits-card">
                                 <div class="benefit-col">
                                     <span class="material-symbols-outlined benefit-icon">music_note</span>
@@ -212,47 +185,38 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Lado Derecho: Mapa e Info Card -->
                         <div class="location-map-side">
                             <div class="map-info-card">
-                                <!-- Mapa a la izquierda de la tarjeta -->
                                 <div class="map-box">
                                     <iframe></iframe>
+                                </div>                               
+                                <div class="map-details">
+                                    <div class="detail-block">
+                                        <span class="material-symbols-outlined icon-circle">location_on</span>
+                                        <div class="text">
+                                            <strong>Dirección:</strong>
+                                            <span></span> 
+                                        </div>
+                                    </div>
+                                    <hr class="card-hr">
+                                    <div class="detail-block">
+                                        <span class="material-symbols-outlined icon-circle">train</span>
+                                        <div class="text">
+                                            <strong>Estaciones cercanas:</strong>
+                                            <span></span> 
+                                        </div>
+                                    </div>
+                                    <hr class="card-hr">
+                                    <a href="https://maps.app.goo.gl/VpnPPxKHhMMuiDXF8" target="_blank" class="btn-maps-cta">
+                                        VER EN MAPS 
+                                        <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M5 12h14"></path>
+                                            <path d="m12 5 7 7-7 7"></path>
+                                        </svg>
+                                    </a>
                                 </div>
-                                
-                                <!-- Datos a la derecha de la tarjeta -->
- <div class="map-details">
-    <div class="detail-block">
-        <!-- Agregamos el nombre del icono 'location_on' dentro del span -->
-        <span class="material-symbols-outlined icon-circle">location_on</span>
-        <div class="text">
-            <strong>Dirección:</strong>
-            <span></span> <!-- El JS completará la dirección aquí[cite: 3] -->
-        </div>
-    </div>
-    <hr class="card-hr">
-    <div class="detail-block">
-        <!-- Agregamos el nombre del icono 'train' dentro del span[cite: 13] -->
-        <span class="material-symbols-outlined icon-circle">train</span>
-        <div class="text">
-            <strong>Estaciones cercanas:</strong>
-            <span></span> <!-- El JS completará las estaciones aquí[cite: 3] -->
-        </div>
-    </div>
-    <hr class="card-hr">
-    <a href="https://maps.app.goo.gl/VpnPPxKHhMMuiDXF8" target="_blank" class="btn-maps-cta">
-        VER EN MAPS 
-        <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"></path>
-            <path d="m12 5 7 7-7 7"></path>
-        </svg>
-    </a>
-</div>
                         </div>
-
                     </div>
-
                     <!-- Footer -->
                     <footer class="mini-footer">
                         <div class="footer-line"></div>
@@ -275,7 +239,6 @@
             </div>
         </section>
     </main>
-
     <!-- Botón volver arriba -->
     <a href="#hero" class="back-to-top" id="backToTop" aria-label="Volver al inicio">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="home-svg">
@@ -283,7 +246,6 @@
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
         </svg>
     </a>
-
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.3/simple-lightbox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
