@@ -38,7 +38,7 @@ Este proyecto fue desarrollado **de punta a punta (End-to-End)**, partiendo de u
   <img src="./public/assets/img/preview/desktop-3.png" alt="Áurea Desktop Preview" width="400px">
   <img src="./public/assets/img/preview/desktop-4.png" alt="Áurea Desktop Preview" width="400px">
   <<img src="./public/assets/img/preview/mobile-1.png" alt="Áurea Desktop Preview" width="400px">
-  <img src="./public/assets/img/preview/mobile-1.png" alt="Áurea Desktop Preview" width="400px">
+  <img src="./public/assets/img/preview/mobile-2.png" alt="Áurea Desktop Preview" width="400px">
 </div>
 
 ---
