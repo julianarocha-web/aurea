@@ -33,12 +33,12 @@ Este proyecto fue desarrollado **de punta a punta (End-to-End)**, partiendo de u
 ## 📸 Preview
 
 <div align="center">
-  <img src="./assets/img/preview/desktop-1.png.png" alt="Áurea Desktop Preview" width="400px">
-  <img src="./assets/img/preview/desktop-2.png.png" alt="Áurea Mobile Preview" width="200px">
-  <img src="./assets/img/preview/desktop-3.png.png" alt="Áurea Mobile Preview" width="200px">
-  <img src="./assets/img/preview/desktop-4.png.png" alt="Áurea Mobile Preview" width="200px">
-  <img src="./assets/img/preview/mobile-1.png.png" alt="Áurea Mobile Preview" width="200px">
-  <img src="./assets/img/preview/mobile-2.png.png" alt="Áurea Mobile Preview" width="200px">
+  <img src="./public/assets/img/preview/desktop-1.png" alt="Áurea Desktop Preview" width="400px">
+  <img src="./public/assets/img/preview/desktop-2.png" alt="Áurea Desktop Preview" width="400px">
+  <img src="./public/assets/img/preview/desktop-3.png" alt="Áurea Desktop Preview" width="400px">
+  <img src="./public/assets/img/preview/desktop-4.png" alt="Áurea Desktop Preview" width="400px">
+  <<img src="./public/assets/img/preview/mobile-1.png" alt="Áurea Desktop Preview" width="400px">
+  <img src="./public/assets/img/preview/mobile-1.png" alt="Áurea Desktop Preview" width="400px">
 </div>
 
 ---
@@ -58,4 +58,4 @@ Puedes ver el proyecto en vivo aquí:
 4.  **Optimización:** Pruebas de performance y despliegue final mediante Cloudflare.
 
 ---
-Desarrollado con ♡ por [Juliana Rocha]
+Desarrollado con ♡ por Juliana Rocha
